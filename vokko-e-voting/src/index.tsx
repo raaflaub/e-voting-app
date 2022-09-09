@@ -3,11 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Expenses from "./testing-area/routes/expenses";
-import Invoices from "./testing-area/routes/invoices";
-import Invoice from "./testing-area/routes/invoice";
-import MyMuiTest from "./testing-area/my-mui-test";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
