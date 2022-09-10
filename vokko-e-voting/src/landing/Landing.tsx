@@ -8,13 +8,7 @@ export default function Landing({}: DefaultLandingScreenProps) {
     const navigate = useNavigate();
     return (
         <Container maxWidth="sm">
-            <AppBar>
-                <Toolbar>
-                    <Typography variant="h6">
-                        Default Landing Page
-                    </Typography>
-                </Toolbar>
-            </AppBar>
+
             <p><em>(Hier aufgrund Benutzertyp automatisch verzweigen zu Registrierung / weiter als Wähler / weiter als Organisator)</em></p>
 
             <Grid container spacing={2} justifyContent="center">

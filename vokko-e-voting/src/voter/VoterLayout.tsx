@@ -14,7 +14,7 @@ export default function VoterLayout({}: VoterLayoutProps) {
                 <IconButton color="inherit" onClick={() => navigate(-1)}>
                     <ArrowLeftIcon />
                 </IconButton>
-                <Typography variant="h6" flexGrow={1}>
+                <Typography variant="h6" align="center" flexGrow={1}>
                     Voter Layout
                 </Typography>
             </Toolbar>
