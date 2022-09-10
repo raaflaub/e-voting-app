@@ -1,10 +1,11 @@
 import React from 'react';
-import {Outlet} from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import {AppBar, Button, Container, Grid, Toolbar, Typography} from "@mui/material";
 
 export type DefaultLandingScreenProps = {}
 
 export default function Landing({}: DefaultLandingScreenProps) {
+    const navigate = useNavigate();
     return (
         <Container maxWidth="sm">
             <AppBar>
@@ -20,16 +21,16 @@ export default function Landing({}: DefaultLandingScreenProps) {
 
             <Grid container spacing={2} justifyContent="center">
                 <Grid item>
-                    <Button variant="contained" href="register">Registrieren</Button>
+                    <Button variant="contained" onClick={() => navigate("register")}>Registrieren</Button>
                 </Grid>
                 <Grid item>
-                    <Button variant="contained" href="organizer">Ein Meeting organisieren</Button>
+                    <Button variant="contained" onClick={() => navigate("organizer")}>Ein Meeting organisieren</Button>
                 </Grid>
                 <Grid item>
-                    <Button variant="contained" href="voter">An einem Meeting teilnehmen</Button>
+                    <Button variant="contained" onClick={() => navigate("voter")}>An einem Meeting teilnehmen</Button>
                 </Grid>
                 {/*    <Grid item>
-                    <Button variant="contained" href="test">Test-Area</Button>
+                    <Button variant="contained" onClick={() => navigate("test")}>Test-Area</Button>
                 </Grid>  */}
             </Grid>
 
