@@ -8,17 +8,8 @@ export type UserRegistrationProps = {}
 export default function UserRegistration({}: UserRegistrationProps) {
     const navigate = useNavigate();
     return (
-        <Container maxWidth="xs">
-            <AppBar>
-                <Toolbar>
-                    <IconButton onClick={() => navigate(-1)}>
-                        <ArrowLeftIcon />
-                    </IconButton>
-                    <Typography variant="h6">
-                        User Registration
-                    </Typography>
-                </Toolbar>
-            </AppBar>
-        </Container>
+        <div>
+            User Registration
+        </div>
     );
 }

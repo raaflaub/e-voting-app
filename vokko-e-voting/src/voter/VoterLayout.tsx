@@ -8,18 +8,20 @@ export type VoterLayoutProps = {}
 export default function VoterLayout({}: VoterLayoutProps) {
     const navigate = useNavigate();
     return (
+        <>
+        <AppBar position="sticky">
+            <Toolbar>
+                <IconButton color="inherit" onClick={() => navigate(-1)}>
+                    <ArrowLeftIcon />
+                </IconButton>
+                <Typography variant="h6" flexGrow={1}>
+                    Voter Layout
+                </Typography>
+            </Toolbar>
+        </AppBar>
         <Container maxWidth="xs">
-            <AppBar>
-                <Toolbar>
-                    <IconButton onClick={() => navigate(-1)}>
-                        <ArrowLeftIcon />
-                    </IconButton>
-                    <Typography variant="h6">
-                        Voter Layout
-                    </Typography>
-                </Toolbar>
-            </AppBar>
             <Outlet />
         </Container>
+      </>
     );
 }

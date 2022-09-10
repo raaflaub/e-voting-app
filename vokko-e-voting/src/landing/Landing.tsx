@@ -15,8 +15,6 @@ export default function Landing({}: DefaultLandingScreenProps) {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <p>...</p>
-            <p>...</p>
             <p><em>(Hier aufgrund Benutzertyp automatisch verzweigen zu Registrierung / weiter als Wähler / weiter als Organisator)</em></p>
 
             <Grid container spacing={2} justifyContent="center">
