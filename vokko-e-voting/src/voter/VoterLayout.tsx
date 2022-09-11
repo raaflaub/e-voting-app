@@ -1,7 +1,7 @@
 import React from 'react';
-import {AppBar, Container, IconButton, Toolbar, Typography} from "@mui/material";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import {Container} from "@mui/material";
 import {Outlet, useNavigate} from "react-router-dom";
+import VokkoHeader from "../header/VokkoHeader";
 
 export type VoterLayoutProps = {}
 
@@ -9,16 +9,7 @@ export default function VoterLayout({}: VoterLayoutProps) {
     const navigate = useNavigate();
     return (
         <>
-        <AppBar position="sticky">
-            <Toolbar>
-                <IconButton color="inherit" onClick={() => navigate(-1)}>
-                    <ArrowLeftIcon />
-                </IconButton>
-                <Typography variant="h6" align="center" flexGrow={1}>
-                    Voter Layout
-                </Typography>
-            </Toolbar>
-        </AppBar>
+        <VokkoHeader title="HEC Alumni GM 2022" backButton={false} userProfile={true} />
         <Container maxWidth="xs">
             <Outlet />
         </Container>
