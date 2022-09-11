@@ -1,11 +1,18 @@
 // https://api.vokko.cloud/swagger/index.html
 
-export const vokkoEvents = [
+export interface Event  {
+    id:	string;
+    eventDateAndTime: Date;
+    title: string | null;
+}
+
+export const currentEvents: Event[] = [
     {
         "id": "b3d3c93c-dac3-4a7a-8b8a-1a219ed46b3d",
-        "eventDateAndTime": "2022-09-09T20:30:05.8834731+00:00",
+        "eventDateAndTime": new Date(2022, 9, 9, 20, 30), //("2022-09-09T20:30:05.8834731+00:00"),
         "title": "HEC Alumni GeneralMeeting",
-        "motions": [
+/*
+      "motions": [
             {
                 "id": "db961a27-f4df-4faa-9f9d-90fa0686d289",
                 "endDate": "2022-09-09T20:32:05.8834731+00:00",
@@ -98,8 +105,10 @@ export const vokkoEvents = [
                 "timeout": 0,
                 "description": null
             }
-        ]
+        ]  */
     }
 ];
+
+export const pastEvents: Event[] = [];
 
 export const currentEventTitle = "HEC Alumni GM 2022";

@@ -1,11 +1,8 @@
 import VoterLayout from "./VoterLayout";
-import VoterMeetingOverview from "./VoterMeetingOverview";
+import VoterEventDashboard from "./VoterEventDashboard";
 
 export const voterRoutes = [
     {
-        element: <VoterLayout />,
-        children: [
-            { path: "voter", element: <VoterMeetingOverview /> },
-        ]
+        path: "voter", element: <VoterEventDashboard />,
     }
 ]
