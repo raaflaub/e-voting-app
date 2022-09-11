@@ -2,19 +2,21 @@ import React from 'react';
 import VokkoHeader from "../header/VokkoHeader";
 import VokkoEventList from "../event/VokkoEventList";
 import {Container} from "@mui/material";
-import {Outlet} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {currentEvents, Event, pastEvents} from "../model/vokkoEvents";
 
 export type VoterEventDashboardProps = {}
 
 export default function VoterEventDashboard({}: VoterEventDashboardProps) {
 
+    const navigate = useNavigate();
+
     const joinVokkoEvent = (vokkoEvent: Event) => {
-        alert(`joining event vokkoEvent.title`);
+        navigate(`/voter/event-session/${vokkoEvent.id}`);
     };
 
     const viewVokkoEventResults = (vokkoEvent: Event) => {
-        alert(`viewing event details vokkoEvent.title`);
+        navigate(`/voter/event-results/${vokkoEvent.id}`);
     };
 
     return (
@@ -27,7 +29,7 @@ export default function VoterEventDashboard({}: VoterEventDashboardProps) {
                 }
                 {
                     pastEvents && (pastEvents.length > 0) &&
-                    <VokkoEventList title="Aktuelle Events" events={currentEvents} onDetail={viewVokkoEventResults} />
+                    <VokkoEventList title="Vergangene Events" events={pastEvents} onDetail={viewVokkoEventResults} />
                 }
             </Container>
         </>
