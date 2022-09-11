@@ -1,18 +1,18 @@
 import React from 'react';
 import {Container} from "@mui/material";
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import VokkoHeader from "../header/VokkoHeader";
+import {currentEventTitle} from "../model/vokkoEvents";
 
 export type VoterLayoutProps = {}
 
 export default function VoterLayout({}: VoterLayoutProps) {
-    const navigate = useNavigate();
     return (
         <>
-        <VokkoHeader title="HEC Alumni GM 2022" backButton={false} userProfile={true} />
-        <Container maxWidth="xs">
-            <Outlet />
-        </Container>
-      </>
+            <VokkoHeader title={currentEventTitle} backButton={false} userProfile={true} />
+            <Container maxWidth="xs">
+                <Outlet />
+            </Container>
+        </>
     );
 }

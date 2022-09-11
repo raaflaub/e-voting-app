@@ -101,3 +101,5 @@ export const vokkoEvents = [
         ]
     }
 ];
+
+export const currentEventTitle = "HEC Alumni GM 2022";
