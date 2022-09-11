@@ -6,11 +6,19 @@ export interface Event  {
     title: string | null;
 }
 
-export const currentEvents: Event[] = [
+export function isFutureEvent(e: Event): boolean {
+    return (e.eventDateAndTime >= new Date());
+}
+
+export function isPastEvent(e: Event): boolean {
+    return (new Date(e.eventDateAndTime.getTime() + 7_200_000) <= new Date());
+}
+
+export const allEvents: Event[] = [
     {
         "id": "b3d3c93c-dac3-4a7a-8b8a-1a219ed46b3d",
-        "eventDateAndTime": new Date(2022, 9, 9, 20, 30), //("2022-09-09T20:30:05.8834731+00:00"),
-        "title": "HEC Alumni GeneralMeeting",
+        "eventDateAndTime": new Date(2022, 8, 11, 20, 30), //("2022-09-09T20:30:05.8834731+00:00"),
+        "title": "HEC Alumni GeneralMeeting 2022",
 /*
       "motions": [
             {
@@ -106,9 +114,16 @@ export const currentEvents: Event[] = [
                 "description": null
             }
         ]  */
+    },
+    {
+        "id": "ffd3c93c-dac3-4a7a-8b8a-1a219ed46b3f",
+        "eventDateAndTime": new Date(2021, 9, 9, 20, 30), //("2022-09-09T20:30:05.8834731+00:00"),
+        "title": "HEC Alumni GeneralMeeting 2021"
     }
 ];
 
-export const pastEvents: Event[] = [];
 
-export const currentEventTitle = "HEC Alumni GM 2022";
+export const futureEvents = allEvents.filter(e => isFutureEvent(e));
+export const currentEvents = allEvents.filter(e => (!isFutureEvent(e)) && (!isPastEvent(e)));
+export const pastEvents = allEvents.filter(e => isPastEvent(e));
+
