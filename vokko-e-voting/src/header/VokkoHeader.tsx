@@ -5,7 +5,7 @@ import vokkoLogoSmall from "./vokkoLogoSmall.png";
 import {useNavigate} from "react-router-dom";
 import {currentUser} from "../model/vokkoUsers";
 
-export type VokkoHeaderProps = { title: string, backButton: boolean, userProfile: boolean }
+export type VokkoHeaderProps = { title?: string | null, backButton?: boolean, userProfile?: boolean }
 
 export default function VokkoHeader( { title, backButton, userProfile } : VokkoHeaderProps) {
 
