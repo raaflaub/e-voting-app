@@ -1,4 +1,4 @@
-// http://dev-alb-931684263.eu-west-3.elb.amazonaws.com/swagger/index.html
+// https://api.vokko.cloud/swagger/index.html
 
 export const vokkoVotings = [
     {

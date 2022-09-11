@@ -1,4 +1,4 @@
-// http://dev-alb-931684263.eu-west-3.elb.amazonaws.com/swagger/index.html
+// https://api.vokko.cloud/swagger/index.html
 
 export const vokkoUsers = [
     {
@@ -16,3 +16,9 @@ export const vokkoUsers = [
         "publicKey": "-----BEGIN RSA PUBLIC KEY-----\nMIICCgKCAgEAoJy749amvIlX+hSazOuhYLneI9+gf+wxSlWYDmgSHzfdNwqTGgly\nDhzZte1+NLB16FhLs66kLLwuEyfQlQ40p4IWNq/srIlHW/QO5HG3SYdjyAhSrlc3\nLLKuuHxx+B4cQDFKbMt0pIR21yDzhlewVYDWt0MBeBW6ZgVvm4DXV2Qlex8D2cqq\ndpySSmsxX9RxPuyE2xyVTpGzOT6IZ2jid1yBAOA9N8tJ5RcFWVXI5Kpf2mzlBupB\nWkXqw7nIosjn9+HMiNgZjt+ZiNNN3XseifGUqkCvWdjjqR2HJBesLCGOjHmsvTnQ\nuVPN/i6NjknSWj7zpW5aMxdmXCO+yDMJJNJk2S8uG22dNu6A8l2vdLrSiqxadNqs\nfj14wtN43rT5An4w0/NTNrolKrjz8oreDF6quUUKMPXCetqkOmMowI4Qb2vCqT76\nMFI9kBjVI4AEnOknOcQDl/oG1JFueVw4zo8yHR5VzeK2lJhYwNfupRDrzv2qeezs\nYOFEo/EN02klOF/13vk1NK2lBT6ELqVcgK339EmVhJrjMGG+wm18jSNQbnX3j7yh\nrYBPMtlN2Rb+y2jbkBf6B3xPPQfcsidMFgsC5oThZhum29URi7EHl4FegRawEZIv\nH7cM69nnbd5UScu2XUmQYtHys8Mg3pApbVyrmyPNNAkuO1Dub62xe2MCAwEAAQ==\n-----END RSA PUBLIC KEY-----\n"
     }
 ];
+
+export const currentUser = {
+    "lastName": "Peduzzi",
+    "firstName": "Remo",
+    "email": "remo.peduzzi@hec.fr"
+}
