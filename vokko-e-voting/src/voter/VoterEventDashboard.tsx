@@ -12,18 +12,15 @@ export default function VoterEventDashboard({}: VoterEventDashboardProps) {
     const navigate = useNavigate();
 
     const joinVokkoEvent = (vokkoEvent: Event) => {
-        alert(`Navigate to: /voter/event-session/${vokkoEvent.id}`)
         navigate(`/voter/event-session/${vokkoEvent.id}`);
     };
 
     const viewVokkoEventResults = (vokkoEvent: Event) => {
-        alert(`Navigate to: /voter/event-results/${vokkoEvent.id}`)
         navigate(`/voter/event-results/${vokkoEvent.id}`);
     };
 
     const viewVokkoEventPreview = (vokkoEvent: Event) => {
         alert(`Navigate to: /voter/event-preview/${vokkoEvent.id}`)
-        navigate(`/voter/event-preview/${vokkoEvent.id}`);
     };
 
     return (

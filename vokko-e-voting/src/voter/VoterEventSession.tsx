@@ -2,6 +2,8 @@ import React from 'react';
 import VokkoHeader from "../header/VokkoHeader";
 import {useParams} from "react-router-dom";
 import {allEvents} from "../model/vokkoEvents";
+import MotionList from "../motion/MotionList";
+import {Container} from "@mui/material";
 
 export type VoterEventSessionProps = {}
 
@@ -11,6 +13,12 @@ export default function VoterEventSession({}: VoterEventSessionProps) {
     return (
         <>
             <VokkoHeader title={ currentEvent!.title } userProfile={true} />
+            <Container maxWidth="md">
+            {
+                currentEvent &&
+                <MotionList motions={currentEvent!.motions} />
+            }
+            </Container>
         </>
     );
 }
