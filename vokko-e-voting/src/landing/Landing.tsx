@@ -1,10 +1,8 @@
 import React from 'react';
 import {Outlet, useNavigate} from "react-router-dom";
-import {AppBar, Button, Container, Grid, Toolbar, Typography} from "@mui/material";
+import {Button, Container, Grid} from "@mui/material";
 
-export type DefaultLandingScreenProps = {}
-
-export default function Landing({}: DefaultLandingScreenProps) {
+export default function Landing() {
     const navigate = useNavigate();
     return (
         <Container maxWidth="sm">
