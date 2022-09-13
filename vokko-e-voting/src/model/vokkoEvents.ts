@@ -31,14 +31,21 @@ export interface VotingOption {
     title: string;
 }
 
+export interface EventMonitor {
+    state: number;
+    usersOnlineCount: number;
+    usersRegisteredCount: number;
+    currentMotion: Motion | null;
+}
+
 export const allEvents: Event[] = [
     {
         "id": "b3d3c93c-dac3-4a7a-8b8a-1a219ed46b3d",
-        "eventDateAndTime": new Date(2022, 8, 12, 17, 30), //("2022-09-09T20:30:05.8834731+00:00"),
+        "eventDateAndTime": new Date(2022, 8, 13, 21, 30), //("2022-09-09T20:30:05.8834731+00:00"),
         "title": "HEC Alumni GeneralMeeting 2022",
         "motions": [
             {
-                "id": "db961a27-f4df-4faa-9f9d-90fa0686d289",
+                "id": "db961a27-f4df-4faa-9f9d-90fa0686d281",
                 "endDate": new Date(2022,9,9,20,32,5),
                 "options": [
                     {
@@ -61,7 +68,7 @@ export const allEvents: Event[] = [
                 "description": null
             },
             {
-                "id": "db961a27-f4df-4faa-9f9d-90fa0686d289",
+                "id": "db961a27-f4df-4faa-9f9d-90fa0686d282",
                 "endDate": new Date(2022,9,9,20,34,5),
                 "options": [
                     {
@@ -84,7 +91,7 @@ export const allEvents: Event[] = [
                 "description": null
             },
             {
-                "id": "db961a27-f4df-4faa-9f9d-90fa0686d289",
+                "id": "db961a27-f4df-4faa-9f9d-90fa0686d283",
                 "endDate": new Date(2022,9,9,20,20,36,5),
                 "options": [
                     {
@@ -107,7 +114,7 @@ export const allEvents: Event[] = [
                 "description": null
             },
             {
-                "id": "db961a27-f4df-4faa-9f9d-90fa0686d289",
+                "id": "db961a27-f4df-4faa-9f9d-90fa0686d284",
                 "endDate": new Date(2022,9,9,20,38,5),
                 "options": [
                     {
@@ -137,7 +144,7 @@ export const allEvents: Event[] = [
         "title": "HEC Alumni GeneralMeeting 2021",
         "motions": [
             {
-                "id": "db961a27-f4df-4faa-9f9d-90fa0686d289",
+                "id": "db961a27-f4df-4faa-9f9d-90fa0686d285",
                 "endDate": new Date(2022,9,9,20,38,5),
                 "options": [
                     {
