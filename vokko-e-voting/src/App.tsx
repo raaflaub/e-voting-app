@@ -8,31 +8,24 @@ import {BrowserRouter} from "react-router-dom";
 import AppRoutes from "./AppRoutes";
 import {createTheme} from "@mui/material/styles";
 import {CssBaseline, ThemeProvider} from "@mui/material";
+import {VOKKO_HUB_URL} from "./api/messaging";
+import Loading from "./landing/Loading";
+import HubContextProvider from "./provider/HubContextProvider";
 
 const theme = createTheme();
 
 function App() {
+
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <BrowserRouter>
-                 <AppRoutes/>
-            </BrowserRouter>
-        </ThemeProvider>
+        <HubContextProvider url={VOKKO_HUB_URL} loadingIndicator={<Loading/>}>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <BrowserRouter>
+                    <AppRoutes/>
+                </BrowserRouter>
+            </ThemeProvider>
+        </HubContextProvider>
     );
-/*  return (
-      <BrowserRouter>
-          <Routes>
-              <Route path="/" element={<Landing />} >
-                  <Route path="*" element={<Navigate to="/"/>} />
-              </Route>
-              <Route path="/register" element={<UserRegistration />} />
-              <Route path="/meet" element={<DefaultLayout />} />
-              <Route path="/organize" element={<OrganizerLayout />} />
-              <Route path="/test" element={<TestingArea />} />
-          </Routes>
-      </BrowserRouter>
-  );*/
 }
 
 export default App;
