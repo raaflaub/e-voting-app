@@ -2,7 +2,6 @@ import {HttpTransportType, HubConnection, HubConnectionBuilder, HubConnectionSta
 import {useEffect, useState} from "react";
 import {EventMonitor} from "../model/vokkoEvents";
 
-export const VOKKO_HUB_URL = "https://api.vokko.cloud/ws/v1/event";
 
 export function useSignalrHub(url: string) {
 

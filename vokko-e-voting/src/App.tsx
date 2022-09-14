@@ -8,7 +8,7 @@ import {BrowserRouter} from "react-router-dom";
 import AppRoutes from "./AppRoutes";
 import {createTheme} from "@mui/material/styles";
 import {CssBaseline, ThemeProvider} from "@mui/material";
-import {VOKKO_HUB_URL} from "./api/messaging";
+import {VOKKO_MESSAGING_HUB, configureAxios} from "./api/backend";
 import Loading from "./landing/Loading";
 import HubContextProvider from "./provider/HubContextProvider";
 
@@ -16,8 +16,10 @@ const theme = createTheme();
 
 function App() {
 
+    configureAxios();
+
     return (
-        <HubContextProvider url={VOKKO_HUB_URL} loadingIndicator={<Loading/>}>
+        <HubContextProvider url={VOKKO_MESSAGING_HUB} loadingIndicator={<Loading/>}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <BrowserRouter>

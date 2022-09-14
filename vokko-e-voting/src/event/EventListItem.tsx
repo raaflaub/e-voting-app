@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import {Event} from "../model/vokkoEvents";
+import {Event} from "../model/event";
 
 export type EventListItemProps = {
         event: Event,
@@ -17,9 +17,11 @@ export default function EventListItem({ event, actionTitle, onAction, primary }:
     return (
         <Card sx={{backgroundColor: "#f5f5f5"}} raised={primary}>
             <CardContent>
+                {event.eventDateAndTime &&
                 <Typography color="text.secondary">
-                    { event.eventDateAndTime.toLocaleString() }
+                    {event.eventDateAndTime.toLocaleString()}
                 </Typography>
+                }
                 <Typography variant="h6" component="div">
                     { event.title }
                 </Typography>

@@ -3,10 +3,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
-import {Motion} from "../model/vokkoEvents";
+import {IVoting} from "../model/ivoting";
 
 export type MotionListItemProps = {
-        motion: Motion
+        motion: IVoting
     }
 
 export default function MotionListItem({  motion }: MotionListItemProps) {

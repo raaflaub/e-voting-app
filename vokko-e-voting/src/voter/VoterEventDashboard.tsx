@@ -3,11 +3,17 @@ import VokkoHeader from "../header/VokkoHeader";
 import EventList from "../event/EventList";
 import {Container} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import {currentEvents, Event, futureEvents, pastEvents} from "../model/vokkoEvents";
+import { Event } from "../model/event";
+import { isCurrentEvent, isFutureEvent, isPastEvent } from "../model/vokkoEvents";
+import useAxios from "axios-hooks";
 
-export type VoterEventDashboardProps = {}
+export default function VoterEventDashboard() {
 
-export default function VoterEventDashboard({}: VoterEventDashboardProps) {
+    const [{ data } ] = useAxios< { data: Event[] } >('events');
+
+    const futureEvents  = data && data.data && data.data.filter(e => isFutureEvent(e));
+    const currentEvents = data && data.data && data.data.filter(e => isCurrentEvent(e));
+    const pastEvents    = data && data.data && data.data.filter(e => isPastEvent(e));
 
     const navigate = useNavigate();
 

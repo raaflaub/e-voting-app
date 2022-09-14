@@ -1,10 +1,10 @@
 import React from 'react';
 import {Stack} from "@mui/material";
-import {Motion} from '../model/vokkoEvents';
 import MotionListItem, {MotionListItemProps} from "./MotionListItem";
+import {IVoting} from "../model/ivoting";
 
 export type MotionListProps = {
-    motions: Motion[]
+    motions: IVoting[]
 }
 
 export default function MotionList({ motions }: MotionListProps) {
