@@ -1,11 +1,11 @@
 import {HttpTransportType, HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel} from "@microsoft/signalr";
 import {useEffect, useState} from "react";
 import {EventMonitor, IEventParameter} from "../model/vokkoEvents";
-import {VOKKO_JSON_API_URL} from "./backend";
 
 
-export function useSignalrHub(url: string) {
+export function useSignalrHub() {
 
+    const url = `${process.env.REACT_APP_WS_API_BASE_URL}/ws/v1/event`;
     console.log('useSignalrHub url=', url);
 
     const [ connection, setConnection ] = useState<HubConnection | null>(null);

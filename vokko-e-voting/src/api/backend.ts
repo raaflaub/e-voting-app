@@ -1,10 +1,6 @@
 import Axios, {AxiosRequestTransformer, AxiosResponseTransformer} from "axios";
 import {configure} from "axios-hooks";
 
-const VOKKO_BASE_URL = "https://api.vokko.cloud";
-
-export const VOKKO_MESSAGING_HUB = `${VOKKO_BASE_URL}/ws/v1/event`;
-export const VOKKO_JSON_API_URL = `${VOKKO_BASE_URL}/jsonapi/v1`;
 
 
 // gemaess:
@@ -45,7 +41,8 @@ const responseDateTransformer: AxiosResponseTransformer = data => {
 
 export function configureAxios() {
 
-    console.log("configureAxios url=", VOKKO_JSON_API_URL);
+    const baseUrl = `${process.env.REACT_APP_REST_API_BASE_URL}/jsonapi/v1`
+    console.log("configureAxios baseUrl=", baseUrl);
 
     const requestTransformers: AxiosRequestTransformer[] =
           !Axios.defaults.transformRequest                   ? [requestDateTransformer]
@@ -59,7 +56,7 @@ export function configureAxios() {
 
     configure({
         axios: Axios.create({
-            baseURL: VOKKO_JSON_API_URL,
+            baseURL: baseUrl,
             transformRequest: requestTransformers,
             transformResponse: responseTransformers
         }),

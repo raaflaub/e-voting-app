@@ -4,11 +4,11 @@ import {HubConnection} from "@microsoft/signalr";
 
 export const HubContext = createContext<HubConnection | null>(null);
 
-export type HubContextProviderProps = { url: string, loadingIndicator: ReactNode, children: ReactNode };
+export type HubContextProviderProps = { loadingIndicator: ReactNode, children: ReactNode };
 
-export default function HubContextProvider({ url, loadingIndicator, children }: HubContextProviderProps) {
+export default function HubContextProvider({ loadingIndicator, children }: HubContextProviderProps) {
 
-    const hub = useSignalrHub(url);
+    const hub = useSignalrHub();
 
     if (!hub) {
         return (
