@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import {Event} from "../model/event";
+import {Event} from "../api/model/event";
 
 export type EventListItemProps = {
         event: Event,

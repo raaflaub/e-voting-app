@@ -2,7 +2,7 @@ import React from 'react';
 import VokkoHeader from "../header/VokkoHeader";
 import {useParams} from "react-router-dom";
 import useAxios from "axios-hooks";
-import {Event} from "../model/event";
+import {Event} from "../api/model/event";
 import {Container} from "@mui/material";
 import MotionList from "../motion/MotionList";
 

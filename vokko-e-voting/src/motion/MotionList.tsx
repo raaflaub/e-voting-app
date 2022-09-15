@@ -1,7 +1,7 @@
 import React from 'react';
 import {Stack} from "@mui/material";
 import MotionListItem, {MotionListItemProps} from "./MotionListItem";
-import {IVoting} from "../model/ivoting";
+import {IVoting} from "../api/model/ivoting";
 
 export type MotionListProps = {
     motions: IVoting[]

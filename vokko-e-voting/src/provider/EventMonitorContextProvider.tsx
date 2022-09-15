@@ -1,7 +1,7 @@
 import {createContext, ReactNode, useContext} from 'react';
 import {INITIAL_EVENT_MONITOR, useEventMonitor} from "../api/messaging";
 import {HubContext} from "./HubContextProvider";
-import {EventMonitor} from "../model/vokkoEvents";
+import {EventMonitor} from "../api/model/EventMonitor";
 
 export const EventMonitorContext = createContext<EventMonitor>(INITIAL_EVENT_MONITOR);
 

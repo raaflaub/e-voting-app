@@ -3,7 +3,7 @@ import VokkoHeader from "../header/VokkoHeader";
 import EventList from "../event/EventList";
 import {Container} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import { Event } from "../model/event";
+import { Event } from "../api/model/event";
 import { isCurrentEvent, isFutureEvent, isPastEvent } from "../model/vokkoEvents";
 import useAxios from "axios-hooks";
 

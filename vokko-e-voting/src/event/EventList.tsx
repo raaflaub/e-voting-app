@@ -1,6 +1,6 @@
 import React from 'react';
 import {Stack} from "@mui/material";
-import {Event} from '../model/event';
+import {Event} from '../api/model/event';
 import EventListItem from "./EventListItem";
 import CategoryTitle from "../layout/CategoryTitle";
 

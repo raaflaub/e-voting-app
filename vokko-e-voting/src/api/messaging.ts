@@ -1,6 +1,7 @@
 import {HttpTransportType, HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel} from "@microsoft/signalr";
 import {useEffect, useState} from "react";
-import {EventMonitor, IEventParameter} from "../model/vokkoEvents";
+import {EventMonitor} from "../api/model/EventMonitor";
+import {IEventParameter} from "../api/model/IEventParameter";
 
 
 export function useSignalrHub() {

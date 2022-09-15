@@ -1,6 +1,6 @@
 // https://api.vokko.cloud/swagger/index.html
 
-import {Event} from './event';
+import {Event} from '../api/model/event';
 
 export function isFutureEvent(e: Event): boolean {
     return e.eventDateAndTime ? (e.eventDateAndTime >= new Date()) : false;
@@ -14,31 +14,5 @@ export function isCurrentEvent(e: Event): boolean {
     return (!isFutureEvent(e)) && (!isPastEvent(e));
 }
 
-export interface Motion {
-    id:	string;
-    votingTitle: string;
-    description: string | null;
-    ownerId: string | null;
-    startDate: Date;
-    endDate: Date;
-    timeout: number;
-    options: VotingOption[];
-}
 
-export interface VotingOption {
-    votingOptionId: string;
-    title: string;
-}
-
-export interface IEventParameter {
-    id: string;
-    userId: string;
-}
-
-export interface EventMonitor {
-    state: number;
-    usersOnlineCount: number;
-    usersRegisteredCount: number;
-    currentMotion: Motion | null;
-}
 
