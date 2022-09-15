@@ -1,9 +1,12 @@
 import {HttpTransportType, HubConnection, HubConnectionBuilder, HubConnectionState, LogLevel} from "@microsoft/signalr";
 import {useEffect, useState} from "react";
-import {EventMonitor} from "../model/vokkoEvents";
+import {EventMonitor, IEventParameter} from "../model/vokkoEvents";
+import {VOKKO_JSON_API_URL} from "./backend";
 
 
 export function useSignalrHub(url: string) {
+
+    console.log('useSignalrHub url=', url);
 
     const [ connection, setConnection ] = useState<HubConnection | null>(null);
 
@@ -54,27 +57,27 @@ export function useSignalrHub(url: string) {
 
 export const INITIAL_EVENT_MONITOR: EventMonitor = {state:0, usersOnlineCount:0, usersRegisteredCount:0, currentMotion:null};
 
-export function useEventMonitor(hub: HubConnection | null, eventId: string): EventMonitor {
+export function useEventMonitor(hub: HubConnection | null, { id, userId }: IEventParameter): EventMonitor {
 
     const [ eventMonitor, setEventMonitor ] = useState<EventMonitor>(INITIAL_EVENT_MONITOR);
 
     useEffect(() => {
         if (hub) {
             hub.on("OnEventChanged", setEventMonitor);
-            hub.invoke("SubscribeToEvent", {ID: eventId});
-            console.log('Subscribed to event ' + eventId);
+            hub.invoke("SubscribeToEvent", { ID: id, UserID: userId });
+            console.log(`Subscribed to event ${id}  as user ${userId}`);
         }
 
         const cleanup = () => {
             if (hub) {
-                hub.invoke("UnSubscribeToEvent", {ID: eventId});
+                hub.invoke("UnSubscribeToEvent", { ID: id, UserID: userId });
                 hub.off("OnEventChanged");
-                console.log('Unsubscribed from event ' + eventId);
+                console.log(`Unsubscribed from event ${id}  as user ${userId}`);
             }
         }
 
         return cleanup;
-    }, [hub, eventId]);
+    }, [hub, id, userId]);
 
     return eventMonitor;
 }

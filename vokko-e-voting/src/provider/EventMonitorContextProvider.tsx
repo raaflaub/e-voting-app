@@ -10,7 +10,7 @@ export type EventMonitorContextProviderProps = { eventId: string, children: Reac
 export default function EventMonitorContextProvider({ eventId, children }: EventMonitorContextProviderProps) {
 
     const hub = useContext(HubContext);
-    const eventMonitor = useEventMonitor(hub, eventId);
+    const eventMonitor = useEventMonitor(hub, { id: eventId, userId: 'walter.raaflaub@students.bfh.ch' } );
 
     return (
         <EventMonitorContext.Provider value={eventMonitor}>

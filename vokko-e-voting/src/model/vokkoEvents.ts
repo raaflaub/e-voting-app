@@ -30,6 +30,11 @@ export interface VotingOption {
     title: string;
 }
 
+export interface IEventParameter {
+    id: string;
+    userId: string;
+}
+
 export interface EventMonitor {
     state: number;
     usersOnlineCount: number;
