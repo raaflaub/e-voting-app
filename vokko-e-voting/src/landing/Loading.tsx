@@ -1,20 +1,26 @@
 import React from 'react';
-import {CircularProgress, Stack} from "@mui/material";
+import {CircularProgress, Container, Stack} from "@mui/material";
 import vokkoLogoSmall from "../header/vokkoLogoSmall.png";
+import VokkoHeader from "../header/VokkoHeader";
+import CategoryTitle from "../layout/CategoryTitle";
 
 export default function Loading() {
     return (
-        <Stack display="flex"
-               height="100vh"
-               flexDirection="column"
-               justifyContent="center"
-               alignItems="center"
-               spacing={4}
-               color="white"
-               bgcolor="#2196f3"
-        >
-            <CircularProgress color="inherit"/>
-            <img src={vokkoLogoSmall} alt="VOKKO Logo" style={{ width:80, height:16 }}/>
-        </Stack>
-    );
+            <>
+                <VokkoHeader title=" " backButton={false} userProfile={false} />
+                <Container maxWidth="xs">
+                    <Stack display="flex"
+                           height="100vh"
+                           flexDirection="column"
+                           justifyContent="center"
+                           alignItems="center"
+                           spacing={4}
+                    >
+                        <CircularProgress color="inherit"/>
+                        <CategoryTitle>Willkommen</CategoryTitle>
+                    </Stack>
+
+                </Container>
+            </>
+        );
 }

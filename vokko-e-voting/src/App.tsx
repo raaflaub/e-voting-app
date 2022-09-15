@@ -19,14 +19,14 @@ function App() {
     configureAxios();
 
     return (
-        <HubContextProvider loadingIndicator={<Loading/>}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <BrowserRouter>
-                    <AppRoutes/>
-                </BrowserRouter>
-            </ThemeProvider>
-        </HubContextProvider>
+        <BrowserRouter>
+            <HubContextProvider>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline />
+                         <AppRoutes/>
+                </ThemeProvider>
+            </HubContextProvider>
+        </BrowserRouter>
     );
 }
 
