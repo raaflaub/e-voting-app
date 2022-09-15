@@ -40,5 +40,5 @@ export interface CreateUserRequestData {
      * @type {string}
      * @memberof CreateUserRequestData
      */
-    socialSecurtiyNumber?: string | null;
+    email?: string | null;
 }

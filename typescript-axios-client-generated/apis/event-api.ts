@@ -56,6 +56,39 @@ export const EventApiAxiosParamCreator = function (configuration?: Configuration
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        jsonapiV1EventsResetPatch: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/jsonapi/v1/events/reset`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -72,6 +105,18 @@ export const EventApiFp = function(configuration?: Configuration) {
          */
         async jsonapiV1EventsGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<GetAllEventsResponseDocument>>> {
             const localVarAxiosArgs = await EventApiAxiosParamCreator(configuration).jsonapiV1EventsGet(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async jsonapiV1EventsResetPatch(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<GetAllEventsResponseDocument>>> {
+            const localVarAxiosArgs = await EventApiAxiosParamCreator(configuration).jsonapiV1EventsResetPatch(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -94,6 +139,14 @@ export const EventApiFactory = function (configuration?: Configuration, basePath
         async jsonapiV1EventsGet(options?: AxiosRequestConfig): Promise<AxiosResponse<GetAllEventsResponseDocument>> {
             return EventApiFp(configuration).jsonapiV1EventsGet(options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async jsonapiV1EventsResetPatch(options?: AxiosRequestConfig): Promise<AxiosResponse<GetAllEventsResponseDocument>> {
+            return EventApiFp(configuration).jsonapiV1EventsResetPatch(options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -112,5 +165,14 @@ export class EventApi extends BaseAPI {
      */
     public async jsonapiV1EventsGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<GetAllEventsResponseDocument>> {
         return EventApiFp(this.configuration).jsonapiV1EventsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EventApi
+     */
+    public async jsonapiV1EventsResetPatch(options?: AxiosRequestConfig) : Promise<AxiosResponse<GetAllEventsResponseDocument>> {
+        return EventApiFp(this.configuration).jsonapiV1EventsResetPatch(options).then((request) => request(this.axios, this.basePath));
     }
 }

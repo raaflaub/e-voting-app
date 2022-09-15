@@ -40,7 +40,7 @@ export interface User {
      * @type {string}
      * @memberof User
      */
-    socialSecurityNumber?: string | null;
+    email?: string | null;
     /**
      * 
      * @type {string}

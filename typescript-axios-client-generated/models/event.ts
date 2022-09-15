@@ -42,4 +42,10 @@ export interface Event {
      * @memberof Event
      */
     motions?: Array<IVoting> | null;
+    /**
+     * 
+     * @type {Date}
+     * @memberof Event
+     */
+    endDateAndTime?: Date | null;
 }

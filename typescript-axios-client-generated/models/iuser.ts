@@ -40,7 +40,7 @@ export interface IUser {
      * @type {string}
      * @memberof IUser
      */
-    socialSecurityNumber?: string | null;
+    email?: string | null;
     /**
      * 
      * @type {string}
