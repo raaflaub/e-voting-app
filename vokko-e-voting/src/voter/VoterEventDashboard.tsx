@@ -6,10 +6,11 @@ import {useNavigate} from "react-router-dom";
 import { Event } from "../api/model/event";
 import { isCurrentEvent, isFutureEvent, isPastEvent } from "../model/vokkoEvents";
 import useAxios from "axios-hooks";
+import {GetAllEventsResponseDocument} from "../api/model/get-all-events-response-document";
 
 export default function VoterEventDashboard() {
 
-    const [{ data } ] = useAxios< { data: Event[] } >('events');
+    const [{ data } ] = useAxios<GetAllEventsResponseDocument>('events');
 
     const futureEvents  = data && data.data && data.data.filter(e => isFutureEvent(e));
     const currentEvents = data && data.data && data.data.filter(e => isCurrentEvent(e));
