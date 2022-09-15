@@ -10,7 +10,7 @@ import {createTheme} from "@mui/material/styles";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import Loading from "./landing/Loading";
 import HubContextProvider from "./provider/HubContextProvider";
-import {configureAxios} from "./api/backend";
+import {configureAxios} from "./api/persistence";
 
 const theme = createTheme();
 
