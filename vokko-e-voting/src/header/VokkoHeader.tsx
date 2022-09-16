@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
 import { ArrowBackIos, AccountCircle }  from "@mui/icons-material";
 import vokkoLogoSmall from "./vokkoLogoSmall.png";
 import {useNavigate} from "react-router-dom";
-import {currentUser} from "../model/vokkoUsers";
+import {UserContext} from "../provider/UserContextProvider";
 
 export type VokkoHeaderProps = { title?: string | null, backButton?: boolean, userProfile?: boolean }
 
 export default function VokkoHeader( { title, backButton, userProfile } : VokkoHeaderProps) {
 
     const navigate = useNavigate();
+    const user = useContext(UserContext);
 
     const [anchorElProfile, setAnchorElProfile] = useState<null | HTMLElement>(null);
 
@@ -35,12 +36,12 @@ export default function VokkoHeader( { title, backButton, userProfile } : VokkoH
 
                 { title &&
                     <Typography variant="h6" align="center" flexGrow={1}
-                                sx={{ whiteSpace: 'nowrap',
+                                sx={ { whiteSpace: 'nowrap',
                                       overflow: 'hidden',
                                       textOverflow: 'ellipsis',
                                       paddingLeft: '0.5rem',
                                       paddingRight: '0.5rem'
-                                }}>
+                                } }>
                         { title }
                     </Typography>
                     }
@@ -49,7 +50,7 @@ export default function VokkoHeader( { title, backButton, userProfile } : VokkoH
                     <>
                         <Box sx={{ display: { xs: 'none', sm: 'flex' } }} >
                             <Typography variant="h6" align="right">
-                                { currentUser.email }
+                                { user?.value?.user?.email }
                             </Typography>
                             <IconButton color="inherit" sx={{ pt:0, pb: 0, pr: 0 }}>
                                 <AccountCircle />
@@ -76,7 +77,7 @@ export default function VokkoHeader( { title, backButton, userProfile } : VokkoH
                                 onClose={handleCloseProfileMenu}
                             >
                                 <MenuItem disabled>
-                                    { currentUser.email }
+                                    { user?.value?.user?.email }
                                 </MenuItem>
                             </Menu>
                         </Box>

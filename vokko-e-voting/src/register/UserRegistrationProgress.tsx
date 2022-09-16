@@ -1,55 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {CircularProgress, Container, Stack} from "@mui/material";
-import {useSearchParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import VokkoHeader from "../header/VokkoHeader";
-import {IUser} from "../api/model/iuser";
-import {checkUserRegistration} from "./userRegistration";
+import {useRegistrationByInvitationLink} from "./userRegistration";
+import CategoryTitle from "../layout/CategoryTitle";
 
-export type UserRegistrationProps = {}
+export default function UserRegistrationProgress() {
 
-export interface VokkoKeyPair {
-    privateKey: string;
-    publicKey: string;
-}
+    const { invitationLinkUser, registrationInProgess, error } = useRegistrationByInvitationLink();
 
-export default function UserRegistrationProgress({}: UserRegistrationProps) {
+    const navigate = useNavigate();
 
-    const [ keyPair, setKeyPair ] = useState<VokkoKeyPair|null>( null );
-
-    useEffect(() => {
-        const storedKeypairData = window.localStorage.getItem('VOKKO_KEYPAIR');
-        console.log(`reading ${storedKeypairData}`);
-        if (storedKeypairData) {
-            setKeyPair(JSON.parse(storedKeypairData));
-        }
-    }, []);
-
-    useEffect(() => {
-        const storedKeypairData = window.localStorage.getItem('VOKKO_KEYPAIR');
-        if (keyPair) {
-            const newKeypairData = JSON.stringify(keyPair);
-            if (newKeypairData !== storedKeypairData) {
-                console.log(`replacing ${storedKeypairData} by ${newKeypairData}`);
-                window.localStorage.setItem('VOKKO_KEYPAIR', newKeypairData);
-            }
-        } else if (storedKeypairData) {
-            console.log(`removing ${storedKeypairData}`);
-            window.localStorage.removeItem('VOKKO_KEYPAIR');
-        }
-    }, [keyPair]);
-
-    const [searchParams] = useSearchParams();
-
-    const user: IUser = {
-        firstName: searchParams.get("firstname"),
-        lastName: searchParams.get("lastname"),
-        email: searchParams.get("email")
-    };
-
-    useEffect(() => {
-        const userRegistration = checkUserRegistration(user);
-        console.log('checkedUserRegistration', JSON.stringify(userRegistration));
-    });
+    // Bei Fehler zurueck zur Landing Page, bei Erfolg weiter zum Event
+    if (error) {
+        navigate('/');
+    } else if (!registrationInProgess) {
+        navigate('/voter');
+    }
 
     return (
         <>
@@ -63,6 +30,10 @@ export default function UserRegistrationProgress({}: UserRegistrationProps) {
                        spacing={4}
                 >
                     <CircularProgress color="inherit"/>
+                    {
+                        invitationLinkUser &&
+                        <CategoryTitle>Hallo {invitationLinkUser.firstName} {invitationLinkUser.lastName}</CategoryTitle>
+                    }
                 </Stack>
 
             </Container>

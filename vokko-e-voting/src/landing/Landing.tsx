@@ -14,7 +14,7 @@ export default function Landing() {
 
                 <Grid container spacing={2} justifyContent="center">
                     <Grid item>
-                        <Button variant="contained" onClick={() => navigate("join/1?lastname=Raaflaub&firstname=Walter&email=walter.raaflaub@students.bfh.ch")}>Registrieren</Button>
+                        <Button variant="contained" onClick={() => navigate("join/2?lastname=Spring&firstname=Peter&email=peter.spring@students.bfh.ch")}>Registrieren</Button>
                     </Grid>
                     <Grid item>
                         <Button variant="contained" onClick={() => navigate("organizer")}>Ein Meeting organisieren</Button>

@@ -7,7 +7,6 @@ import {LocalStorageAPI, useLocallyStoredState} from "../api/localstorage";
 
 export interface RegisteredUser {
     user?: IUser;
-    role?: 'VOTER' | 'ORGANIZER';
     privateKey?: string | null;
 }
 
