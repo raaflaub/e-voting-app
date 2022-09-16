@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {AppBar, Button, CircularProgress, Container, IconButton, Stack, Toolbar, Typography} from "@mui/material";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import {Outlet, useNavigate, useSearchParams} from "react-router-dom";
+import {CircularProgress, Container, Stack} from "@mui/material";
+import {useSearchParams} from "react-router-dom";
 import VokkoHeader from "../header/VokkoHeader";
-import vokkoLogoSmall from "../header/vokkoLogoSmall.png";
-import {createInterface} from "readline";
-import CategoryTitle from "../layout/CategoryTitle";
 import {IUser} from "../api/model/iuser";
 import {checkUserRegistration} from "./userRegistration";
 
