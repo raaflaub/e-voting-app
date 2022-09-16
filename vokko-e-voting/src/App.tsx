@@ -11,6 +11,7 @@ import {CssBaseline, ThemeProvider} from "@mui/material";
 import Loading from "./landing/Loading";
 import HubContextProvider from "./provider/HubContextProvider";
 import {configureAxios} from "./api/persistence";
+import UserContextProvider from "./provider/UserContextProvider";
 
 const theme = createTheme();
 
@@ -19,14 +20,16 @@ function App() {
     configureAxios();
 
     return (
-        <BrowserRouter>
+        <UserContextProvider>
             <HubContextProvider>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
-                         <AppRoutes/>
+                    <BrowserRouter>
+                        <AppRoutes/>
+                    </BrowserRouter>
                 </ThemeProvider>
             </HubContextProvider>
-        </BrowserRouter>
+        </UserContextProvider>
     );
 }
 
