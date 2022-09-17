@@ -20,6 +20,7 @@ import { CreateUserRequestDocument } from '../models';
 import { CreateUserResponseDocument } from '../models';
 import { GetAllBlockchainUsersResponseDocument } from '../models';
 import { GetAllUsersResponseDocument } from '../models';
+import { GetUserResponseDocument } from '../models';
 /**
  * UserApi - axios parameter creator
  * @export
@@ -66,6 +67,45 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          */
         jsonapiV1UsersGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/jsonapi/v1/users`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        jsonapiV1UsersIdGet: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling jsonapiV1UsersIdGet.');
+            }
+            const localVarPath = `/jsonapi/v1/users/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -165,6 +205,19 @@ export const UserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async jsonapiV1UsersIdGet(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<GetUserResponseDocument>>> {
+            const localVarAxiosArgs = await UserApiAxiosParamCreator(configuration).jsonapiV1UsersIdGet(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @param {CreateUserRequestDocument} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -203,6 +256,15 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async jsonapiV1UsersIdGet(id: string, options?: AxiosRequestConfig): Promise<AxiosResponse<GetUserResponseDocument>> {
+            return UserApiFp(configuration).jsonapiV1UsersIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {CreateUserRequestDocument} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -237,6 +299,16 @@ export class UserApi extends BaseAPI {
      */
     public async jsonapiV1UsersGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<GetAllUsersResponseDocument>> {
         return UserApiFp(this.configuration).jsonapiV1UsersGet(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public async jsonapiV1UsersIdGet(id: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<GetUserResponseDocument>> {
+        return UserApiFp(this.configuration).jsonapiV1UsersIdGet(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

@@ -11,22 +11,29 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Voting } from './voting';
 /**
  * 
  * @export
- * @interface IVotingOption
+ * @interface PostEventRequestData
  */
-export interface IVotingOption {
+export interface PostEventRequestData {
+    /**
+     * 
+     * @type {Date}
+     * @memberof PostEventRequestData
+     */
+    eventDateAndTime?: Date;
     /**
      * 
      * @type {string}
-     * @memberof IVotingOption
+     * @memberof PostEventRequestData
      */
     title?: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof IVotingOption
+     * @type {Array<Voting>}
+     * @memberof PostEventRequestData
      */
-    votingOptionId?: string | null;
+    motions?: Array<Voting> | null;
 }

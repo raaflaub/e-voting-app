@@ -11,7 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { IVotingOption } from './ivoting-option';
+import { VotingOption } from './voting-option';
 /**
  * 
  * @export
@@ -32,10 +32,10 @@ export interface IVoting {
     endDate?: Date;
     /**
      * 
-     * @type {Array<IVotingOption>}
+     * @type {Array<VotingOption>}
      * @memberof IVoting
      */
-    options?: Array<IVotingOption> | null;
+    options?: Array<VotingOption> | null;
     /**
      * 
      * @type {string}
