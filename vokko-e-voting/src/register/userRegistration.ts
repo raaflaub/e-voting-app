@@ -68,17 +68,6 @@ export function useRegistrationByInvitationLink() {
         && typeof createUserResponseDocument.data?.user?.lastName === 'string' && (createUserResponseDocument.data?.user?.lastName !== '')
         && typeof createUserResponseDocument.data?.user?.email === 'string' && (createUserResponseDocument.data?.user?.email !== '')
         && typeof createUserResponseDocument.data?.privateKey === 'string' && (createUserResponseDocument.data?.privateKey !== '');
-    console.log('backend response complete:',createUserResponseIsComplete,JSON.stringify(createUserResponseDocument?.data?.user?.userId),JSON.stringify(createUserResponseDocument?.data?.user?.email));
-    if (!createUserResponseIsComplete) {
-        if (createUserResponseDocument) {
-            //console.log('backend response',JSON.stringify(createUserResponseDocument));
-            console.log('typeof userId', typeof createUserResponseDocument.data?.user?.userId);
-            console.log('typeof firstName', typeof createUserResponseDocument.data?.user?.firstName);
-            console.log('typeof lastName', typeof createUserResponseDocument.data?.user?.lastName);
-            console.log('typeof email', typeof createUserResponseDocument.data?.user?.email);
-            console.log('typeof privateKey', typeof createUserResponseDocument.data?.privateKey);
-        }
-    }
 
     const loading =
         registeredUser.loading
@@ -113,14 +102,12 @@ export function useRegistrationByInvitationLink() {
                     }
                 };
 
-                console.log('starting backend registration', JSON.stringify(createUserRequestDocument));
                 executeBackendRegistration({
                     data: createUserRequestDocument
                 })
             }
 
             if (createUserResponseDocument) {
-                console.log('storing backend registration response data');
                 registeredUser.setValue({
                     user: createUserResponseDocument.data?.user,
                     privateKey: createUserResponseDocument.data?.privateKey
