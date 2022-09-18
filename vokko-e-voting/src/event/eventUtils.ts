@@ -1,5 +1,3 @@
-// https://api.vokko.cloud/swagger/index.html
-
 import {Event} from '../api/model/event';
 
 export function isFutureEvent(e: Event): boolean {

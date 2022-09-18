@@ -4,7 +4,7 @@ import EventList from "../event/EventList";
 import {Container} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import { Event } from "../api/model/event";
-import { isCurrentEvent, isFutureEvent, isPastEvent } from "../model/vokkoEvents";
+import { isCurrentEvent, isFutureEvent, isPastEvent } from "../event/eventUtils";
 import useAxios from "axios-hooks";
 import {GetAllEventsResponseDocument} from "../api/model/get-all-events-response-document";
 
