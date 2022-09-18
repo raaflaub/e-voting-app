@@ -1,11 +1,17 @@
-import OrganizerLayout from "./OrganizerLayout";
-import OrganizerMeetingOverview from "./OrganizerMeetingOverview";
+import OrganizerEventLayout from "./OrganizerEventLayout";
+import OrganizerEventDashboard from "./OrganizerEventDashboard";
+import VoterEventSession from "../voter/VoterEventSession";
+import Loading from "../landing/Loading";
 
 export const organizerRoutes = [
+    { path: "organizer", element: <OrganizerEventDashboard /> },
     {
-        element: <OrganizerLayout />,
+        path: "organizer/events/:eventId",
+        element: <OrganizerEventLayout />,
         children: [
-            { path: "organizer", element: <OrganizerMeetingOverview /> },
+            {  path: "setup", element: <Loading /> },
+            {  path: "live", element: <Loading /> },
+            {  path: "results", element: <Loading /> },
         ]
     }
 ]
