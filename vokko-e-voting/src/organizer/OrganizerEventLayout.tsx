@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import {Box, Container, Tab, Tabs} from "@mui/material";
 import VokkoHeader from "../header/VokkoHeader";
-import {useParams} from "react-router-dom";
+import {Outlet, useParams} from "react-router-dom";
 import useAxios from "axios-hooks";
 import {Event} from "../api/model/event";
+import OrganizerEventTabs from "./OrganizerEventTabs";
+import {isCurrentEvent, isPastEvent} from "../event/eventUtils";
 
 export type OrganizerEventLayoutProps = {}
 
@@ -18,15 +20,13 @@ export default function OrganizerEventLayout({}: OrganizerEventLayoutProps) {
     return (
         <>
             <VokkoHeader title={event?.title} backButton={true} userProfile={true} />
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs centered value={tabIndex} onChange={(e, newTabIndex) => setTabIndex(newTabIndex)}>
-                    <Tab label="Setup"/>
-                    <Tab label="Präsentation" />
-                    <Tab label="Resultate" />
-                </Tabs>
-            </Box>
-            <Container maxWidth="xs">
-            </Container>
+            <OrganizerEventTabs
+                basePath="/organizer/events/:eventId"
+                setupEnabled={true}
+                liveEnabled={Boolean(event && isCurrentEvent(event))}
+                resultsEnabled={Boolean(event && (isCurrentEvent(event) || isPastEvent(event)))}
+            />
+            <Outlet />
         </>
     );
 }

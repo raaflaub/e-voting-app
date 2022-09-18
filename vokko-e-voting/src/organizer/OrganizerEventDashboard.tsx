@@ -4,7 +4,7 @@ import EventList from "../event/EventList";
 import {Box, Container, Tab, Tabs} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import { Event } from "../api/model/event";
-import { isCurrentEvent, isFutureEvent, isPastEvent } from "../model/vokkoEvents";
+import { isCurrentEvent, isFutureEvent, isPastEvent } from "../event/eventUtils";
 import useAxios from "axios-hooks";
 import {GetAllEventsResponseDocument} from "../api/model/get-all-events-response-document";
 
@@ -18,8 +18,12 @@ export default function OrganizerEventDashboard() {
 
     const navigate = useNavigate();
 
-    const viewVokkoEventDetails = (vokkoEvent: Event) => {
-        navigate(`/organizer/events/${vokkoEvent.id}`);
+    const viewVokkoEventSetup = (vokkoEvent: Event) => {
+        navigate(`/organizer/events/${vokkoEvent.id}/setup`);
+    };
+
+    const viewVokkoEventResults = (vokkoEvent: Event) => {
+        navigate(`/organizer/events/${vokkoEvent.id}/results`);
     };
 
     return (
@@ -32,7 +36,7 @@ export default function OrganizerEventDashboard() {
                         title="Kommende Events"
                         events={futureEvents}
                         actionTitle="Details"
-                        onAction={viewVokkoEventDetails}
+                        onAction={viewVokkoEventSetup}
                     />
                 }
                 {
@@ -41,7 +45,7 @@ export default function OrganizerEventDashboard() {
                         title="Aktuelle Events"
                         events={currentEvents}
                         actionTitle="Details"
-                        onAction={viewVokkoEventDetails}
+                        onAction={viewVokkoEventSetup}
                         primary={true}
                     />
                 }
@@ -50,8 +54,8 @@ export default function OrganizerEventDashboard() {
                     <EventList
                         title="Vergangene Events"
                         events={pastEvents}
-                        actionTitle="Details"
-                        onAction={viewVokkoEventDetails}
+                        actionTitle="Resultate"
+                        onAction={viewVokkoEventResults}
                     />
                 }
             </Container>
