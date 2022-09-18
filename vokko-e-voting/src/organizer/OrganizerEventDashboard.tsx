@@ -19,11 +19,11 @@ export default function OrganizerEventDashboard() {
     const navigate = useNavigate();
 
     const viewVokkoEventSetup = (vokkoEvent: Event) => {
-        navigate(`/organizer/events/${vokkoEvent.id}/setup`);
+        navigate(`/organizer/events/${vokkoEvent.id}`);
     };
 
     const viewVokkoEventResults = (vokkoEvent: Event) => {
-        navigate(`/organizer/events/${vokkoEvent.id}/results`);
+        navigate(`/organizer/events/${vokkoEvent.id}`);
     };
 
     return (
