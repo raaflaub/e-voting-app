@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import {CircularProgress, Container, Stack} from "@mui/material";
-import {useNavigate, useSearchParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import VokkoHeader from "../header/VokkoHeader";
 import {useRegistrationByInvitationLink} from "./userRegistration";
 import CategoryTitle from "../layout/CategoryTitle";
@@ -9,12 +9,19 @@ import {HubContext} from "../provider/HubContextProvider";
 
 export default function UserRegistrationProgress() {
 
-    const registeredUser = useContext(UserContext);
     const hub = useContext(HubContext);
 
     const { invitationLinkUser, registrationInProgess, error } = useRegistrationByInvitationLink();
 
+    const params = useParams();
+    const eventId = params.eventId!;
+
     const [searchParams] = useSearchParams();
+    const targetView =
+        searchParams.get("view") === 'organizer' ?
+            '/organizer'
+            : `/voter/event-session/${eventId}`;
+
     const navigate = useNavigate();
 
     // Bei Fehler zurueck zur Landing Page
@@ -23,9 +30,9 @@ export default function UserRegistrationProgress() {
         if (error) {
             navigate('/');
         } else if (hub && !registrationInProgess) {
-            navigate(searchParams.get("view") === 'organizer' ? '/organizer' : '/voter');
+            navigate(targetView);
         }
-    }, [error, registrationInProgess, hub]);
+    }, [error, registrationInProgess, targetView, hub]);
 
     return (
         <>
