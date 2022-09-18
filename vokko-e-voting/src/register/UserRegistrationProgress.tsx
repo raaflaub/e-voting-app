@@ -18,9 +18,9 @@ export default function UserRegistrationProgress() {
 
     const [searchParams] = useSearchParams();
     const targetView =
-        searchParams.get("view") === 'organizer' ?
-            '/organizer'
-            : `/voter/event-session/${eventId}`;
+        searchParams.get("view") === 'organizer' ? '/organizer'
+      : eventId === 'default'                    ? '/voter'
+      :                                            `/voter/event-session/${eventId}`;
 
     const navigate = useNavigate();
 

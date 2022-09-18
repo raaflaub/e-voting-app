@@ -53,7 +53,7 @@ export default function Landing() {
                         <Typography variant="subtitle1"  sx={{ mb: 2}} >Bitte registriere dich:</Typography>
                         <Button
                             variant="outlined"
-                            onClick={() => navigate("join/2?lastname=Organizer&firstname=The&email=organizer@vokko.cloud&view=organizer")}>
+                            onClick={() => navigate("join/default?lastname=Organizer&firstname=The&email=organizer@vokko.cloud&view=organizer")}>
                             Als Organisator registrieren
                         </Button>
                     </>
@@ -64,6 +64,10 @@ export default function Landing() {
                     <CategoryTitle>Dev section</CategoryTitle>
                     <ButtonGroup variant="outlined">
                         <Button onClick={defaultAction}>Default action</Button>
+                        <Button onClick={() => {
+                            const randomId = Math.random().toString(36).substring(3,7);
+                            navigate(`join/default?lastname=${randomId}&firstname=VoterThe&email=voter.${randomId}@vokko.cloud`);
+                        }}>Register as voter</Button>
                         <Button onClick={() => navigate("organizer")}>Organizer View</Button>
                     </ButtonGroup>
                 </Container>
