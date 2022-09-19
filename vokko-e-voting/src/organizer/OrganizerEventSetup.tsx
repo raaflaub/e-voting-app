@@ -2,8 +2,7 @@ import React from 'react';
 import {Button, CircularProgress, Container, Stack, Typography} from "@mui/material";
 import {Event} from "../api/model/event";
 import {useParams} from "react-router-dom";
-import useAxios from "axios-hooks";
-import {GetAllEventsResponseDocument} from "../api/model/get-all-events-response-document";
+import {useResetEventsMutation} from "../api/persistence";
 
 export type OrganizerEventSetupProps = { event: Event }
 
@@ -11,15 +10,17 @@ export default function OrganizerEventSetup({ event }: OrganizerEventSetupProps)
 
     const params = useParams();
 
-    const [{ data: resetResultData, loading: resetLoading, error: resetError }, executeReset ]
-        = useAxios< GetAllEventsResponseDocument, {} >(
-            {
-                url: `events/reset`,
-                method: 'PATCH'
-            },
-        { manual: true }
-    );
-    console.log('reset', JSON.stringify(resetResultData), resetLoading, resetError);
+    // const [{ data: resetResultData, loading: resetLoading, error: resetError }, executeReset ]
+    //     = useAxios< GetAllEventsResponseDocument, {} >(
+    //         {
+    //             url: `events/reset`,
+    //             method: 'PATCH'
+    //         },
+    //     { manual: true }
+    // );
+    // console.log('reset', JSON.stringify(resetResultData), resetLoading, resetError);
+
+    const completeToDoMutation = useResetEventsMutation();
 
     return (
         <Container maxWidth="sm">
@@ -32,8 +33,8 @@ export default function OrganizerEventSetup({ event }: OrganizerEventSetupProps)
             >
                 <Button
                     variant="contained"
-                    disabled={ resetLoading || Boolean(resetError)}
-                    onClick={(e) => executeReset({}) }>Reset
+                    disabled={ completeToDoMutation.isLoading || completeToDoMutation.isError}
+                    onClick={(e) => completeToDoMutation.mutate([]) }>Reset
                 </Button>
                 <Typography>
                     event = { JSON.stringify(event) }

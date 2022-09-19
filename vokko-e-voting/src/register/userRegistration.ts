@@ -2,9 +2,8 @@ import {IUser} from "../api/model/iuser";
 import {useSearchParams} from "react-router-dom";
 import {useContext, useEffect} from "react";
 import {CreateUserRequestDocument} from "../api/model/create-user-request-document";
-import useAxios from "axios-hooks";
-import {CreateUserResponseDocument} from "../api/model/create-user-response-document";
 import {UserContext} from "../provider/UserContextProvider";
+import {useCreateUserMutation} from "../api/persistence";
 
 function isUserComplete(user: IUser) {
     const EMAIL_REGEX = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -50,19 +49,21 @@ export function useRegistrationByInvitationLink() {
         && (registeredUser.value?.user?.lastName === invitationLinkUser.lastName)
         && (registeredUser.value?.user?.email === invitationLinkUser.email);
 
-    const [
-        { data: createUserResponseDocument, loading: createUserLoading, error: createUserError },
-        executeBackendRegistration
-    ] = useAxios<CreateUserResponseDocument>(
-        {
-            url: 'users',
-            method: 'POST'
-        },
-        { manual: true }
-    )
+    // const [
+    //     { data: createUserResponseDocument, loading: createUserLoading, error: createUserError },
+    //     executeBackendRegistration
+    // ] = useAxios<CreateUserResponseDocument>(
+    //     {
+    //         url: 'users',
+    //         method: 'POST'
+    //     },
+    //     { manual: true }
+    // )
+    const createUserMutation = useCreateUserMutation();
+    const createUserResponseDocument = createUserMutation.data?.data;
 
     const createUserResponseIsComplete =
-        createUserResponseDocument && createUserResponseDocument.data && createUserResponseDocument.data.user
+        createUserMutation.isSuccess && createUserResponseDocument && createUserResponseDocument.data && createUserResponseDocument.data!.user
         && typeof createUserResponseDocument.data?.user?.userId === 'string' && (createUserResponseDocument.data?.user?.userId !== '')
         && typeof createUserResponseDocument.data?.user?.firstName === 'string' && (createUserResponseDocument.data?.user?.firstName !== '')
         && typeof createUserResponseDocument.data?.user?.lastName === 'string' && (createUserResponseDocument.data?.user?.lastName !== '')
@@ -71,11 +72,11 @@ export function useRegistrationByInvitationLink() {
 
     const loading =
         registeredUser.loading
-        || createUserLoading;
+        || createUserMutation.isLoading;
 
     const error =
         (!invitationLinkIsComplete)
-        || createUserError
+        || createUserMutation.isError
         || (createUserResponseDocument && !createUserResponseIsComplete);
 
     const registrationInProgess =
@@ -84,7 +85,7 @@ export function useRegistrationByInvitationLink() {
             || (!userIsRegistered)
             || (!registrationIsComplete)
             || (!registrationMatchesInvitationLink)
-            || createUserLoading
+            || createUserMutation.isLoading
         )
         && (!error);
 
@@ -102,9 +103,7 @@ export function useRegistrationByInvitationLink() {
                     }
                 };
 
-                executeBackendRegistration({
-                    data: createUserRequestDocument
-                })
+                createUserMutation.mutate(createUserRequestDocument);
             }
 
             if (createUserResponseDocument) {
@@ -115,7 +114,6 @@ export function useRegistrationByInvitationLink() {
             }
         }
 
-    }, [registrationInProgess, loading, error, createUserResponseDocument]);
-
+    }, [registeredUser, invitationLinkUser, registrationInProgess, loading, error, createUserResponseDocument, createUserMutation]);
     return { invitationLinkUser, registrationInProgess, error };
 }

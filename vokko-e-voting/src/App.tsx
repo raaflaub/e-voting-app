@@ -10,26 +10,28 @@ import {createTheme} from "@mui/material/styles";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import Loading from "./landing/Loading";
 import HubContextProvider from "./provider/HubContextProvider";
-import {configureAxios} from "./api/persistence";
 import UserContextProvider from "./provider/UserContextProvider";
+import {QueryClient, QueryClientProvider} from "react-query";
 
 const theme = createTheme();
 
 function App() {
 
-    configureAxios();
+    const queryClient = new QueryClient();
 
     return (
-        <UserContextProvider>
-            <HubContextProvider>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    <BrowserRouter>
-                        <AppRoutes/>
-                    </BrowserRouter>
-                </ThemeProvider>
-            </HubContextProvider>
-        </UserContextProvider>
+        <QueryClientProvider client={queryClient}>
+            <UserContextProvider>
+                <HubContextProvider>
+                    <ThemeProvider theme={theme}>
+                        <CssBaseline />
+                        <BrowserRouter>
+                            <AppRoutes/>
+                        </BrowserRouter>
+                    </ThemeProvider>
+                </HubContextProvider>
+            </UserContextProvider>
+        </QueryClientProvider>
     );
 }
 

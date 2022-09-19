@@ -5,16 +5,16 @@ import {Container} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import { Event } from "../api/model/event";
 import { isCurrentEvent, isFutureEvent, isPastEvent } from "../event/eventUtils";
-import useAxios from "axios-hooks";
-import {GetAllEventsResponseDocument} from "../api/model/get-all-events-response-document";
+import {useAllEvents} from "../api/persistence";
 
 export default function VoterEventDashboard() {
 
-    const [{ data } ] = useAxios<GetAllEventsResponseDocument>('events');
+    //const [{ data } ] = useAxios<GetAllEventsResponseDocument>('events');
+    const { events } = useAllEvents();
 
-    const futureEvents  = data && data.data && data.data.filter(e => isFutureEvent(e));
-    const currentEvents = data && data.data && data.data.filter(e => isCurrentEvent(e));
-    const pastEvents    = data && data.data && data.data.filter(e => isPastEvent(e));
+    const futureEvents  = events.filter(e => isFutureEvent(e));
+    const currentEvents = events.filter(e => isCurrentEvent(e));
+    const pastEvents    = events.filter(e => isPastEvent(e));
 
     const navigate = useNavigate();
 

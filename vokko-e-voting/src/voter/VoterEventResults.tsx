@@ -1,16 +1,14 @@
 import React from 'react';
 import VokkoHeader from "../header/VokkoHeader";
 import {useParams} from "react-router-dom";
-import useAxios from "axios-hooks";
-import {Event} from "../api/model/event";
 import {Container} from "@mui/material";
 import MotionList from "../motion/MotionList";
+import {useEvent} from "../api/persistence";
 
 export default function VoterEventResults() {
 
     const params = useParams();
-    const [{ data} ] = useAxios< { data: Event } >(`events/${params.eventId!}`);
-    const event = data?.data;
+    const { event }  = useEvent(params.eventId!);
 
     return (
         <>
