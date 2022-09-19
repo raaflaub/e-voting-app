@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react';
-import {Outlet, useNavigate} from "react-router-dom";
-import {Button, ButtonGroup, Container, Grid, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import {Button, ButtonGroup, Container, Typography} from "@mui/material";
 import VokkoHeader from "../header/VokkoHeader";
 import {UserContext} from "../provider/UserContextProvider";
 import {HubContext} from "../provider/HubContextProvider";
@@ -26,9 +26,11 @@ export default function Landing() {
 
     useEffect(() => {
         if (process.env.NODE_ENV !== 'development') {
-            defaultAction();
+            if (hub && user.value?.user?.userId) {
+                navigate('/voter');
+            }
         }
-    }, [hub, user]);
+    }, [hub, user, navigate]);
 
     return (
         <>

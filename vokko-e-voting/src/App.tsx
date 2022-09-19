@@ -8,7 +8,6 @@ import {BrowserRouter} from "react-router-dom";
 import AppRoutes from "./AppRoutes";
 import {createTheme} from "@mui/material/styles";
 import {CssBaseline, ThemeProvider} from "@mui/material";
-import Loading from "./landing/Loading";
 import HubContextProvider from "./provider/HubContextProvider";
 import UserContextProvider from "./provider/UserContextProvider";
 import {QueryClient, QueryClientProvider} from "react-query";

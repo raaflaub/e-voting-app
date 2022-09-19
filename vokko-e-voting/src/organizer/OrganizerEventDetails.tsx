@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {Box, Container, Tab, Tabs} from "@mui/material";
 import VokkoHeader from "../header/VokkoHeader";
-import {Outlet, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import OrganizerEventTabs, {OrganizerTab} from "./OrganizerEventTabs";
 import {isCurrentEvent, isPastEvent} from "../event/eventUtils";
 import OrganizerEventSetup from "./OrganizerEventSetup";
