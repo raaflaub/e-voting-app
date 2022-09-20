@@ -1,11 +1,9 @@
 import {IUser} from "../api/model/iuser";
 import {useSearchParams} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {CreateUserRequestDocument} from "../api/model/create-user-request-document";
 import {UserContext} from "../provider/UserContextProvider";
 import {useCreateUserMutation} from "../api/persistence";
-import {RsaProvider} from "../criptography/RsaProvider";
-import {IKeyPair} from "../criptography/IKeyPair";
 
 function isUserComplete(user: IUser) {
     const EMAIL_REGEX = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -91,26 +89,17 @@ export function useRegistrationByInvitationLink() {
         )
         && (!error);
 
-
-    const [keyPair, setKeyPair] = useState<IKeyPair | null>(null);
-
     useEffect(() => {
         if (registrationInProgess && !loading && !error) {
 
-            if (!createUserResponseDocument && !keyPair) {
+            if (!createUserResponseDocument) {
 
-                const rsaProvider = new RsaProvider(null);
-                rsaProvider.GenerateKeyPair().then((keyPair: IKeyPair) => setKeyPair(keyPair));
-            }
-
-            if (!createUserResponseDocument && keyPair) {
                 const createUserRequestDocument: CreateUserRequestDocument = {
                     data: {
                         phoneIdentification: "+41774929586",
                         lastName: invitationLinkUser.lastName,
                         firstName: invitationLinkUser.firstName,
-                        email: invitationLinkUser.email,
-                        publicKey: keyPair.PublicKey
+                        email: invitationLinkUser.email
                     }
                 };
 
@@ -120,11 +109,11 @@ export function useRegistrationByInvitationLink() {
             if (createUserResponseDocument) {
                 registeredUser.setValue({
                     user: createUserResponseDocument.data?.user,
-                    privateKey: keyPair?.PrivateKey
+                    privateKey: createUserResponseDocument.data?.privateKey
                 });
             }
         }
 
-    }, [registeredUser, invitationLinkUser, registrationInProgess, loading, error, createUserResponseDocument, createUserMutation,keyPair]);
+    }, [registeredUser, invitationLinkUser, registrationInProgess, loading, error, createUserResponseDocument, createUserMutation]);
     return { invitationLinkUser, registrationInProgess, error };
 }
