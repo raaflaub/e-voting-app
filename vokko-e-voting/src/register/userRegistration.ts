@@ -69,8 +69,7 @@ export function useRegistrationByInvitationLink() {
         && typeof createUserResponseDocument.data?.user?.userId === 'string' && (createUserResponseDocument.data?.user?.userId !== '')
         && typeof createUserResponseDocument.data?.user?.firstName === 'string' && (createUserResponseDocument.data?.user?.firstName !== '')
         && typeof createUserResponseDocument.data?.user?.lastName === 'string' && (createUserResponseDocument.data?.user?.lastName !== '')
-        && typeof createUserResponseDocument.data?.user?.email === 'string' && (createUserResponseDocument.data?.user?.email !== '')
-        && typeof createUserResponseDocument.data?.privateKey === 'string' && (createUserResponseDocument.data?.privateKey !== '');
+        && typeof createUserResponseDocument.data?.user?.email === 'string' && (createUserResponseDocument.data?.user?.email !== '');
 
     const loading =
         registeredUser.loading
