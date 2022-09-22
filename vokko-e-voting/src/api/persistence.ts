@@ -104,11 +104,18 @@ export function useResetEventsMutation(): UseMutationResult<AxiosResponse<GetAll
     );
 }
 
-export function usePatchEventMutation(eventId: string,motionId:string): UseMutationResult<AxiosResponse<void>, unknown,PatchEventMotionRequestDocument, unknown> {
-    const queryClient = useQueryClient();
-    return useMutation((patchEventMotionRequestDocument:PatchEventMotionRequestDocument) => {
+interface IMotionMutationParameters{
 
-            return axiosInstance.patch<any, AxiosResponse<void>>(`events/${eventId}/motions/${motionId}`, patchEventMotionRequestDocument);
+    eventId: string;
+    motionId:string;
+    patchEventMotionRequestDocument:PatchEventMotionRequestDocument;
+}
+
+export function useMotionMutation(): UseMutationResult<AxiosResponse<void>, unknown,IMotionMutationParameters, unknown> {
+    const queryClient = useQueryClient();
+    return useMutation((patchMotionParameters:IMotionMutationParameters) => {
+
+            return axiosInstance.patch<any, AxiosResponse<void>>(`events/${patchMotionParameters.eventId}/motions/${patchMotionParameters.motionId}`, patchMotionParameters.patchEventMotionRequestDocument);
         },
         {
             onSuccess() {
@@ -119,11 +126,17 @@ export function usePatchEventMutation(eventId: string,motionId:string): UseMutat
     );
 }
 
-export function usePatchEvent(eventId: string): UseMutationResult<AxiosResponse<void>, unknown,PatchEventRequestDocument, unknown> {
-    const queryClient = useQueryClient();
-    return useMutation((patchEventRequestDocument:PatchEventRequestDocument) => {
+interface IEventMutationParameters{
 
-            return axiosInstance.patch<any, AxiosResponse<void>>(`events/${eventId}`, patchEventRequestDocument);
+    eventId: string;
+    PatchEventRequestDocument:PatchEventMotionRequestDocument;
+}
+
+export function useEventMutation(): UseMutationResult<AxiosResponse<void>, unknown,IEventMutationParameters, unknown> {
+    const queryClient = useQueryClient();
+    return useMutation((patchEventParameters:IEventMutationParameters) => {
+
+            return axiosInstance.patch<any, AxiosResponse<void>>(`events/${patchEventParameters.eventId}`, patchEventParameters.PatchEventRequestDocument);
         },
         {
             onSuccess() {
