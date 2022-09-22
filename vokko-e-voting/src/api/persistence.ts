@@ -5,6 +5,8 @@ import {CreateUserResponseDocument} from "./model/create-user-response-document"
 import {CreateUserRequestDocument} from "./model/create-user-request-document";
 import {useMutation, UseMutationResult, useQuery, useQueryClient} from "react-query";
 import {GetEventResponseDocument} from "./model/get-event-response-document";
+import {PatchEventMotionRequestDocument} from "./model/patch-event-motion-request-document";
+import {PatchEventRequestDocument} from "./model/patch-event-request-document";
 
 
 
@@ -92,6 +94,36 @@ export function useResetEventsMutation(): UseMutationResult<AxiosResponse<GetAll
     return useMutation((events: Event[]) => {
             console.log('before axiosInstance.patch');
             return axiosInstance.patch<any, AxiosResponse<GetAllEventsResponseDocument>>('events/reset', {});
+        },
+        {
+            onSuccess() {
+                queryClient.invalidateQueries(ALL_EVENTS_QUERY_KEY);
+                queryClient.invalidateQueries(EVENT_QUERY_KEY);
+            }
+        }
+    );
+}
+
+export function usePatchEventMutation(eventId: string,motionId:string): UseMutationResult<AxiosResponse<void>, unknown,PatchEventMotionRequestDocument, unknown> {
+    const queryClient = useQueryClient();
+    return useMutation((patchEventMotionRequestDocument:PatchEventMotionRequestDocument) => {
+
+            return axiosInstance.patch<any, AxiosResponse<void>>(`events/${eventId}/motions/${motionId}`, patchEventMotionRequestDocument);
+        },
+        {
+            onSuccess() {
+                queryClient.invalidateQueries(ALL_EVENTS_QUERY_KEY);
+                queryClient.invalidateQueries(EVENT_QUERY_KEY);
+            }
+        }
+    );
+}
+
+export function usePatchEvent(eventId: string): UseMutationResult<AxiosResponse<void>, unknown,PatchEventRequestDocument, unknown> {
+    const queryClient = useQueryClient();
+    return useMutation((patchEventRequestDocument:PatchEventRequestDocument) => {
+
+            return axiosInstance.patch<any, AxiosResponse<void>>(`events/${eventId}`, patchEventRequestDocument);
         },
         {
             onSuccess() {
