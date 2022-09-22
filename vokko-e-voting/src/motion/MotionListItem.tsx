@@ -4,12 +4,15 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import {IVoting} from "../api/model/ivoting";
+import {Button} from "@mui/material";
 
 export type MotionListItemProps = {
-        motion: IVoting
-    }
+    motion: IVoting;
+    actionTitle?: string | null;
+    onAction?: (motion: IVoting) => void;
+}
 
-export default function MotionListItem({  motion }: MotionListItemProps) {
+export default function MotionListItem({ motion, actionTitle, onAction }: MotionListItemProps) {
     return (
         <Card sx={{backgroundColor: "#f5f5f5"}}>
             <CardContent>
@@ -20,9 +23,9 @@ export default function MotionListItem({  motion }: MotionListItemProps) {
                     { motion.description }
                 </Typography>
             </CardContent>
-            {
+            {   onAction &&
                 <CardActions sx={{display: 'flex', justifyContent: 'end'}}>
-                    // add expansion here
+                    <Button onClick={(e) => onAction(motion)}>{actionTitle}</Button>
                 </CardActions>
             }
         </Card>
