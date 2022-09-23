@@ -11,17 +11,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import {ReactNode, useState} from "react";
 import {IVoting} from "../api/model/ivoting";
 
-export type VoteOnMotionDialogProps = {
+export type VotePreviewDialogProps = {
     open: boolean;
     onClose: () => void;
     motion: IVoting | null;
 }
 
-export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMotionDialogProps) {
-
-    function sendVote() {
-        alert("Sending the vote");
-    }
+export default function VotePreviewDialog({ open, onClose, motion } : VotePreviewDialogProps) {
 
     return (
         <Dialog
@@ -30,7 +26,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
             fullWidth={true}
         >
             <DialogTitle>
-                {motion?.votingTitle}
+                Vorschau: {motion?.votingTitle}
                 <IconButton
                     onClick={() => { onClose(); }}
                     sx={{
@@ -47,9 +43,6 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
                     Dialog Text
                 </DialogContentText>
             </DialogContent>
-            <DialogActions sx={{ m: 0, p: 2 }}>
-                <Button variant="contained" onClick={() => { sendVote(); onClose(); } }>Senden</Button>
-            </DialogActions>
         </Dialog>
     );
 }

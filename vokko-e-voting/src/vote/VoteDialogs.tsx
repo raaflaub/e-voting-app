@@ -1,40 +1,88 @@
 import React from 'react';
 import NotificationDialog from "./NotificationDialog";
 import VoteOnMotionDialog from "./VoteOnMotionDialog";
-import {IVoting} from "../api/model/ivoting";
+import {Event} from "../api/model/event";
+import VoteResultDialog from "./VoteResultDialog";
+import VotePreviewDialog from "./VotePreviewDialog";
+import {getMotionById} from "../event/eventUtils";
+import {VotingDialogState} from "./votingStartedEndedNotifications";
 
-export type VotingFlowState = 'NO_VOTE' | 'NOTIFY_START' | 'VOTING' | 'WAIT_FOR_COMPLETION' | 'NOTIFY_ENDED' | 'SHOW_RESULTS';
 export type VoteDialogsProps = {
-    motion: IVoting;
-    votingFlowState: VotingFlowState;
-    setVotingFlowState: (votingFlowState: VotingFlowState) => void;
+    event: Event,
+    dialogState: VotingDialogState;
+    setDialogState: (dialogState: VotingDialogState) => void;
 }
 
-export default function VoteDialogs({ motion, votingFlowState, setVotingFlowState }: VoteDialogsProps) {
+export default function VoteDialogs({ event, dialogState, setDialogState }: VoteDialogsProps) {
+
+    const closeDialog = () => {
+        setDialogState({...dialogState, visibleDialog: 'NONE', motionId: null})
+    }
+
+    const startNotificationDialogClosed = (actionClicked: boolean) => {
+        if (actionClicked) {
+            // Klick auf "Wählen" bzw. "Abstimmen"
+            setDialogState({...dialogState, visibleDialog: 'VOTING'});
+        } else {
+            // Benutzer hat entschieden, nicht zu waehlen
+            closeDialog();
+        }
+    }
+
+    const endNotificationDialogClosed = (actionClicked: boolean) => {
+        if (actionClicked) {
+            // Klick auf "Resultate"
+            setDialogState({...dialogState, visibleDialog: 'SHOW_RESULTS',});
+        } else {
+            // Benutzer hat entschieden, die Resultate nicht anzusehen
+            closeDialog();
+        }
+    }
+
+    const motion = getMotionById(event, dialogState.motionId);
+
+    if (!motion) {
+        return (<></>)
+    }
+
     return (
         <>
             <NotificationDialog
-                open={votingFlowState === 'NOTIFY_START'}
-                onClose={(actionClicked: boolean) => setVotingFlowState(actionClicked ? 'VOTING' : 'WAIT_FOR_COMPLETION')}
-                caption="Minutes 2021"
+                open={dialogState.visibleDialog === 'NOTIFY_VOTING_STARTED'}
+                onClose={startNotificationDialogClosed}
+                caption={motion.votingTitle || ''}
                 actionTitle="Abstimmen"
                 primary={true}
             >
                 Abstimmung wurde gestartet
             </NotificationDialog>
+
             <VoteOnMotionDialog
-                open={votingFlowState === 'VOTING'}
-                onClose={() => setVotingFlowState(/*'WAIT_FOR_COMPLETION'*/ 'NOTIFY_ENDED')}
+                open={dialogState.visibleDialog === 'VOTING'}
+                onClose={closeDialog}
                 motion={motion}
             />
+
             <NotificationDialog
-                open={votingFlowState === 'NOTIFY_ENDED'}
-                onClose={(actionClicked: boolean) => setVotingFlowState(actionClicked ? 'SHOW_RESULTS' : 'NO_VOTE')}
-                caption="Minutes 2021"
+                open={dialogState.visibleDialog === 'NOTIFY_VOTING_ENDED'}
+                onClose={endNotificationDialogClosed}
+                caption={motion.votingTitle || ''}
                 actionTitle="Resultate"
             >
                 Abstimmung wurde beendet
             </NotificationDialog>
+
+            <VoteResultDialog
+                open={dialogState.visibleDialog === 'SHOW_RESULTS'}
+                onClose={closeDialog}
+                motion={motion}
+            />
+
+            <VotePreviewDialog
+                open={dialogState.visibleDialog === 'SHOW_PREVIEW'}
+                onClose={closeDialog}
+                motion={motion}
+            />
         </>
     );
 }
