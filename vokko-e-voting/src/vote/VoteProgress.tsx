@@ -42,18 +42,13 @@ function padNumber(number:number):string
 function getRemainingSeconds(endDate:Date):number {
     let DateNow = new Date();
 
-    //console.log("Now: ", DateNow);
-    //console.log("End Date: ", endDate);
 
     let remainingTotalSeconds = Math.round((endDate.getTime() - DateNow.getTime()) /1000);
 
-    console.log("Calculated seconds: ", remainingTotalSeconds);
 
     if (remainingTotalSeconds < 0) {
         remainingTotalSeconds = 0;
     }
-
-    //console.log('Remaining: ' +  remainingTotalSeconds);
 
     return remainingTotalSeconds;
 }
@@ -77,9 +72,9 @@ function getProgress(totalTime:number,remainingSeconds:number): number{
 
     const progress:number = Math.round((totalTime - remainingSeconds)*100/ totalTime);
 
-    console.log("Total Time: ",totalTime);
-    console.log("Remaining seconds: ",remainingSeconds);
-    console.log("Progress: ",progress);
+    //console.log("Total Time: ",totalTime);
+    //console.log("Remaining seconds: ",remainingSeconds);
+    //console.log("Progress: ",progress);
 
 
     return progress;
@@ -96,20 +91,20 @@ export default function VoteProgress(props: LinearProgressProps & { endDate: Dat
 
         const timer = setInterval(() => {
             setRemainingSeconds(getRemainingSeconds(props.endDate));
-            console.log("before set Progress");
+            // console.log("before set Progress");
             setProgress(getProgress(totalTime, remainingSeconds));
 
             if(progress >= 100)
             {
                 clearInterval(timer);
             }
-        }, 800);
+        }, 500);
         return () => {
             clearInterval(timer);
         };
 
 
-    }, [remainingSeconds]);
+    }, [remainingSeconds,progress,totalTime,props.endDate]);
 
     return (
         <Box sx={{ width: '100%' }}>

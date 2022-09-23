@@ -71,7 +71,7 @@ export default function Landing() {
                         }}>Register as voter</Button>
                         <Button onClick={() => navigate("organizer")}>Organizer View</Button>
                     </ButtonGroup>
-                    <VoteProgress endDate={new Date(Date.now() + 300000)} />
+                    <VoteProgress endDate={new Date(Date.now() + 120000)} />
                 </Container>
 
                 }
