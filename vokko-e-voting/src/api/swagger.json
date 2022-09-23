@@ -130,6 +130,46 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "Event"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchEventRequestDocument"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchEventRequestDocument"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchEventRequestDocument"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
       }
     },
     "/jsonapi/v1/events/reset": {
@@ -157,6 +197,57 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/jsonapi/v1/events/{eventId}/motions/{motionId}": {
+      "patch": {
+        "tags": [
+          "Event"
+        ],
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "motionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchEventMotionRequestDocument"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchEventMotionRequestDocument"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchEventMotionRequestDocument"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -535,6 +626,10 @@
           "optionId": {
             "type": "string",
             "nullable": true
+          },
+          "signature": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -586,6 +681,10 @@
             "nullable": true
           },
           "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "publicKey": {
             "type": "string",
             "nullable": true
           }
@@ -641,7 +740,8 @@
           },
           "eventDateAndTime": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "title": {
             "type": "string",
@@ -658,8 +758,15 @@
           "endDateAndTime": {
             "type": "string",
             "format": "date-time",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
+          },
+          "planedStartDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "planedEndDate": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -787,7 +894,8 @@
           },
           "endDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "options": {
             "type": "array",
@@ -803,7 +911,8 @@
           },
           "startDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "votingTitle": {
             "type": "string",
@@ -813,9 +922,67 @@
             "type": "integer",
             "format": "int32"
           },
+          "planedStartDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "planedEndDate": {
+            "type": "string",
+            "format": "date-time"
+          },
           "description": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PatchEventMotionRequestData": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PatchEventMotionRequestDocument": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PatchEventMotionRequestData"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PatchEventRequestData": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PatchEventRequestDocument": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PatchEventRequestData"
           }
         },
         "additionalProperties": false
@@ -922,9 +1089,19 @@
           },
           "startDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "nullable": true
           },
           "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "planedStartDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "planedEndDate": {
             "type": "string",
             "format": "date-time"
           },
@@ -956,6 +1133,10 @@
           "title": {
             "type": "string",
             "nullable": true
+          },
+          "voteCount": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

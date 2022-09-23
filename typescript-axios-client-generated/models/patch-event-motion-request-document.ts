@@ -11,28 +11,17 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { PatchEventMotionRequestData } from './patch-event-motion-request-data';
 /**
  * 
  * @export
- * @interface VotingOption
+ * @interface PatchEventMotionRequestDocument
  */
-export interface VotingOption {
+export interface PatchEventMotionRequestDocument {
     /**
      * 
-     * @type {string}
-     * @memberof VotingOption
+     * @type {PatchEventMotionRequestData}
+     * @memberof PatchEventMotionRequestDocument
      */
-    votingOptionId?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof VotingOption
-     */
-    title?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof VotingOption
-     */
-    voteCount?: number;
+    data?: PatchEventMotionRequestData;
 }

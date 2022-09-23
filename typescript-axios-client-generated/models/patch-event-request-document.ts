@@ -11,28 +11,17 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { PatchEventRequestData } from './patch-event-request-data';
 /**
  * 
  * @export
- * @interface VotingOption
+ * @interface PatchEventRequestDocument
  */
-export interface VotingOption {
+export interface PatchEventRequestDocument {
     /**
      * 
-     * @type {string}
-     * @memberof VotingOption
+     * @type {PatchEventRequestData}
+     * @memberof PatchEventRequestDocument
      */
-    votingOptionId?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof VotingOption
-     */
-    title?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof VotingOption
-     */
-    voteCount?: number;
+    data?: PatchEventRequestData;
 }

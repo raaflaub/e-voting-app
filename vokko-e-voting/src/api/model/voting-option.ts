@@ -29,4 +29,10 @@ export interface VotingOption {
      * @memberof VotingOption
      */
     title?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof VotingOption
+     */
+    voteCount?: number;
 }

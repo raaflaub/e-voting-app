@@ -41,13 +41,25 @@ export interface Voting {
      * @type {Date}
      * @memberof Voting
      */
-    startDate?: Date;
+    startDate?: Date | null;
     /**
      * 
      * @type {Date}
      * @memberof Voting
      */
-    endDate?: Date;
+    endDate?: Date | null;
+    /**
+     * 
+     * @type {Date}
+     * @memberof Voting
+     */
+    planedStartDate?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof Voting
+     */
+    planedEndDate?: Date;
     /**
      * 
      * @type {number}

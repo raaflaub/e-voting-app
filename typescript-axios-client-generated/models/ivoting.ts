@@ -29,7 +29,7 @@ export interface IVoting {
      * @type {Date}
      * @memberof IVoting
      */
-    endDate?: Date;
+    endDate?: Date | null;
     /**
      * 
      * @type {Array<VotingOption>}
@@ -47,7 +47,7 @@ export interface IVoting {
      * @type {Date}
      * @memberof IVoting
      */
-    startDate?: Date;
+    startDate?: Date | null;
     /**
      * 
      * @type {string}
@@ -60,6 +60,18 @@ export interface IVoting {
      * @memberof IVoting
      */
     timeout?: number;
+    /**
+     * 
+     * @type {Date}
+     * @memberof IVoting
+     */
+    planedStartDate?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof IVoting
+     */
+    planedEndDate?: Date;
     /**
      * 
      * @type {string}

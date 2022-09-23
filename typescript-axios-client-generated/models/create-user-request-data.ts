@@ -41,4 +41,10 @@ export interface CreateUserRequestData {
      * @memberof CreateUserRequestData
      */
     email?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserRequestData
+     */
+    publicKey?: string | null;
 }

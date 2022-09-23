@@ -35,4 +35,10 @@ export interface CastVoteRequestData {
      * @memberof CastVoteRequestData
      */
     optionId?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CastVoteRequestData
+     */
+    signature?: string | null;
 }

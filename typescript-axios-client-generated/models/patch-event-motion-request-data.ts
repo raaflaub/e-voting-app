@@ -14,25 +14,19 @@
 /**
  * 
  * @export
- * @interface VotingOption
+ * @interface PatchEventMotionRequestData
  */
-export interface VotingOption {
+export interface PatchEventMotionRequestData {
     /**
      * 
-     * @type {string}
-     * @memberof VotingOption
+     * @type {Date}
+     * @memberof PatchEventMotionRequestData
      */
-    votingOptionId?: string | null;
+    startDate?: Date | null;
     /**
      * 
-     * @type {string}
-     * @memberof VotingOption
+     * @type {Date}
+     * @memberof PatchEventMotionRequestData
      */
-    title?: string | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof VotingOption
-     */
-    voteCount?: number;
+    endDate?: Date | null;
 }

@@ -29,7 +29,7 @@ export interface Event {
      * @type {Date}
      * @memberof Event
      */
-    eventDateAndTime?: Date;
+    eventDateAndTime?: Date | null;
     /**
      * 
      * @type {string}
@@ -48,4 +48,16 @@ export interface Event {
      * @memberof Event
      */
     endDateAndTime?: Date | null;
+    /**
+     * 
+     * @type {Date}
+     * @memberof Event
+     */
+    planedStartDate?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof Event
+     */
+    planedEndDate?: Date;
 }
