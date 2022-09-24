@@ -5,6 +5,7 @@ import VokkoHeader from "../header/VokkoHeader";
 import {UserContext} from "../provider/UserContextProvider";
 import {HubContext} from "../provider/HubContextProvider";
 import CategoryTitle from "../layout/CategoryTitle";
+import VoteProgress from "../vote/VoteProgress";
 
 export default function Landing() {
 
@@ -70,7 +71,9 @@ export default function Landing() {
                         }}>Register as voter</Button>
                         <Button onClick={() => navigate("organizer")}>Organizer View</Button>
                     </ButtonGroup>
+                    <VoteProgress endDate={new Date(Date.now() + 120000)} />
                 </Container>
+
                 }
             </Container>
         </>
