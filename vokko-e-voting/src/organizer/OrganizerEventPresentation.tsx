@@ -5,7 +5,7 @@ import {useParams} from "react-router-dom";
 import {useMotionMutation, useResetEventsMutation} from "../api/persistence";
 import EventMonitorContextProvider from "../provider/EventMonitorContextProvider";
 import EventStatusBar from "../event/EventStatusBar";
-import MotionList from "../motion/MotionList";
+import OrganizerMotionList from "./OrganizerMotionList";
 import {IVoting} from "../api/model/ivoting";
 
 export type OrganizerEventPresentationProps = { event: Event }
@@ -49,7 +49,7 @@ export default function OrganizerEventPresentation({ event }: OrganizerEventPres
                     <EventMonitorContextProvider eventId={event.id!}>
                         <Container maxWidth="md">
                             <EventStatusBar/>
-                            <MotionList
+                            <OrganizerMotionList
                                 motions={event.motions}
                                 actionTitle="Wahl jetzt starten (1 Minute)"
                                 onAction={startVote}
