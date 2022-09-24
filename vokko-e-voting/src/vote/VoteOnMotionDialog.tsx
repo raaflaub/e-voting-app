@@ -6,7 +6,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {IconButton, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {IVoting} from "../api/model/ivoting";
-import VoteOptions from "./VoteOptions";
+import VoteOptionsControl from "./VoteOptionsControl";
 import VoteHeader from "./VoteHeader";
 import {useContext, useEffect, useState} from "react";
 import {getVotingStartTag} from "../event/eventUtils";
@@ -27,7 +27,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
     const thisVote = motion? getVotingStartTag(motion): null;
     const [castedVote, setCastedVote] = useState<string|null>(null);
 
-    const [selectedOption, setSelectedOption] = useState<string|null>(null);
+    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
     const castVoteMutation = useCastVoteMutation();
     const user = useContext(UserContext);
@@ -71,7 +71,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
         const castVoteRequestData = {
             userId: user.value?.user?.userId,
             votingId: motion?.id,
-            optionId: selectedOption,
+            optionId: selectedOptions[0],
             signature: 'invalid'
         }
         castVoteMutation.mutate({
@@ -114,15 +114,15 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
             {
                 (castedVote !== thisVote) &&
                 <>
-                    <DialogContent>
+            <DialogContent>
                         <VoteHeader motion={motion!} votingState="INPROGRESS" />
-                        <VoteOptions motion={motion!} value={selectedOption} onValueChanged={setSelectedOption} />
-                    </DialogContent>
-                    <DialogActions sx={{ m: 0, p: 2 }}>
-                        <LoadingButton variant="contained" onClick={() => castVote()} loading={castVoteMutation.isLoading} disabled={selectedOption===null}>
+                        <VoteOptionsControl options={motion?.options ?? []} voteOptionCount={2} onSelectionChanged={setSelectedOptions} />  {/*value = {selectedOption}*/}
+            </DialogContent>
+            <DialogActions sx={{ m: 0, p: 2 }}>
+                        <LoadingButton variant="contained" onClick={() => castVote()} loading={castVoteMutation.isLoading} disabled={selectedOptions.length !== 1}>
                             Senden
                         </LoadingButton>
-                    </DialogActions>
+            </DialogActions>
                 </>
             }
         </Dialog>

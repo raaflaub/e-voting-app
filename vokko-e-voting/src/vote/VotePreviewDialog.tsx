@@ -11,7 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {ReactNode, useState} from "react";
 import {IVoting} from "../api/model/ivoting";
 import VoteHeader from "./VoteHeader";
-import VoteOptions from "./VoteOptions";
+import VoteOptionsControl from "./VoteOptionsControl";
 
 export type VotePreviewDialogProps = {
     open: boolean;
@@ -42,7 +42,7 @@ export default function VotePreviewDialog({ open, onClose, motion } : VotePrevie
             </DialogTitle>
             <DialogContent>
                 <VoteHeader motion={motion!} votingState="PENDING" />
-                <VoteOptions motion={motion!} disabled />
+                <VoteOptionsControl options={motion?.options ?? []} voteOptionCount={1} disabled />
                 {
                     motion?.description &&
                     <Typography variant="subtitle1">
