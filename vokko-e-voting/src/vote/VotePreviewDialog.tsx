@@ -5,11 +5,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import {IconButton} from "@mui/material";
+import {IconButton, Typography} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import {ReactNode, useState} from "react";
 import {IVoting} from "../api/model/ivoting";
+import VoteHeader from "./VoteHeader";
+import VoteOptions from "./VoteOptions";
 
 export type VotePreviewDialogProps = {
     open: boolean;
@@ -26,7 +28,7 @@ export default function VotePreviewDialog({ open, onClose, motion } : VotePrevie
             fullWidth={true}
         >
             <DialogTitle>
-                Vorschau: {motion?.votingTitle}
+                {motion?.votingTitle || "votingTitle"}
                 <IconButton
                     onClick={() => { onClose(); }}
                     sx={{
@@ -39,9 +41,14 @@ export default function VotePreviewDialog({ open, onClose, motion } : VotePrevie
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    Dialog Text
-                </DialogContentText>
+                <VoteHeader motion={motion!} votingState="PENDING" />
+                <VoteOptions motion={motion!} disabled />
+                {
+                    motion?.description &&
+                    <Typography variant="subtitle1">
+                        INFO: {motion.description}
+                    </Typography>
+                }
             </DialogContent>
         </Dialog>
     );

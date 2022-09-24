@@ -10,6 +10,10 @@ import {styled} from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import {ReactNode, useState} from "react";
 import {IVoting} from "../api/model/ivoting";
+import VoteHeader from "./VoteHeader";
+import VoteResults from "./VoteResults";
+import {VotingOption} from "../api/model/voting-option";
+import {getVoteResultState} from "./voteUtils";
 
 export type VoteResultDialogProps = {
     open: boolean;
@@ -19,6 +23,7 @@ export type VoteResultDialogProps = {
 
 export default function VoteResultDialog({ open, onClose, motion } : VoteResultDialogProps) {
 
+
     return (
         <Dialog
             open={open}
@@ -26,7 +31,7 @@ export default function VoteResultDialog({ open, onClose, motion } : VoteResultD
             fullWidth={true}
         >
             <DialogTitle>
-                Resultate: {motion?.votingTitle}
+                {motion?.votingTitle || "votingTitle"}
                 <IconButton
                     onClick={() => { onClose(); }}
                     sx={{
@@ -39,9 +44,8 @@ export default function VoteResultDialog({ open, onClose, motion } : VoteResultD
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    Dialog Text
-                </DialogContentText>
+                <VoteHeader motion={motion!} votingState={getVoteResultState(motion?.options || null)} />
+                <VoteResults motion={motion!} />
             </DialogContent>
         </Dialog>
     );
