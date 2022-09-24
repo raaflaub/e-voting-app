@@ -67,7 +67,7 @@ export default function VoteDialogs({ event, dialogState, setDialogState }: Vote
                 open={dialogState.visibleDialog === 'NOTIFY_VOTING_ENDED'}
                 onClose={endNotificationDialogClosed}
                 caption={motion.votingTitle || ''}
-                actionTitle="Resultate"
+                actionTitle="Resultat"
             >
                 Abstimmung wurde beendet
             </NotificationDialog>
