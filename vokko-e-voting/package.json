@@ -10,10 +10,10 @@
     "@mui/icons-material": "5.10.3",
     "@mui/lab": "5.0.0-alpha.100",
     "@mui/material": "5.10.3",
+    "@peculiar/webcrypto": "^1.4.0",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "13.4.0",
     "@testing-library/user-event": "13.5.0",
-    "@types/jest": "27.5.2",
     "@types/node": "16.11.56",
     "@types/react": "18.0.18",
     "@types/react-dom": "18.0.6",
@@ -51,5 +51,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://api.vokko.cloud"
+  "proxy": "https://api.vokko.cloud",
+  "devDependencies": {
+    "@types/jest": "^29.0.3",
+    "jest": "^27.5.1"
+  }
 }

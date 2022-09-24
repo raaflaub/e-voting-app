@@ -32,7 +32,4 @@ export function getVoteResultState(options: VotingOption[] | null) {
     return voteCountBalance > 0? 'ACCEPTED' : voteCountBalance < 0? 'REJECTED' : 'TIE';
 }
 
-export function signVote(castVoteRequestData: CastVoteRequestData) {
-    const rsaProvider = new
-    return
-}
+
