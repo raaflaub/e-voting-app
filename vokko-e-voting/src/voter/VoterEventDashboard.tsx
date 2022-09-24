@@ -4,7 +4,7 @@ import EventList from "../event/EventList";
 import {Container} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import { Event } from "../api/model/event";
-import { isCurrentEvent, isFutureEvent, isPastEvent } from "../event/eventUtils";
+import {isFutureEvent, isPastEvent, isToday} from "../event/eventUtils";
 import {useAllEvents} from "../api/persistence";
 
 export default function VoterEventDashboard() {
@@ -13,7 +13,7 @@ export default function VoterEventDashboard() {
     const { events } = useAllEvents();
 
     const futureEvents  = events.filter(e => isFutureEvent(e));
-    const currentEvents = events.filter(e => isCurrentEvent(e));
+    const currentEvents = events.filter(e => isToday(e));
     const pastEvents    = events.filter(e => isPastEvent(e));
 
     const navigate = useNavigate();
