@@ -10,6 +10,8 @@ import {styled} from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import {ReactNode, useState} from "react";
 import {IVoting} from "../api/model/ivoting";
+import VotePreviewDialog from "./VotePreviewDialog";
+import VoteProgress from "./VoteProgress";
 
 export type VoteOnMotionDialogProps = {
     open: boolean;
@@ -46,6 +48,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
                 <DialogContentText>
                     Dialog Text
                 </DialogContentText>
+                <VoteProgress endDate={new Date(new Date().getTime() + 10000)} />
             </DialogContent>
             <DialogActions sx={{ m: 0, p: 2 }}>
                 <Button variant="contained" onClick={() => { sendVote(); onClose(); } }>Senden</Button>

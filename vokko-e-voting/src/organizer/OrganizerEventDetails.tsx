@@ -3,7 +3,7 @@ import {Box, Container, Tab, Tabs} from "@mui/material";
 import VokkoHeader from "../header/VokkoHeader";
 import {Outlet, useParams} from "react-router-dom";
 import OrganizerEventTabs, {OrganizerTab} from "./OrganizerEventTabs";
-import {isCurrentEvent, isFutureEvent, isPastEvent} from "../event/eventUtils";
+import {isToday, isFutureEvent, isPastEvent} from "../event/eventUtils";
 import OrganizerEventSetup from "./OrganizerEventSetup";
 import Loading from "../landing/Loading";
 import {useEvent} from "../api/persistence";
@@ -25,8 +25,8 @@ export default function OrganizerEventDetails({}: OrganizerEventDetailsProps) {
                 activeTab={activeTab}
                 onActiveTabChange={setActiveTab}
                 setupEnabled={Boolean(event)}
-                liveEnabled={Boolean(event && (isCurrentEvent(event) || isFutureEvent(event)))}
-                resultsEnabled={Boolean(event && (isCurrentEvent(event) || isPastEvent(event)))}
+                liveEnabled={Boolean(event && (isToday(event)))}
+                resultsEnabled={Boolean(event && (isToday(event) || isPastEvent(event)))}
             />
             {
                 event && activeTab === 'setup' &&
