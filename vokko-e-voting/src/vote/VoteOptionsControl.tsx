@@ -11,11 +11,10 @@ import {VotingOption} from "../api/model/voting-option";
 
 export interface IVoteOptionsProps{
 
-    options?: Array<VotingOption> | null;
+    options?: VotingOption[] | null;
     voteOptionCount: number;
-    onSelectionChanged?: (ids:Array<string>) => void;
+    onSelectionChanged?: (ids:string[]) => void;
     disabled?: boolean;
-
 }
 
 
