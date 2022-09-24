@@ -1,11 +1,9 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import {CircularProgress, IconButton, Typography} from "@mui/material";
+import {IconButton, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {IVoting} from "../api/model/ivoting";
 import VoteOptions from "./VoteOptions";
@@ -15,8 +13,8 @@ import {getVotingStartTag} from "../event/eventUtils";
 import CategoryTitle from "../layout/CategoryTitle";
 import {isYesNoVote} from "./voteUtils";
 import {useCastVoteMutation} from "../api/persistence";
-import {CastVoteRequestDocument} from "../api/model/cast-vote-request-document";
 import {UserContext} from "../provider/UserContextProvider";
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export type VoteOnMotionDialogProps = {
     open: boolean;
@@ -67,14 +65,17 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
         }
     }, [thisVote, castedVote]);
 
+
+
     function castVote() {
+        const castVoteRequestData = {
+            userId: user.value?.user?.userId,
+            votingId: motion?.id,
+            optionId: selectedOption,
+            signature: 'invalid'
+        }
         castVoteMutation.mutate({
-            data: {
-                userId: user.value?.user?.userId,
-                votingId: motion?.id,
-                optionId: selectedOption,
-                signature: 'invalid'
-            }
+            data: castVoteRequestData
         });
         setCastedVote(thisVote);
     }
@@ -118,11 +119,9 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
                         <VoteOptions motion={motion!} value={selectedOption} onValueChanged={setSelectedOption} />
                     </DialogContent>
                     <DialogActions sx={{ m: 0, p: 2 }}>
-                        {
-                            castVoteMutation.isLoading &&
-                            <CircularProgress />
-                        }
-                        <Button variant="contained" onClick={() => castVote()} disabled={selectedOption===null}>Senden</Button>
+                        <LoadingButton variant="contained" onClick={() => castVote()} loading={castVoteMutation.isLoading} disabled={selectedOption===null}>
+                            Senden
+                        </LoadingButton>
                     </DialogActions>
                 </>
             }

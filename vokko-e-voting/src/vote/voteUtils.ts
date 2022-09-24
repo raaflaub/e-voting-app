@@ -1,4 +1,5 @@
 import {VotingOption} from "../api/model/voting-option";
+import {CastVoteRequestData} from "../api/model/cast-vote-request-data";
 
 export type VotingState = 'PENDING' | 'INPROGRESS' | 'COMPLETED' | 'ACCEPTED' | 'REJECTED' | 'TIE';
 
@@ -29,4 +30,9 @@ export function getVoteResultState(options: VotingOption[] | null) {
     );
 
     return voteCountBalance > 0? 'ACCEPTED' : voteCountBalance < 0? 'REJECTED' : 'TIE';
+}
+
+export function signVote(castVoteRequestData: CastVoteRequestData) {
+    const rsaProvider = new
+    return
 }
