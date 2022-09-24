@@ -2,6 +2,8 @@ import {HttpTransportType, HubConnection, HubConnectionBuilder, HubConnectionSta
 import {useEffect, useState} from "react";
 import {EventMonitor} from "../api/model/EventMonitor";
 import {IEventParameter} from "../api/model/IEventParameter";
+import {useRefreshEvents} from "./persistence";
+import {IVoting} from "./model/ivoting";
 
 
 export function useSignalrHub() {
@@ -63,10 +65,17 @@ export const INITIAL_EVENT_MONITOR: EventMonitor = {
 export function useEventMonitor(hub: HubConnection | null, { id, userId }: IEventParameter): EventMonitor {
 
     const [ eventMonitor, setEventMonitor ] = useState<EventMonitor>(INITIAL_EVENT_MONITOR);
+    const refreshEvents = useRefreshEvents();
+
+    function setEventMonitorWithRefresh(value: EventMonitor) {
+ //       console.log('setEventMonitor ', eventMonitorToString(value));
+        refreshEvents();
+        setEventMonitor(value);
+    }
 
     useEffect(() => {
         if (hub) {
-            hub.on("OnEventChanged", setEventMonitor);
+            hub.on("OnEventChanged", setEventMonitorWithRefresh);
             hub.invoke("SubscribeToEvent", { ID: id, UserID: userId });
             console.log(`Subscribed to event ${id}  as user ${userId}`);
         }
@@ -83,4 +92,19 @@ export function useEventMonitor(hub: HubConnection | null, { id, userId }: IEven
     }, [hub, id, userId]);
 
     return eventMonitor;
+}
+
+export function votingDateToString(d: Date | string | null | undefined): string {
+    if (!d) return "null";
+    return `${d.toString().slice(11,19)}`;
+}
+export function votingToString(name: string, voting: IVoting | null): string {
+    if (!voting) return `[${name}|null] `;
+    return `[${name}|${voting.votingTitle}|${votingDateToString(voting.startDate)}|${votingDateToString(voting.endDate)}] `;
+}
+
+export function eventMonitorToString(eventMonitor: EventMonitor): string {
+    return `[users|${eventMonitor.usersOnlineCount}|${eventMonitor.usersRegisteredCount}] `
+        + votingToString("current", eventMonitor.currentMotion)
+        + votingToString("last", eventMonitor.lastMotion);
 }

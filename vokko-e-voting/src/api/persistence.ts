@@ -89,6 +89,14 @@ export function useEvent(eventId: string) {
     return { isLoading, error, event: data?.data };
 }
 
+export function useRefreshEvents() {
+    const queryClient = useQueryClient();
+    return () => {
+        queryClient.invalidateQueries(ALL_EVENTS_QUERY_KEY);
+        queryClient.invalidateQueries(EVENT_QUERY_KEY);
+    }
+}
+
 export function useResetEventsMutation(): UseMutationResult<AxiosResponse<GetAllEventsResponseDocument>, unknown, Event[], unknown> {
     const queryClient = useQueryClient();
     return useMutation((events: Event[]) => {
