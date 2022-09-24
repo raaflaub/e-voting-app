@@ -4,6 +4,7 @@ import {EventMonitor} from "../api/model/EventMonitor";
 import {IEventParameter} from "../api/model/IEventParameter";
 import {useRefreshEvents} from "./persistence";
 import {IVoting} from "./model/ivoting";
+import {responseDateTransformer} from "./dateTransformer";
 
 
 export function useSignalrHub() {
@@ -68,9 +69,10 @@ export function useEventMonitor(hub: HubConnection | null, { id, userId }: IEven
     const refreshEvents = useRefreshEvents();
 
     function setEventMonitorWithRefresh(value: EventMonitor) {
- //       console.log('setEventMonitor ', eventMonitorToString(value));
+        const valueWithDates = responseDateTransformer(value);
+//        console.log('setEventMonitor ', eventMonitorToString(valueWithDates));
         refreshEvents();
-        setEventMonitor(value);
+        setEventMonitor(valueWithDates);
     }
 
     useEffect(() => {
@@ -94,9 +96,9 @@ export function useEventMonitor(hub: HubConnection | null, { id, userId }: IEven
     return eventMonitor;
 }
 
-export function votingDateToString(d: Date | string | null | undefined): string {
+export function votingDateToString(d: Date | null | undefined): string {
     if (!d) return "null";
-    return `${d.toString().slice(11,19)}`;
+    return `${d.toLocaleTimeString()}`;
 }
 export function votingToString(name: string, voting: IVoting | null): string {
     if (!voting) return `[${name}|null] `;
