@@ -8,21 +8,12 @@ import EventStatusBar from "../event/EventStatusBar";
 import {useEvent} from "../api/persistence";
 import VoteDialogs from "../vote/VoteDialogs";
 import {IVoting} from "../api/model/ivoting";
-import {useVotingDialogState, useVotingStartEndNotifications} from "../vote/votingStartedEndedNotifications";
+import {useVotingStartEndNotifications, VotingDialogState} from "../vote/votingStartedEndedNotifications";
 
 export default function VoterEventSession() {
 
     const params = useParams();
     const { event }  = useEvent(params.eventId!);
-
-    const [ dialogState, setDialogState ] = useVotingDialogState();
-    useVotingStartEndNotifications(dialogState, setDialogState);
-
-    const doOnAction = (motion: IVoting) => {
-        if (motion.id) {
-            setDialogState({...dialogState, visibleDialog: 'SHOW_PREVIEW', motionId: motion.id});
-        }
-    }
 
     return (
         <>
@@ -30,6 +21,45 @@ export default function VoterEventSession() {
             {
                 event &&
                 <EventMonitorContextProvider eventId={event.id!}>
+                    <InnerEventSession/>
+                </EventMonitorContextProvider>
+            }
+        </>
+    );
+}
+
+function InnerEventSession() {
+
+    const params = useParams();
+    const { event }  = useEvent(params.eventId!);
+
+    console.log('CC initial');
+    const [ dialogState, setDialogState ] = useState<VotingDialogState>({
+        visibleDialog: 'NONE',
+        motionId: null,
+        previousVotingStartedNotifications: [],
+        previousVotingEndedNotifications: [],
+    });
+
+    const setDialogStateWithLogging = (dialogState: VotingDialogState) => {
+        console.log('setDialogState', new Date(), dialogState.visibleDialog, dialogState.motionId, dialogState.previousVotingEndedNotifications);
+        setDialogState(dialogState);
+    }
+
+    useVotingStartEndNotifications(dialogState, setDialogStateWithLogging);
+
+    const doOnAction = (motion: IVoting) => {
+        if (motion.id) {
+            setDialogState({
+                ...dialogState,
+                visibleDialog: 'SHOW_PREVIEW',
+                motionId: motion.id
+            });
+        }
+    }
+
+    return (
+        <>
                     <Container maxWidth="md">
                         <EventStatusBar/>
                         <MotionList motions={event!.motions!} actionTitle="Preview" onAction={doOnAction}/>
@@ -38,9 +68,6 @@ export default function VoterEventSession() {
                         event &&
                         <VoteDialogs event={event} dialogState={dialogState} setDialogState={setDialogState} />
                     }
-                </EventMonitorContextProvider>
-            }
         </>
-    );
+    )
 }
-
