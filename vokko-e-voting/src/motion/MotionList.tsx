@@ -5,11 +5,12 @@ import {IVoting} from "../api/model/ivoting";
 
 export type MotionListProps = {
     motions: IVoting[];
-    actionTitle?: string | null;
-    onAction?: (motion: IVoting) => void;
+    onPreview?: (motion: IVoting) => void;
+    onVote?: (motion: IVoting) => void;
+    onViewResults?: (motion: IVoting) => void;
 }
 
-export default function MotionList({ motions, actionTitle, onAction }: MotionListProps) {
+export default function MotionList({ motions, onPreview, onVote, onViewResults }: MotionListProps) {
     return (
         <>
         <Stack spacing={2} mb={5}>
@@ -18,8 +19,9 @@ export default function MotionList({ motions, actionTitle, onAction }: MotionLis
                     <MotionListItem
                         key={motion.id}
                         motion={motion}
-                        actionTitle={actionTitle}
-                        onAction={onAction}
+                        onPreview={onPreview}
+                        onVote={onVote}
+                        onViewResults={onViewResults}
                     />
             ) }
         </Stack>

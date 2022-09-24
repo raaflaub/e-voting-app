@@ -48,7 +48,7 @@ function InnerEventSession() {
 
     useVotingStartEndNotifications(dialogState, setDialogStateWithLogging);
 
-    const doOnAction = (motion: IVoting) => {
+    const openPreviewDialog = (motion: IVoting) => {
         if (motion.id) {
             setDialogState({
                 ...dialogState,
@@ -58,11 +58,31 @@ function InnerEventSession() {
         }
     }
 
+    const openVoteDialog = (motion: IVoting) => {
+        if (motion.id) {
+            setDialogState({
+                ...dialogState,
+                visibleDialog: 'VOTING',
+                motionId: motion.id
+            });
+        }
+    }
+
+    const openResultDialog = (motion: IVoting) => {
+        if (motion.id) {
+            setDialogState({
+                ...dialogState,
+                visibleDialog: 'SHOW_RESULTS',
+                motionId: motion.id
+            });
+        }
+    }
+
     return (
         <>
                     <Container maxWidth="md">
                         <EventStatusBar/>
-                        <MotionList motions={event!.motions!} actionTitle="Preview" onAction={doOnAction}/>
+                        <MotionList motions={event!.motions!} onPreview={openPreviewDialog} onVote={openVoteDialog} onViewResults={openResultDialog}/>
                     </Container>
                     {
                         event &&
