@@ -44,7 +44,7 @@ export default function VoteResultDialog({ open, onClose, motion } : VoteResultD
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                <VoteHeader motion={motion!} votingState={getVoteResultState(motion?.options || null)} />
+                <VoteHeader motion={motion!} votingState={getVoteResultState(motion?.options ?? null)} />
                 <VoteResults motion={motion!} />
             </DialogContent>
         </Dialog>

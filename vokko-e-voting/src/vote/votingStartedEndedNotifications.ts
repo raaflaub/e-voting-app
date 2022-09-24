@@ -63,7 +63,7 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_STARTED',
-                    motionId: eventMonitor.currentMotion?.id || null,
+                    motionId: eventMonitor.currentMotion?.id ?? null,   // Die generierten API-Modelklassen erlauben undefined. "?? null" macht daraus null
                     previousVotingStartedNotifications: [...dialogState.previousVotingStartedNotifications, getVotingStartTag(eventMonitor.currentMotion!)],
                 });
 
@@ -73,7 +73,7 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_ENDED',
-                    motionId: eventMonitor.lastMotion?.id || null,
+                    motionId: eventMonitor.lastMotion?.id ?? null,
                     previousVotingEndedNotifications: [...dialogState.previousVotingEndedNotifications, getVotingEndTag(eventMonitor.lastMotion!)],
                 });
             }
@@ -116,7 +116,7 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_STARTED',
-                    motionId: eventMonitor.currentMotion?.id || null,
+                    motionId: eventMonitor.currentMotion?.id ?? null,
                     previousVotingStartedNotifications: [...dialogState.previousVotingStartedNotifications, getVotingStartTag(eventMonitor.currentMotion!)],
                 });
             } else if (shouldNotifyVotingEnded) {
@@ -127,7 +127,7 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_ENDED',
-                    motionId: eventMonitor.lastMotion?.id || null,
+                    motionId: eventMonitor.lastMotion?.id ?? null,
                     previousVotingEndedNotifications: [...dialogState.previousVotingEndedNotifications, getVotingEndTag(eventMonitor.lastMotion!)],
                 });
             }
@@ -142,7 +142,7 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_STARTED',
-                    motionId: eventMonitor.currentMotion?.id || null,
+                    motionId: eventMonitor.currentMotion?.id ?? null,
                     previousVotingStartedNotifications: [...dialogState.previousVotingStartedNotifications, getVotingStartTag(eventMonitor.currentMotion!)],
                 });
             } else if (shouldNotifyVotingEnded) {
@@ -153,7 +153,7 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_ENDED',
-                    motionId: eventMonitor.lastMotion?.id || null,
+                    motionId: eventMonitor.lastMotion?.id ?? null,
                     previousVotingEndedNotifications: [...dialogState.previousVotingEndedNotifications, getVotingEndTag(eventMonitor.lastMotion!)],
                 });
             }
