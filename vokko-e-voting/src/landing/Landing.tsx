@@ -6,6 +6,7 @@ import {UserContext} from "../provider/UserContextProvider";
 import {HubContext} from "../provider/HubContextProvider";
 import CategoryTitle from "../layout/CategoryTitle";
 import VoteProgress from "../vote/VoteProgress";
+import VoteOptionsControl from "../vote/VoteOptionsControl";
 
 export default function Landing() {
 
@@ -71,7 +72,25 @@ export default function Landing() {
                         }}>Register as voter</Button>
                         <Button onClick={() => navigate("organizer")}>Organizer View</Button>
                     </ButtonGroup>
-                    <VoteProgress endDate={new Date(Date.now() + 120000)} />
+                    {/*<VoteProgress endDate={new Date(Date.now() + 120000)} />*/}
+                    <VoteOptionsControl  options={
+
+                        [
+                            {votingOptionId: "dsadasdadss-dasdsadsadassdas-dsasdasdsa", title: "Yes"},
+                            {votingOptionId: "dsadasddsadas-dasdsadsadassdas-dsasdasdsa", title: "No"},
+                            {votingOptionId: "dsadasddsa-dasdsadsadassdas-dsasdasdsa", title: "Abstain"}
+                        ]
+
+                    } voteOptionCount={1} onSelectionChanged={console.log}/>
+                    <VoteOptionsControl options={
+
+                        [
+                            {votingOptionId: "dsadasdadss-dasdsadsadassdas-dsasdasdsa", title: "Walter"},
+                            {votingOptionId: "dsadasddsadas-dasdsadsadassdas-dsasdasdsa", title: "Remo"},
+                            {votingOptionId: "dsadasddsa-dasdsadsadassdas-dsasdasdsa", title: "Jonas"}
+                        ]
+
+                    } voteOptionCount={2} onSelectionChanged={console.log} disabled={true}/>
                 </Container>
 
                 }
