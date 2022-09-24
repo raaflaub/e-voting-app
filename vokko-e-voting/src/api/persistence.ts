@@ -8,6 +8,8 @@ import {GetEventResponseDocument} from "./model/get-event-response-document";
 import {PatchEventMotionRequestDocument} from "./model/patch-event-motion-request-document";
 import {PatchEventRequestDocument} from "./model/patch-event-request-document";
 import {requestDateTransformer, responseDateTransformer} from "./dateTransformer";
+import {CastVoteRequestDocument} from "./model/cast-vote-request-document";
+import {CastVoteResponseDocument} from "./model/cast-vote-response-document";
 
 
 
@@ -127,6 +129,18 @@ export function useCreateUserMutation(): UseMutationResult<AxiosResponse<CreateU
     return useMutation((createUserRequestDocument: CreateUserRequestDocument) => {
             console.log('axios.post', JSON.stringify(createUserRequestDocument));
             return axiosInstance.post<any, AxiosResponse<CreateUserResponseDocument>>('users', createUserRequestDocument);
+        },
+        {
+            onSuccess() {}
+        }
+    );
+}
+
+export function useCastVoteMutation(): UseMutationResult<AxiosResponse<CastVoteResponseDocument>, unknown, CastVoteRequestDocument, unknown> {
+    const queryClient = useQueryClient();
+    return useMutation((castVoteRequestDocument: CastVoteRequestDocument) => {
+            console.log('axios.post', JSON.stringify(castVoteRequestDocument));
+            return axiosInstance.post<any, AxiosResponse<CastVoteResponseDocument>>('votings/casting', castVoteRequestDocument);
         },
         {
             onSuccess() {
