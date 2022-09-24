@@ -16,11 +16,11 @@ export function isPastEvent(e: Event): boolean {
 
 
 export function getVotingStartTag(v: IVoting): string {
-    return `${v.id}-${v.startDate}`;
+    return `${v.id}-${v.startDate?.toISOString()}`;
 }
 
 export function getVotingEndTag(v: IVoting): string {
-    return `${v.id}-${v.endDate}`;
+    return `${v.id}-${v.endDate?.toISOString()}`;
 }
 
 export function getMotionById(e: Event, motionId: string | null): IVoting | undefined {
