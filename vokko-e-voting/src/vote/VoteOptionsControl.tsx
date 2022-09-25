@@ -107,12 +107,12 @@ export default function VoteOptionsControl(voteOptionsProps:IVoteOptionsProps) {
                     {state?.map(option => { ;return (
 
 
-                            <FormControlLabel
-                                control={
-                                    <Checkbox disabled={voteOptionsProps.disabled} checked={option.checked} onChange={handleChange} name={option.votingOptionId?.toString()} />
-                                }
-                                label={option.title}
-                            />
+                        <FormControlLabel key={option.votingOptionId}
+                                          control={
+                                              <Checkbox disabled={voteOptionsProps.disabled} checked={option.checked} onChange={handleChange} key={option.votingOptionId?.toString()} name={option.votingOptionId?.toString()} />
+                                          }
+                                          label={option.title}
+                        />
 
                     )})}
 
