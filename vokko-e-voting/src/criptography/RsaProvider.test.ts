@@ -1,6 +1,6 @@
 import {describe, expect, test} from '@jest/globals';
-import {RsaProvider} from "../criptography/RsaProvider";
-import {IKeyPair} from "../criptography/IKeyPair";
+import {RsaProvider} from "./RsaProvider";
+import {IKeyPair} from "./IKeyPair";
 const {Crypto} = require('@peculiar/webcrypto');
 const { TextEncoder } = require("util");
 
