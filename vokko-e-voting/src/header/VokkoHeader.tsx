@@ -1,9 +1,10 @@
 import React, {useContext, useState} from 'react';
-import {AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
+import {AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
 import { ArrowBackIos, AccountCircle }  from "@mui/icons-material";
 import vokkoLogoSmall from "./vokkoLogoSmall.png";
 import {useNavigate} from "react-router-dom";
 import {UserContext} from "../provider/UserContextProvider";
+import UserAvatar from "../user/UserAvatar";
 
 export type VokkoHeaderProps = { title?: string | null, backButton?: boolean, userProfile?: boolean }
 
@@ -49,16 +50,16 @@ export default function VokkoHeader( { title, backButton, userProfile } : VokkoH
                 { userProfile &&
                     <>
                         <Box sx={{ display: { xs: 'none', sm: 'flex' } }} >
-                            <Typography variant="h6" align="right">
+                            <IconButton color="inherit" sx={{ pt:0, pb: 0, pr: 0 }}>
+                                <UserAvatar user={user.value?.user ?? null}/>
+                            </IconButton>
+                            <Typography variant="h6" align="right" marginLeft={2}>
                                 { user?.value?.user?.email }
                             </Typography>
-                            <IconButton color="inherit" sx={{ pt:0, pb: 0, pr: 0 }}>
-                                <AccountCircle />
-                            </IconButton>
                         </Box>
                         <Box sx={{ display: { xs: 'flex', sm: 'none' } }} >
                             <IconButton color="inherit" sx={{ p:0 }} onClick={handleOpenProfileMenu}>
-                                <AccountCircle />{/*  TODO: use avatar instead: <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />  */}
+                                <UserAvatar user={user.value?.user ?? null}/>
                             </IconButton>
                             <Menu
                                 sx={{ mt: '45px' }}
