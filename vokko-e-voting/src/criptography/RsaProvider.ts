@@ -1,6 +1,3 @@
-import {IRsaParameters} from "./IRsaParameters";
-import {AlgorithmType} from "./AlgorithmType";
-import {HashType} from "./HashType";
 import {IKeyPair} from "./IKeyPair";
 
 
@@ -8,78 +5,84 @@ import {IKeyPair} from "./IKeyPair";
 
 export class RsaProvider {
 
-    private _parameters: IRsaParameters;
+
+    private _crypto:Crypto;
+    private _textEncoder:TextEncoder;
+
+
     private _cryptoKeyPair :  CryptoKeyPair | null;
 
-    constructor(parameters : IRsaParameters | null) {
+    constructor(crypto:Crypto,textEncoder:TextEncoder) {
+
 
         this._cryptoKeyPair = null;
-        if(parameters != null)
-        {
-            this._parameters = parameters;
-        }
-        else
-        {
-            this._parameters =
-                {
-                    AlgorithmType : AlgorithmType.RSASS_PKCS1_v1_5,
-                    ModulusLength: 2048,
-                    publicExponent: new Uint8Array([0x01, 0x00, 0x01]),
-                    HashType: HashType.SHA256
-                };
-        }
+        this._crypto = crypto;
+        this._textEncoder = textEncoder;
+
+
+
 
     }
 
     public async GenerateKeyPair(): Promise<IKeyPair> {
 
         const algorithmKeyGen = {
-            name: this._parameters.AlgorithmType,
-            modulusLength: this._parameters.ModulusLength,
-            publicExponent: this._parameters.publicExponent,
-            hash: {
-                name: this._parameters.HashType
-                }
+
+            name: "RSASSA-PKCS1-v1_5",
+            hash: "SHA-256",     // SHA-1, SHA-256, SHA-384, or SHA-512
+            publicExponent: new Uint8Array([1, 0, 1]), // 0x03 or 0x010001
+            modulusLength: 4096, // 1024, 2048, or 4096
         };
 
-        const keyPair:CryptoKeyPair = await window.crypto.subtle.generateKey(algorithmKeyGen, true, ["sign","verify"]);
+
+
+
+        const keyPair:CryptoKeyPair = await this._crypto.subtle.generateKey(algorithmKeyGen, true, ["sign","verify"]);
 
         this._cryptoKeyPair = keyPair;
 
         return {
-            PrivateKey: await this.ExportPrivateKey(),
-            PublicKey: await this.ExportPublicKey()
+            PrivateKey: await this.ExportPrivateKey(keyPair.privateKey),
+            PublicKey: await this.ExportPublicKey(keyPair.publicKey)
         }
     }
 
 
 
-    public async ExportPublicKey(): Promise<string> {
+    public async ExportPublicKey(key:CryptoKey):Promise<string> {
+        const exported = await this._crypto.subtle.exportKey(
+            "spki",
+            key
+        );
+        const exportedAsString = this.ArrayBufferToString(exported);
+        const exportedAsBase64 = window.btoa(exportedAsString);
 
-        const privateKey:any = await this.exportCryptoKey(this._cryptoKeyPair?.publicKey,"spki");
-        return  this.toHexString(new Uint8Array(privateKey));
+        return exportedAsBase64;
+
     }
 
-    public async ExportPrivateKey(): Promise<string> {
+    public async ExportPrivateKey(key:CryptoKey):Promise<string> {
+        const exported = await this._crypto.subtle.exportKey(
+            "pkcs8",
+            key
+        );
+        const exportedAsString = this.ArrayBufferToString(exported);
+        const exportedAsBase64 = window.btoa(exportedAsString);
 
-        const privateKey:any = await this.exportCryptoKey(this._cryptoKeyPair?.privateKey,"pkcs8");
-        return  this.toHexString(new Uint8Array(privateKey));
+        return exportedAsBase64;
 
     }
-
     public async Sign(message:string):Promise<string> {
 
-        const encoder = new TextEncoder();
-        const text = encoder.encode(message);
 
-        const  algorithmSign = { name: this._parameters.AlgorithmType};
+        const text = this._textEncoder.encode(message);
 
-        let signature: ArrayBuffer = new ArrayBuffer(0);
-        if(this._cryptoKeyPair != null) {
-             signature = await window.crypto.subtle.sign(algorithmSign, this._cryptoKeyPair.privateKey, text);
-        }
+        const  algorithmSign = { name: "RSASSA-PKCS1-v1_5", hash: { name: "SHA-256" } }
 
-        return this.toHexString(new Uint8Array(signature));
+
+        const privateKey:CryptoKey = this._cryptoKeyPair?.privateKey!;
+
+        return window.btoa(this.ArrayBufferToString(await this._crypto.subtle.sign(algorithmSign,privateKey , text)));
 
     }
 
@@ -89,9 +92,7 @@ export class RsaProvider {
         const text = encoder.encode(message);
         const signatureBuffer = encoder.encode(signature);
         let isValid:boolean = false;
-        if(this._cryptoKeyPair != null) {
-            isValid = await window.crypto.subtle.verify(this._parameters.AlgorithmType, this._cryptoKeyPair.publicKey, signatureBuffer, text);
-        }
+
         return isValid;
 
 
@@ -99,33 +100,62 @@ export class RsaProvider {
 
     public async ImportKeyPair(keyPair:IKeyPair):Promise<void>{
 
-        const privateKey:CryptoKey = await this.importCryptoKey(keyPair.PrivateKey,"pkcs8");
-        const publicKey:CryptoKey = await this.importCryptoKey(keyPair.PublicKey,"spki");
+        const privateKey:CryptoKey = await this.importPrivateKey(keyPair.PrivateKey);
+        const publicKey:CryptoKey = await this.importPublicKey(keyPair.PublicKey);
         const cryptoKeyPair:CryptoKeyPair = { privateKey : privateKey,
                                         publicKey : publicKey }
         this._cryptoKeyPair = cryptoKeyPair;
     }
 
 
-    private async exportCryptoKey(key:any ,type :any): Promise<JsonWebKey> {
 
-        const exportedKey: JsonWebKey = await window.crypto.subtle.exportKey(type,key);
-        return exportedKey;
+    private async importPublicKey(key:string):Promise<CryptoKey> {
+        // fetch the part of the PEM string between header and footer
+        //const pemHeader = "-----BEGIN PRIVATE KEY-----";
+        //const pemFooter = "-----END PRIVATE KEY-----";
+        //const pemContents = pem.substring(pemHeader.length, pem.length - pemFooter.length);
+        // base64 decode the string to get the binary data
+        const binaryDerString = window.atob(key);
+        // convert from a binary string to an ArrayBuffer
+        const binaryDer = this.stringToArrayBuffer(binaryDerString);
+
+        return this._crypto.subtle.importKey(
+            "spki",
+            binaryDer,
+            {
+                name: "RSASSA-PKCS1-v1_5",
+                hash: "SHA-256",
+            },
+            true,
+            ["verify"]
+        );
     }
 
-    private async importCryptoKey(key:string,type:"spki"| "pkcs8") :Promise<CryptoKey>
-    {
-        const binDer:any = this.stringToArrayBuffer(window.atob(key));
-        const cryptoKey:CryptoKey =  await window.crypto.subtle.importKey(type,binDer, {name: "RSA-OAEP", hash: "SHA-256"},true,["sign","verify"]);
-        return cryptoKey;
+
+
+    private async importPrivateKey(key:string):Promise<CryptoKey> {
+        // fetch the part of the PEM string between header and footer
+        //const pemHeader = "-----BEGIN PRIVATE KEY-----";
+        //const pemFooter = "-----END PRIVATE KEY-----";
+        //const pemContents = pem.substring(pemHeader.length, pem.length - pemFooter.length);
+        // base64 decode the string to get the binary data
+        const binaryDerString = window.atob(key);
+        // convert from a binary string to an ArrayBuffer
+        const binaryDer = this.stringToArrayBuffer(binaryDerString);
+
+        return this._crypto.subtle.importKey(
+            "pkcs8",
+            binaryDer,
+            {
+                name: "RSASSA-PKCS1-v1_5",
+                hash: "SHA-256",
+            },
+            true,
+            ["sign"]
+        );
     }
 
-    private toHexString(byteArray:Iterable<unknown> | ArrayLike<unknown>): string {
-        return Array.from(byteArray, function(byte) {
-            // @ts-ignore
-            return ('0' + (byte & 0xFF).toString(16)).slice(-2);
-        }).join('')
-    }
+
 
     private stringToArrayBuffer(string:string):ArrayBuffer
     {
@@ -135,6 +165,11 @@ export class RsaProvider {
             bufView[i] = string.charCodeAt(i);
         }
         return buf;
+    }
+
+    private ArrayBufferToString(buffer:ArrayBuffer):string {
+        // @ts-ignore
+        return String.fromCharCode.apply(null, new Uint8Array(buffer));
     }
 
 }

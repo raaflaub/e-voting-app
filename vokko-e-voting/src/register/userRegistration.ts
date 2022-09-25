@@ -98,7 +98,7 @@ export function useRegistrationByInvitationLink() {
 
             if (!createUserResponseDocument && !keyPair) {
 
-                const rsaProvider = new RsaProvider(null);
+                const rsaProvider = new RsaProvider(window.crypto,new TextEncoder());
                 rsaProvider.GenerateKeyPair().then((keyPair: IKeyPair) => setKeyPair(keyPair));
             }
 
