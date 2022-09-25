@@ -1,6 +1,8 @@
 import {describe, expect, test} from '@jest/globals';
 import {RsaProvider} from "../criptography/RsaProvider";
 import {IKeyPair} from "../criptography/IKeyPair";
+const {Crypto} = require('@peculiar/webcrypto');
+const { TextEncoder } = require("util");
 
 
 
@@ -11,12 +13,12 @@ describe('Rsa Provider Tests', () => {
 
      test('Signing Message', async ()  => {
 
-         const rsaProvider1 = new RsaProvider();
+         const rsaProvider1 = new RsaProvider(new Crypto(),new TextEncoder());
 
          // @ts-ignore
          const keyPair: IKeyPair = await rsaProvider1.GenerateKeyPair()
 
-         const rsaProvider2 = new RsaProvider();
+         const rsaProvider2 = new RsaProvider(new Crypto(),new TextEncoder());
 
          const keyPair2:IKeyPair = {
              PrivateKey: "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",

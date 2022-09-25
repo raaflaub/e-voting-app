@@ -1,25 +1,23 @@
-import {IRsaParameters} from "./IRsaParameters";
-import {AlgorithmType} from "./AlgorithmType";
-import {HashType} from "./HashType";
 import {IKeyPair} from "./IKeyPair";
-const {Crypto} = require('@peculiar/webcrypto');
-const { TextEncoder } = require("util");
-const crypto2 = require('crypto');
+
 
 
 
 export class RsaProvider {
 
 
-    private _crypto = new Crypto();
+    private _crypto:Crypto;
+    private _textEncoder:TextEncoder;
 
 
     private _cryptoKeyPair :  CryptoKeyPair | null;
 
-    constructor() {
+    constructor(crypto:Crypto,textEncoder:TextEncoder) {
 
 
         this._cryptoKeyPair = null;
+        this._crypto = crypto;
+        this._textEncoder = textEncoder;
 
 
 
@@ -76,8 +74,8 @@ export class RsaProvider {
     }
     public async Sign(message:string):Promise<string> {
 
-        const encoder = new TextEncoder();
-        const text = encoder.encode(message);
+
+        const text = this._textEncoder.encode(message);
 
         const  algorithmSign = { name: "RSASSA-PKCS1-v1_5", hash: { name: "SHA-256" } }
 
@@ -94,9 +92,7 @@ export class RsaProvider {
         const text = encoder.encode(message);
         const signatureBuffer = encoder.encode(signature);
         let isValid:boolean = false;
-        if(this._cryptoKeyPair != null) {
-            isValid = await window.crypto.subtle.verify(this._parameters.AlgorithmType, this._cryptoKeyPair.publicKey, signatureBuffer, text);
-        }
+
         return isValid;
 
 
