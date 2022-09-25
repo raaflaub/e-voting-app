@@ -15,7 +15,6 @@ import {CastVoteResponseDocument} from "./model/cast-vote-response-document";
 
 
 const baseUrl = `${process.env.REACT_APP_REST_API_BASE_URL}/jsonapi/v1`
-console.log("configureAxios baseUrl=", baseUrl);
 
 const requestTransformers: AxiosRequestTransformer[] =
     !Axios.defaults.transformRequest                   ? [requestDateTransformer]
@@ -69,7 +68,6 @@ export function useRefreshEvents() {
 export function useResetEventsMutation(): UseMutationResult<AxiosResponse<GetAllEventsResponseDocument>, unknown, Event[], unknown> {
     const queryClient = useQueryClient();
     return useMutation((events: Event[]) => {
-            console.log('before axiosInstance.patch');
             return axiosInstance.patch<any, AxiosResponse<GetAllEventsResponseDocument>>('events/reset', {});
         },
         {
@@ -127,7 +125,6 @@ export function useEventMutation(): UseMutationResult<AxiosResponse<void>, unkno
 export function useCreateUserMutation(): UseMutationResult<AxiosResponse<CreateUserResponseDocument>, unknown, CreateUserRequestDocument, unknown> {
     const queryClient = useQueryClient();
     return useMutation((createUserRequestDocument: CreateUserRequestDocument) => {
-            console.log('axios.post', JSON.stringify(createUserRequestDocument));
             return axiosInstance.post<any, AxiosResponse<CreateUserResponseDocument>>('users', createUserRequestDocument);
         },
         {
@@ -139,7 +136,6 @@ export function useCreateUserMutation(): UseMutationResult<AxiosResponse<CreateU
 export function useCastVoteMutation(): UseMutationResult<AxiosResponse<CastVoteResponseDocument>, unknown, CastVoteRequestDocument, unknown> {
     const queryClient = useQueryClient();
     return useMutation((castVoteRequestDocument: CastVoteRequestDocument) => {
-            console.log('axios.post', JSON.stringify(castVoteRequestDocument));
             return axiosInstance.post<any, AxiosResponse<CastVoteResponseDocument>>('votings/casting', castVoteRequestDocument);
         },
         {

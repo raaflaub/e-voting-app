@@ -36,30 +36,12 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
         !eventMonitor.currentMotion && eventMonitor.lastMotion
         && !dialogState.previousVotingEndedNotifications.includes(getVotingEndTag(eventMonitor.lastMotion));
 
-    if (!shouldNotifyVotingEnded) {
-        if (!eventMonitor.currentMotion && eventMonitor.lastMotion) {
-            console.log('getVotingEndTag(eventMonitor.lastMotion)', getVotingEndTag(eventMonitor?.lastMotion));
-            console.log('!includes', !dialogState.previousVotingEndedNotifications.includes(getVotingEndTag(eventMonitor.lastMotion)));
-        }
-        console.log('previousVotingEndedNotifications', JSON.stringify(dialogState.previousVotingEndedNotifications));
-    }
-
     useEffect(() => {
-        console.log(
-            'useVoteDialogs:', new Date(),
-            'shouldNotifyVotingStarted', shouldNotifyVotingStarted,
-            'shouldNotifyVotingEnded', shouldNotifyVotingEnded,
-            'currentMotion:', JSON.stringify(eventMonitor.currentMotion).slice(0,64),
-            'lastMotion:', JSON.stringify(eventMonitor.lastMotion).slice(0,64),
-            JSON.stringify(dialogState).slice(0,64)
-        );
-
         if (dialogState.visibleDialog === "NONE") {
             // Ausgangslage: kein Dialog offen
 
             if (shouldNotifyVotingStarted) {
                 // eine neue Wahl wurde gestartet
-                console.log('start voting on:', getVotingStartTag(eventMonitor.currentMotion!));
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_STARTED',
@@ -69,7 +51,6 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
 
             } else if (shouldNotifyVotingEnded) {
                 // eine neue Wahl wurde gestartet und bereits wieder beendet
-                console.log('notify results on:', getVotingEndTag(eventMonitor.lastMotion!));
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_ENDED',
@@ -84,7 +65,6 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
             if (shouldNotifyVotingEnded || shouldNotifyVotingStarted) {
                 // Wahl wurde beendet, oder es wurde bereits eine andere Wahl gestartet
                 // -> Dialog wird gecancelt. Wird im Abschnitt 'NONE' ggf. neu initialisiert.
-                console.log('BB cancel voting on:', dialogState.motionId);
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NONE',
@@ -98,7 +78,6 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
             if (shouldNotifyVotingStarted || shouldNotifyVotingEnded) {
                 // Es wurde bereits eine andere Wahl gestartet oder beendet
                 // -> Dialog wird gecancelt. Wird im Abschnitt 'NONE' ggf. neu initialisiert.
-                console.log('AA cancel notification for:', dialogState.motionId);
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NONE',
@@ -111,8 +90,6 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
 
             if (shouldNotifyVotingStarted) {
                 // eine neue Wahl wurde gestartet -> Preview-Dialog wird gecancelt
-                console.log('cancel preview');
-                console.log('start voting on:', getVotingStartTag(eventMonitor.currentMotion!));
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_STARTED',
@@ -122,8 +99,6 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
             } else if (shouldNotifyVotingEnded) {
                 // eine neue Wahl wurde gestartet und bereits wieder beendet -> Preview-Dialog wird gecancelt
 
-                console.log('cancel preview');
-                console.log('notify results on:', getVotingEndTag(eventMonitor.lastMotion!));
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_ENDED',
@@ -137,8 +112,6 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
 
             if (shouldNotifyVotingStarted) {
                 // eine neue Wahl wurde gestartet -> Resultats-Dialog wird gecancelt
-                console.log('cancel result view for:', dialogState.motionId);
-                console.log('start voting on:', getVotingStartTag(eventMonitor.currentMotion!));
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_STARTED',
@@ -148,8 +121,6 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
             } else if (shouldNotifyVotingEnded) {
                 // eine neue Wahl wurde gestartet und bereits wieder beendet
                 // -> Resultats-Dialog wird gecancelt, sofern es sich um einen anderen Vote handelt
-                console.log('cancel result view for:', dialogState.motionId);
-                console.log('notify results on:', getVotingEndTag(eventMonitor.lastMotion!));
                 setDialogState({
                     ...dialogState,
                     visibleDialog: 'NOTIFY_VOTING_ENDED',

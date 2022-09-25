@@ -10,16 +10,6 @@ export default function OrganizerEventSetup({ event }: OrganizerEventSetupProps)
 
     const params = useParams();
 
-    // const [{ data: resetResultData, loading: resetLoading, error: resetError }, executeReset ]
-    //     = useAxios< GetAllEventsResponseDocument, {} >(
-    //         {
-    //             url: `events/reset`,
-    //             method: 'PATCH'
-    //         },
-    //     { manual: true }
-    // );
-    // console.log('reset', JSON.stringify(resetResultData), resetLoading, resetError);
-
     const completeToDoMutation = useResetEventsMutation();
 
     return (

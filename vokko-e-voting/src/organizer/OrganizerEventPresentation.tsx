@@ -31,7 +31,6 @@ export default function OrganizerEventPresentation({ event }: OrganizerEventPres
                 }
             }
         }
-        console.log(`Starting vote ${params.eventId} / ${params.motionId} from ${params.patchEventMotionRequestDocument.data.startDate} to ${params.patchEventMotionRequestDocument.data.endDate}`)
         patchEventMotionMutation.mutate(params);
     }
 

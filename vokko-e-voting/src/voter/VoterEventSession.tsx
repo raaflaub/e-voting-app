@@ -33,7 +33,6 @@ function InnerEventSession() {
     const params = useParams();
     const { event }  = useEvent(params.eventId!);
 
-    console.log('CC initial');
     const [ dialogState, setDialogState ] = useState<VotingDialogState>({
         visibleDialog: 'NONE',
         motionId: null,
@@ -42,7 +41,6 @@ function InnerEventSession() {
     });
 
     const setDialogStateWithLogging = (dialogState: VotingDialogState) => {
-        console.log('setDialogState', new Date(), dialogState.visibleDialog, dialogState.motionId, dialogState.previousVotingEndedNotifications);
         setDialogState(dialogState);
     }
 

@@ -15,8 +15,6 @@ import {isYesNoVote} from "./voteUtils";
 import {useCastVoteMutation} from "../api/persistence";
 import {UserContext} from "../provider/UserContextProvider";
 import LoadingButton from '@mui/lab/LoadingButton';
-import {signVoteTest} from "./voteTest";
-import {CastVoteRequestData} from "../api/model/cast-vote-request-data";
 import {useSignVote} from "./signVote";
 
 export type VoteOnMotionDialogProps = {
@@ -36,74 +34,14 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
     const user = useContext(UserContext);
     const signVote = useSignVote(user.value!);
 
-
-    if (castVoteMutation.isLoading) {
-        console.log('castVoteMutation.isLoading', castVoteMutation.status);
-    }
-
-    if (castVoteMutation.data) {
-        console.log('castVoteMutation.data', castVoteMutation.status, JSON.stringify(castVoteMutation.data));
-    }
-
-    if (castVoteMutation.isPaused) {
-        console.log('castVoteMutation.isPaused', castVoteMutation.status);
-    }
-
-    if (castVoteMutation.isError) {
-        console.log('castVoteMutation.isError', castVoteMutation.status, castVoteMutation.error, castVoteMutation.failureCount);
-    }
-
-    if (castVoteMutation.isIdle) {
-        console.log('castVoteMutation.isIdle', castVoteMutation.status);
-    }
-
-    if (castVoteMutation.isSuccess) {
-        console.log('castVoteMutation.isSuccess', castVoteMutation.status);
-    }
-
-    if (signVote.isLoading) {
-        console.log('signVote.isLoading');
-    }
-
-    if (signVote.isError) {
-        console.log('signVote.isError', signVote.error);
-    }
-
-    if (signVote.signedVoteRequest) {
-        console.log('signVote.signedVoteRequest', JSON.stringify(signVote.signedVoteRequest));
-    }
-
-    if (signVote.isSuccess) {
-        console.log('signVote.isSuccess');
-    }
-
     const castVote = () => {
         const castVoteRequestData = {
             userId: user.value?.user?.userId,
             votingId: motion?.id,
             optionId: selectedOptions[0],
-            signature: 'invalid'
+            signature: null
         }
-        setTimeout(
-            () => signVote.sign(castVoteRequestData),
-            1000
-        );
-        setTimeout(
-            () => signVoteTest(
-                castVoteRequestData,
-                user.value?.privateKey!,
-                user.value?.user?.publicKey!,
-                () => console.log('signVoteTest success'),
-                (e) => console.error('signVoteTest error', e)),
-            6000
-        );
-    }
-
-    const sendSignedVote = (signedVote: CastVoteRequestData, from: string) => {
-        console.log('sendSignedVote', from, new Date().toISOString());
-        castVoteMutation.mutate({
-            data: signedVote
-        });
+        signVote.sign(castVoteRequestData);
     }
 
 
@@ -116,14 +54,16 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
     useEffect(() => {
         if (!castedVote) {
             if (castVoteMutation.isSuccess && castVoteMutation.data) {
+                console.log('VOTE SUCCESSFULLY CASTED');
                 setCastedVote(thisVote);
 
             } else if (signVote.isSuccess && signVote.signedVoteRequest && !castVoteMutation.isLoading && !castVoteMutation.isError) {
-                console.log('sendSignedVote...');
-                sendSignedVote(signVote.signedVoteRequest, '(useEffect)');
+                 castVoteMutation.mutate({
+                    data: signVote.signedVoteRequest
+                });
             }
         }
-    }, [castedVote, signVote, castVoteMutation]);
+    }, [castedVote, thisVote, signVote, castVoteMutation]);
 
     return (
         <Dialog
