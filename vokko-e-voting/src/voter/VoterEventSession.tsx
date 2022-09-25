@@ -80,7 +80,7 @@ function InnerEventSession() {
         <>
                     <Container maxWidth="md">
                         <EventStatusBar/>
-                        <MotionList motions={event!.motions!} onPreview={openPreviewDialog} onVote={openVoteDialog} onViewResults={openResultDialog}/>
+                        <MotionList motions={event!.motions!} onPreview={openPreviewDialog} onVote={openVoteDialog} onViewResults={openResultDialog} disabled={dialogState.visibleDialog !== 'NONE'}/>
                     </Container>
                     {
                         event &&

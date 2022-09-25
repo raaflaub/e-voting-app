@@ -8,9 +8,10 @@ export type MotionListProps = {
     onPreview?: (motion: IVoting) => void;
     onVote?: (motion: IVoting) => void;
     onViewResults?: (motion: IVoting) => void;
+    disabled?: boolean;
 }
 
-export default function MotionList({ motions, onPreview, onVote, onViewResults }: MotionListProps) {
+export default function MotionList({ motions, onPreview, onVote, onViewResults, disabled }: MotionListProps) {
     return (
         <>
         <Stack spacing={2} mb={5}>
@@ -22,6 +23,7 @@ export default function MotionList({ motions, onPreview, onVote, onViewResults }
                         onPreview={onPreview}
                         onVote={onVote}
                         onViewResults={onViewResults}
+                        disabled={disabled}
                     />
             ) }
         </Stack>
