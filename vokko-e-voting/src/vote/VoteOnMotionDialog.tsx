@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import {IconButton, Typography} from "@mui/material";
+import {Alert, IconButton, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {IVoting} from "../api/model/ivoting";
 import VoteOptionsControl from "./VoteOptionsControl";
@@ -102,20 +102,28 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
             {
                 (castedVote !== thisVote) &&
                 <>
-            <DialogContent>
-                        <VoteHeader motion={motion!} votingState="INPROGRESS" />
-                        <VoteOptionsControl options={motion?.options ?? []} voteOptionCount={1} onSelectionChanged={setSelectedOptions} />  {/*value = {selectedOption}*/}
-            </DialogContent>
-            <DialogActions sx={{ m: 0, p: 2 }}>
-                        <LoadingButton
-                            variant="contained"
-                            onClick={() => castVote()}
-                            loading={signVote.isLoading || castVoteMutation.isLoading}
-                            disabled={selectedOptions.length !== 1 || castVotesHistory.hasCastVote(thisVote)}>
-                            Senden
-                        </LoadingButton>
-            </DialogActions>
+                    <DialogContent>
+                                <VoteHeader motion={motion!} votingState="INPROGRESS" />
+                                <VoteOptionsControl options={motion?.options ?? []} voteOptionCount={1} onSelectionChanged={setSelectedOptions} />  {/*value = {selectedOption}*/}
+                    </DialogContent>
+                    <DialogActions sx={{ m: 0, p: 2 }}>
+                                <LoadingButton
+                                    variant="contained"
+                                    onClick={() => castVote()}
+                                    loading={signVote.isLoading || castVoteMutation.isLoading}
+                                    disabled={selectedOptions.length !== 1 || castVotesHistory.hasCastVote(thisVote)}>
+                                    Senden
+                                </LoadingButton>
+                    </DialogActions>
                 </>
+            }
+            {
+                signVote.isError &&
+                <Alert severity="error">Signieren der Stimme fehlgeschlagen: {signVote.error?.toString()}</Alert>
+            }
+            {
+                castVoteMutation.isError &&
+                <Alert severity="error">Senden der Stimme fehlgeschlagen: {castVoteMutation.error?.toString()}</Alert>
             }
         </Dialog>
     );
