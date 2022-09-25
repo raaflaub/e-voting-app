@@ -78,4 +78,10 @@ export interface IVoting {
      * @memberof IVoting
      */
     description?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof IVoting
+     */
+    question?: string | null;
 }

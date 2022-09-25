@@ -7,6 +7,7 @@ import {HubContext} from "../provider/HubContextProvider";
 import CategoryTitle from "../layout/CategoryTitle";
 import VoteProgress from "../vote/VoteProgress";
 import VoteOptionsControl from "../vote/VoteOptionsControl";
+import VoteResultsPieChart from "../vote/VoteResultsPieChart";
 
 export default function Landing() {
 
@@ -73,6 +74,17 @@ export default function Landing() {
                         <Button onClick={() => navigate("organizer")}>Organizer View</Button>
                     </ButtonGroup>
                     {/*<VoteProgress endDate={new Date(Date.now() + 120000)} />*/}
+
+                    <VoteResultsPieChart options={
+
+                        [
+                            {votingOptionId: "dsadasdadss-dasdsadsadassdas-dsasdasdsa", title: "Yes",voteCount: 10},
+                            {votingOptionId: "dsadasddsadas-dasdsadsadassdas-dsasdasdsa", title: "No", voteCount: 5},
+                            {votingOptionId: "dsadasddsa-dasdsadsadassdas-dsasdasdsa", title: "Abstain", voteCount: 2}
+                        ]
+
+                    }  />
+
                     <VoteOptionsControl  options={
 
                         [
