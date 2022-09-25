@@ -17,7 +17,6 @@ export function useSignVote(user: RegisteredUser): SignVoteAPI {
 
     async function sign(voteRequest: CastVoteRequestData) {
         try {
-            console.log('### set isLoading');
             setSignVoteApi((signVoteApi) => ({
                 ...signVoteApi, isLoading: true, isSuccess: false, isError: false, error: null, signedVoteRequest: null
             }));
