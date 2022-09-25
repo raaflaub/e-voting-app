@@ -18,7 +18,7 @@ export default function VoterEventSession() {
 
     return (
         <>
-            <VokkoHeader title={event?.title} />
+            <VokkoHeader title={event?.title} userProfile={true} />
             {
                 event &&
                 <EventMonitorContextProvider eventId={event.id!}>
