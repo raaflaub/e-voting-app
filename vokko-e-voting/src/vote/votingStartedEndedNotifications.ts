@@ -132,7 +132,7 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
         }
 
 
-    }, [eventMonitor, dialogState, shouldNotifyVotingStarted, shouldNotifyVotingEnded]);
+    }, [eventMonitor, dialogState, setDialogState, shouldNotifyVotingStarted, shouldNotifyVotingEnded]);
 };
 
 
