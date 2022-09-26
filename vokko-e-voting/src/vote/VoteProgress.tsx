@@ -72,18 +72,16 @@ function getProgress(totalTime:number,remainingSeconds:number): number{
 
     const progress:number = Math.round((totalTime - remainingSeconds)*100/ totalTime);
 
-    //console.log("Total Time: ",totalTime);
-    //console.log("Remaining seconds: ",remainingSeconds);
-    //console.log("Progress: ",progress);
+
 
 
     return progress;
 
 }
 
-export default function VoteProgress(props: LinearProgressProps & { endDate: Date }) {
+export default function VoteProgress(props: LinearProgressProps & { startDate: Date} & {endDate: Date; }) {
 
-        const [totalTime] = React.useState(getRemainingSeconds(props.endDate));
+        const totalTime = (props.endDate.getTime() - props.startDate.getTime()) /1000;
         const [progress, setProgress] = React.useState(0);
         const [remainingSeconds,setRemainingSeconds] =  React.useState(getRemainingSeconds(props.endDate));
 

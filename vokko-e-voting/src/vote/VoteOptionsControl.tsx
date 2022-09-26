@@ -35,7 +35,7 @@ export default function VoteOptionsControl(voteOptionsProps:IVoteOptionsProps) {
                 const map = new Map(
                     prevState?.map(option =>
                     {
-                        if(voteOptionsProps.voteOptionCount == 1)
+                        if(voteOptionsProps.voteOptionCount === 1)
                         {
                             return ( [option.votingOptionId,{votingOptionId: option.votingOptionId,title: option.title,checked: false}]);
                         }
@@ -65,7 +65,7 @@ export default function VoteOptionsControl(voteOptionsProps:IVoteOptionsProps) {
                 }
                 else {
                     setError(false);
-                    if(voteOptionsProps.onSelectionChanged != undefined) {
+                    if(voteOptionsProps.onSelectionChanged !== undefined) {
                         voteOptionsProps.onSelectionChanged(checkedIds);
                     }
 
@@ -104,11 +104,11 @@ export default function VoteOptionsControl(voteOptionsProps:IVoteOptionsProps) {
 
                 <FormGroup>
 
-                    {state?.map(option => { ;return (
+                    {state?.map(option => { return (
 
 
-                            <FormControlLabel
-                                control={
+                            <FormControlLabel key={option.votingOptionId}
+                                              control={
                                     <Checkbox disabled={voteOptionsProps.disabled} checked={option.checked} onChange={handleChange} name={option.votingOptionId?.toString()} />
                                 }
                                 label={option.title}

@@ -11,7 +11,7 @@ export default function VoteHeader({ motion, votingState }: VoteHeaderProps) {
     return (
         <>
             <Typography variant="h6">
-                {motion.description || "description"}
+                {motion.question || "here would be the question"}
             </Typography>
             {
                 (votingState !== 'INPROGRESS') &&
@@ -21,7 +21,7 @@ export default function VoteHeader({ motion, votingState }: VoteHeaderProps) {
             }
             {
                 (votingState === 'INPROGRESS') &&
-                <VoteProgress endDate={motion.endDate!} />
+                <VoteProgress startDate={motion.startDate!} endDate={motion.endDate!} />
             }
         </>
     );

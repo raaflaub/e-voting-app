@@ -105,6 +105,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
             {
                 (castedVote !== thisVote) &&
                 <>
+
                     <DialogContent>
                                 <VoteHeader motion={motion!} votingState="INPROGRESS" />
                                 <VoteOptionsControl options={motion?.options ?? []} voteOptionCount={1} onSelectionChanged={setSelectedOptions} />  {/*value = {selectedOption}*/}
