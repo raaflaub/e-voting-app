@@ -61,7 +61,10 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
                 castVotesHistory.addCastVote(thisVote);  // verhindern, dass man zweimal ueber dasselbe abstimmen kann
 
             } else if (signVote.isSuccess && signVote.signedVoteRequest && !castVoteMutation.isLoading && !castVoteMutation.isError) {
-                 castVoteMutation.mutate({
+                console.log('SENDING SIGNED VOTE', JSON.stringify({
+                    data: signVote.signedVoteRequest
+                })) ;
+                castVoteMutation.mutate({
                     data: signVote.signedVoteRequest
                 });
             }

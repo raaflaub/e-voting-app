@@ -36,6 +36,7 @@ export function useSignVote(user: RegisteredUser): SignVoteAPI {
             const payload = voteRequest.userId! + voteRequest.votingId! + voteRequest.optionId!
             const signature = await rsaProvider.Sign(payload);
 
+            console.log('SIGN', JSON.stringify({...voteRequest, signature}));
             setSignVoteApi((signVoteApi) => ({
                 ...signVoteApi, isLoading: false, isSuccess: true, isError: false, signedVoteRequest: {...voteRequest, signature}
             }));
