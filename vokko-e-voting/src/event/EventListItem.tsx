@@ -17,9 +17,9 @@ export default function EventListItem({ event, actionTitle, onAction, primary }:
     return (
         <Card sx={{backgroundColor: "#f5f5f5"}} raised={primary}>
             <CardContent>
-                {event.eventDateAndTime &&
+                {(event.planedStartDate ?? event.eventDateAndTime) &&
                 <Typography color="text.secondary">
-                    {event.eventDateAndTime.toLocaleString()}
+                    {(event.planedStartDate ?? event.eventDateAndTime)?.toLocaleString()}
                 </Typography>
                 }
                 <Typography variant="h6" component="div">

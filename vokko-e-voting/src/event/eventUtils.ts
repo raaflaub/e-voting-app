@@ -2,16 +2,28 @@ import {Event} from '../api/model/event';
 import {IVoting} from "../api/model/ivoting";
 
 export function isToday(e: Event): boolean {
+
+    // wir nehmen das erste Feld, das gesetzt ist, in dieser Reihenfolge.
+    const dateTime = e.planedStartDate ?? e.planedEndDate ?? e.eventDateAndTime ?? e.endDateAndTime;
+
     // toDateString beruecksichtigt die lokale Zeitzone
-    return e.eventDateAndTime ? (e.eventDateAndTime.toDateString() === new Date().toDateString()) : false;
+    return dateTime ? (dateTime.toDateString() === new Date().toDateString()) : false;
 }
 
 export function isFutureEvent(e: Event): boolean {
-    return e.eventDateAndTime ? (e.eventDateAndTime >= new Date()) && !isToday(e): false;
+
+    // wir nehmen das erste Feld, das gesetzt ist, in dieser Reihenfolge.
+    const dateTime = e.planedStartDate ?? e.planedEndDate ?? e.eventDateAndTime ?? e.endDateAndTime;
+
+    return dateTime ? (dateTime >= new Date()) && !isToday(e): false;
 }
 
 export function isPastEvent(e: Event): boolean {
-    return e.eventDateAndTime ? (e.eventDateAndTime <= new Date()) && !isToday(e): false;
+
+    // wir nehmen das erste Feld, das gesetzt ist, in dieser Reihenfolge.
+    const dateTime = e.planedStartDate ?? e.planedEndDate ?? e.eventDateAndTime ?? e.endDateAndTime;
+
+    return dateTime ? (dateTime <= new Date()) && !isToday(e): false;
 }
 
 
