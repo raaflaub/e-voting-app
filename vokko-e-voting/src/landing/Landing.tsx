@@ -69,11 +69,11 @@ export default function Landing() {
         }
     }
 
-    useEffect(() => {
-        if (process.env.NODE_ENV !== 'development') {
-            defaultAction();
-        }
-    }, [hub, user]);
+    // useEffect(() => {
+    //     if (process.env.NODE_ENV !== 'development') {
+    //         defaultAction();
+    //     }
+    // }, [hub, user]);
 
     const [ testResult, setTestResult ] = useState('');
 
