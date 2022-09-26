@@ -34,7 +34,7 @@ export default function MotionListItem({ motion, onPreview, onVote, onViewResult
                 </Typography>
                 {
                     showProgress &&
-                    <VoteProgress endDate={motion.endDate!} />
+                    <VoteProgress startDate={motion.startDate!} endDate={motion.endDate!} />
                 }
                 {
                     !showProgress &&
