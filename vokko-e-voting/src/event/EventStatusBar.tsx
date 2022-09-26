@@ -14,7 +14,7 @@ export default function EventStatusBar() {
             <Badge badgeContent={eventMonitor?.usersOnlineCount} color="success">
                 <PeopleIcon fontSize="large" />
             </Badge>
-                    <CircularProgress size={30} color="success" variant="determinate" value={eventMonitor?.motionsCount/eventMonitor?.motionsCount*100} />
+                    <CircularProgress size={30} color="success" variant="determinate" value={eventMonitor?.motionsCompletedCount/eventMonitor?.motionsCount*100} />
 
                 </Box>
                 <Box sx={{ display: 'flex', width: '100%', flexDirection:'row',justifyContent:"space-between", padding: "0px 0 15px 0px"  }}>
