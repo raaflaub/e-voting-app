@@ -1,4 +1,4 @@
-import UserRegistrationProgress from "../register/UserRegistrationProgress";
+import UserRegistrationProgress from "../user/UserRegistrationProgress";
 import Landing from "./Landing";
 import {Navigate} from "react-router-dom";
 

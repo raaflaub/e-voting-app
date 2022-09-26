@@ -9,6 +9,7 @@ import {useEvent} from "../api/persistence";
 import VoteDialogs from "../vote/VoteDialogs";
 import {IVoting} from "../api/model/ivoting";
 import {useVotingStartEndNotifications, VotingDialogState} from "../vote/votingStartedEndedNotifications";
+import CastVotesHistoryContextProvider from "../provider/CastVotesHistoryContextProvider";
 
 export default function VoterEventSession() {
 
@@ -17,11 +18,13 @@ export default function VoterEventSession() {
 
     return (
         <>
-            <VokkoHeader title={event?.title} />
+            <VokkoHeader title={event?.title} userProfile={true} />
             {
                 event &&
                 <EventMonitorContextProvider eventId={event.id!}>
-                    <InnerEventSession/>
+                    <CastVotesHistoryContextProvider>
+                        <InnerEventSession/>
+                    </CastVotesHistoryContextProvider>
                 </EventMonitorContextProvider>
             }
         </>
@@ -78,14 +81,14 @@ function InnerEventSession() {
 
     return (
         <>
-                    <Container maxWidth="md">
-                        <EventStatusBar/>
-                        <MotionList motions={event!.motions!} onPreview={openPreviewDialog} onVote={openVoteDialog} onViewResults={openResultDialog}/>
-                    </Container>
-                    {
-                        event &&
-                        <VoteDialogs event={event} dialogState={dialogState} setDialogState={setDialogState} />
-                    }
+            <Container maxWidth="md">
+                <EventStatusBar/>
+                <MotionList motions={event!.motions!} onPreview={openPreviewDialog} onVote={openVoteDialog} onViewResults={openResultDialog} disabled={dialogState.visibleDialog !== 'NONE'}/>
+            </Container>
+            {
+                event &&
+                <VoteDialogs event={event} dialogState={dialogState} setDialogState={setDialogState} />
+            }
         </>
     )
 }

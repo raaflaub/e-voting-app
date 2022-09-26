@@ -1,6 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import {EventMonitorContext} from "../provider/EventMonitorContextProvider";
-import {getVotingEndTag, getVotingStartTag} from "../event/eventUtils";
+import {getVotingEndTag, getVotingStartTag } from "../event/eventUtils";
+import {isEndDateWithinTimeout} from "./voteUtils";
 
 export type VotingDialogState = {
     visibleDialog: 'NONE' | 'SHOW_PREVIEW' | 'NOTIFY_VOTING_STARTED' | 'VOTING' | 'NOTIFY_VOTING_ENDED' | 'SHOW_RESULTS';
@@ -24,6 +25,8 @@ export function useVotingDialogState() {
     });
 }
 
+const NOTIFY_VOTING_ENDED_TIMEOUT_MS = 30000;
+
 export function useVotingStartEndNotifications(dialogState: VotingDialogState, setDialogState: (dialogState: VotingDialogState) => void) {
 
     const eventMonitor = useContext(EventMonitorContext);
@@ -33,7 +36,7 @@ export function useVotingStartEndNotifications(dialogState: VotingDialogState, s
         && !dialogState.previousVotingStartedNotifications.includes(getVotingStartTag(eventMonitor.currentMotion));
 
     const shouldNotifyVotingEnded =
-        !eventMonitor.currentMotion && eventMonitor.lastMotion
+        !eventMonitor.currentMotion && eventMonitor.lastMotion && isEndDateWithinTimeout(eventMonitor.lastMotion, NOTIFY_VOTING_ENDED_TIMEOUT_MS)
         && !dialogState.previousVotingEndedNotifications.includes(getVotingEndTag(eventMonitor.lastMotion));
 
     useEffect(() => {

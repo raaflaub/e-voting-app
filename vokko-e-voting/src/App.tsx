@@ -12,6 +12,7 @@ import Loading from "./landing/Loading";
 import HubContextProvider from "./provider/HubContextProvider";
 import UserContextProvider from "./provider/UserContextProvider";
 import {QueryClient, QueryClientProvider} from "react-query";
+import CastVotesHistoryContextProvider from "./provider/CastVotesHistoryContextProvider";
 
 const theme = createTheme();
 

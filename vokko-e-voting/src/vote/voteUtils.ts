@@ -41,6 +41,11 @@ export function isVoteCompleted(motion: IVoting | null): boolean {
     return motion?.endDate? (motion?.endDate.getTime() < new Date().getTime()): false;
 }
 
+export function isEndDateWithinTimeout(motion: IVoting | null, timeOutMs: number) {
+    return motion?.endDate ? (motion?.endDate.getTime() + timeOutMs) >= (new Date().getTime()) : false;
+}
+
+
 export function getVoteResultState(motion: IVoting | null) {
 
     if (!motion?.options) {
