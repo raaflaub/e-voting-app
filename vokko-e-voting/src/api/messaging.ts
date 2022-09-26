@@ -60,7 +60,7 @@ export function useSignalrHub() {
 }
 
 export const INITIAL_EVENT_MONITOR: EventMonitor = {
-    state: 0, usersOnlineCount: 0, usersRegisteredCount: 0, currentMotion: null, lastMotion: null
+    state: 0, usersOnlineCount: 0, usersRegisteredCount: 0, currentMotion: null, lastMotion: null, motionsCount: 0, motionsCompletedCount: 0
 };
 
 export function useEventMonitor(hub: HubConnection | null, { id, userId }: IEventParameter): EventMonitor {

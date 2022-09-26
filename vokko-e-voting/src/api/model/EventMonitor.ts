@@ -6,4 +6,6 @@ export interface EventMonitor {
     usersRegisteredCount: number;
     currentMotion: IVoting | null;
     lastMotion: IVoting | null;
+    motionsCount: number;
+    motionsCompletedCount: number;
 }
