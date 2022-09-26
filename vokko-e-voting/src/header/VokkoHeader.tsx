@@ -43,7 +43,7 @@ export default function VokkoHeader( { title, backButton, userProfile } : VokkoH
                                       paddingLeft: '0.5rem',
                                       paddingRight: '0.5rem'
                                 } }>
-                        { title }
+                        { '! ' + title + ' !' }
                     </Typography>
                     }
 
