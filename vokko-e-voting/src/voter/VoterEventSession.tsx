@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import VokkoHeader from "../header/VokkoHeader";
 import {useParams} from "react-router-dom";
 import MotionList from "../motion/MotionList";
-import {Container} from "@mui/material";
+import {Container, Stack} from "@mui/material";
 import EventMonitorContextProvider from "../provider/EventMonitorContextProvider";
 import EventStatusBar from "../event/EventStatusBar";
 import {useEvent} from "../api/persistence";
@@ -23,7 +23,7 @@ export default function VoterEventSession() {
                 event &&
                 <EventMonitorContextProvider eventId={event.id!}>
                     <CastVotesHistoryContextProvider>
-                        <InnerEventSession/>
+                    <InnerEventSession/>
                     </CastVotesHistoryContextProvider>
                 </EventMonitorContextProvider>
             }
@@ -81,14 +81,23 @@ function InnerEventSession() {
 
     return (
         <>
-            <Container maxWidth="md">
-                <EventStatusBar/>
+                    <Container maxWidth="md">
+                        <EventStatusBar/>
+                        <Stack
+                            sx={{
+                                py:4,
+                                borderColor:"text-secondary",
+                                borderTopStyle:"solid",
+                                borderTopWidth:1,
+                            }}
+                        >
                 <MotionList motions={event!.motions!} onPreview={openPreviewDialog} onVote={openVoteDialog} onViewResults={openResultDialog} disabled={dialogState.visibleDialog !== 'NONE'}/>
-            </Container>
-            {
-                event &&
-                <VoteDialogs event={event} dialogState={dialogState} setDialogState={setDialogState} />
-            }
+                        </Stack>
+                    </Container>
+                    {
+                        event &&
+                        <VoteDialogs event={event} dialogState={dialogState} setDialogState={setDialogState} />
+                    }
         </>
     )
 }

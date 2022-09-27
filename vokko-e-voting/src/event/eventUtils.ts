@@ -1,6 +1,10 @@
 import {Event} from '../api/model/event';
 import {IVoting} from "../api/model/ivoting";
 
+export function getTimeString(dateTime: Date | null) {
+    return dateTime?.toISOString().slice(11, 16);
+}
+
 export function isToday(e: Event): boolean {
 
     // wir nehmen das erste Feld, das gesetzt ist, in dieser Reihenfolge.
