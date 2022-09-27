@@ -28,7 +28,7 @@ const responseTransformers: AxiosResponseTransformer[] =
         : (Axios.defaults.transformResponse instanceof Array) ? [...Axios.defaults.transformResponse, responseDateTransformer]
             :                                                       [Axios.defaults.transformResponse, responseDateTransformer];
 
-const axiosInstance = Axios.create({
+export const axiosInstance = Axios.create({
     baseURL: baseUrl,
     transformRequest: requestTransformers,
     transformResponse: responseTransformers
@@ -94,8 +94,7 @@ export function useCreateEventMutation() {
     );
 }
 
-interface IUpdateEventMutationParameters{
-
+export interface IUpdateEventMutationParameters{
     eventId: string;
     PatchEventRequestDocument:PatchEventMotionRequestDocument;
 }
@@ -116,7 +115,7 @@ export function useUpdateEventMutation(): UseMutationResult<AxiosResponse<void>,
 }
 
 
-interface IUpdateMotionMutationParameters{
+export interface IUpdateMotionMutationParameters{
     eventId: string;
     motionId:string;
     patchEventMotionRequestDocument:PatchEventMotionRequestDocument;
