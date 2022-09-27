@@ -6,10 +6,12 @@ import {CreateUserRequestDocument} from "./model/create-user-request-document";
 import {useMutation, UseMutationResult, useQuery, useQueryClient} from "react-query";
 import {GetEventResponseDocument} from "./model/get-event-response-document";
 import {PatchEventMotionRequestDocument} from "./model/patch-event-motion-request-document";
-import {PatchEventRequestDocument} from "./model/patch-event-request-document";
 import {requestDateTransformer, responseDateTransformer} from "./dateTransformer";
 import {CastVoteRequestDocument} from "./model/cast-vote-request-document";
 import {CastVoteResponseDocument} from "./model/cast-vote-response-document";
+import {PostEventRequestDocument} from "./model/post-event-request-document";
+import {CreateVotingResponseDocument} from "./model/create-voting-response-document";
+import {CreateVotingRequestDocument} from "./model/create-voting-request-document";
 
 
 
@@ -79,18 +81,30 @@ export function useResetEventsMutation(): UseMutationResult<AxiosResponse<GetAll
     );
 }
 
-interface IMotionMutationParameters{
-
-    eventId: string;
-    motionId:string;
-    patchEventMotionRequestDocument:PatchEventMotionRequestDocument;
+export function useCreateEventMutation() {
+    const queryClient = useQueryClient();
+    return useMutation((postEventRequestDocument: PostEventRequestDocument) => {
+            return axiosInstance.post<PostEventRequestDocument, AxiosResponse<void>>('events', postEventRequestDocument);
+        },
+        {
+            onSuccess() {
+                queryClient.invalidateQueries(ALL_EVENTS_QUERY_KEY);
+            }
+        }
+    );
 }
 
-export function useMotionMutation(): UseMutationResult<AxiosResponse<void>, unknown,IMotionMutationParameters, unknown> {
-    const queryClient = useQueryClient();
-    return useMutation((patchMotionParameters:IMotionMutationParameters) => {
+interface IUpdateEventMutationParameters{
 
-            return axiosInstance.patch<any, AxiosResponse<void>>(`events/${patchMotionParameters.eventId}/motions/${patchMotionParameters.motionId}`, patchMotionParameters.patchEventMotionRequestDocument);
+    eventId: string;
+    PatchEventRequestDocument:PatchEventMotionRequestDocument;
+}
+
+export function useUpdateEventMutation(): UseMutationResult<AxiosResponse<void>, unknown,IUpdateEventMutationParameters, unknown> {
+    const queryClient = useQueryClient();
+    return useMutation((updateEventParameters:IUpdateEventMutationParameters) => {
+
+            return axiosInstance.patch<any, AxiosResponse<void>>(`events/${updateEventParameters.eventId}`, updateEventParameters.PatchEventRequestDocument);
         },
         {
             onSuccess() {
@@ -101,17 +115,18 @@ export function useMotionMutation(): UseMutationResult<AxiosResponse<void>, unkn
     );
 }
 
-interface IEventMutationParameters{
 
+interface IUpdateMotionMutationParameters{
     eventId: string;
-    PatchEventRequestDocument:PatchEventMotionRequestDocument;
+    motionId:string;
+    patchEventMotionRequestDocument:PatchEventMotionRequestDocument;
 }
 
-export function useEventMutation(): UseMutationResult<AxiosResponse<void>, unknown,IEventMutationParameters, unknown> {
+export function useUpdateMotionMutation(): UseMutationResult<AxiosResponse<void>, unknown,IUpdateMotionMutationParameters, unknown> {
     const queryClient = useQueryClient();
-    return useMutation((patchEventParameters:IEventMutationParameters) => {
+    return useMutation((updateMotionParameters:IUpdateMotionMutationParameters) => {
 
-            return axiosInstance.patch<any, AxiosResponse<void>>(`events/${patchEventParameters.eventId}`, patchEventParameters.PatchEventRequestDocument);
+            return axiosInstance.patch<any, AxiosResponse<void>>(`events/${updateMotionParameters.eventId}/motions/${updateMotionParameters.motionId}`, updateMotionParameters.patchEventMotionRequestDocument);
         },
         {
             onSuccess() {
@@ -132,6 +147,18 @@ export function useCreateUserMutation(): UseMutationResult<AxiosResponse<CreateU
         }
     );
 }
+
+export function useCreateVotingMutation(): UseMutationResult<AxiosResponse<CreateVotingResponseDocument>, unknown, CreateVotingRequestDocument, unknown> {
+    const queryClient = useQueryClient();
+    return useMutation((createVotingRequestDocument: CreateVotingRequestDocument) => {
+            return axiosInstance.post<any, AxiosResponse<CreateVotingResponseDocument>>('votings', createVotingRequestDocument);
+        },
+        {
+            onSuccess() {}
+        }
+    );
+}
+
 
 export function useCastVoteMutation(): UseMutationResult<AxiosResponse<CastVoteResponseDocument>, unknown, CastVoteRequestDocument, unknown> {
     const queryClient = useQueryClient();

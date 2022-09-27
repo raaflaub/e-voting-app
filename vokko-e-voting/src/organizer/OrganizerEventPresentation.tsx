@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, CircularProgress, Container, Stack, Typography} from "@mui/material";
 import {Event} from "../api/model/event";
 import {useParams} from "react-router-dom";
-import {useMotionMutation, useResetEventsMutation} from "../api/persistence";
+import {useUpdateMotionMutation, useResetEventsMutation} from "../api/persistence";
 import EventMonitorContextProvider from "../provider/EventMonitorContextProvider";
 import EventStatusBar from "../event/EventStatusBar";
 import OrganizerMotionList from "./OrganizerMotionList";
@@ -16,7 +16,7 @@ export default function OrganizerEventPresentation({ event }: OrganizerEventPres
 
     const completeToDoMutation = useResetEventsMutation();
 
-    const patchEventMotionMutation = useMotionMutation();
+    const patchEventMotionMutation = useUpdateMotionMutation();
 
     const startVote = (motion: IVoting) => {
         const startDateNow = new Date();
