@@ -1,37 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react';
-import VokkoHeader from "../header/VokkoHeader";
+import React, {ReactNode, useState} from 'react';
 import {useParams} from "react-router-dom";
 import MotionList from "../motion/MotionList";
 import {Container, Stack} from "@mui/material";
-import EventMonitorContextProvider from "../provider/EventMonitorContextProvider";
 import EventStatusBar from "../event/EventStatusBar";
 import {useEvent} from "../api/persistence";
 import VoteDialogs from "../vote/VoteDialogs";
 import {IVoting} from "../api/model/ivoting";
 import {useVotingStartEndNotifications, VotingDialogState} from "../vote/votingStartedEndedNotifications";
-import CastVotesHistoryContextProvider from "../provider/CastVotesHistoryContextProvider";
+import TimeLineLabel from "../layout/TimeLineLabel";
+import {getTimeString} from "../event/eventUtils";
 
 export default function VoterEventSession() {
-
-    const params = useParams();
-    const { event }  = useEvent(params.eventId!);
-
-    return (
-        <>
-            <VokkoHeader title={event?.title} userProfile={true} />
-            {
-                event &&
-                <EventMonitorContextProvider eventId={event.id!}>
-                    <CastVotesHistoryContextProvider>
-                    <InnerEventSession/>
-                    </CastVotesHistoryContextProvider>
-                </EventMonitorContextProvider>
-            }
-        </>
-    );
-}
-
-function InnerEventSession() {
 
     const params = useParams();
     const { event }  = useEvent(params.eventId!);
@@ -79,6 +58,11 @@ function InnerEventSession() {
         }
     }
 
+    const eventSessionState =
+        !event?.eventDateAndTime? 'NOT_STARTED'
+            : !event?.endDateAndTime? 'RUNNING'
+                : 'ENDED';
+
     return (
         <>
                     <Container maxWidth="md">
@@ -91,7 +75,25 @@ function InnerEventSession() {
                                 borderTopWidth:1,
                             }}
                         >
-                <MotionList motions={event!.motions!} onPreview={openPreviewDialog} onVote={openVoteDialog} onViewResults={openResultDialog} disabled={dialogState.visibleDialog !== 'NONE'}/>
+                            <MotionList
+                                motions={event!.motions!}
+                                onPreview={openPreviewDialog}
+                                onVote={openVoteDialog}
+                                onViewResults={openResultDialog}
+                                header={
+                                    event && (eventSessionState !== 'NOT_STARTED') &&
+                                    <TimeLineLabel>
+                                        {getTimeString(event.eventDateAndTime ?? null)} – Start
+                                    </TimeLineLabel>
+                                }
+                                footer={
+                                    event && (eventSessionState === 'ENDED') &&
+                                    <TimeLineLabel>
+                                        {getTimeString(event.endDateAndTime ?? null)} – Ende
+                                    </TimeLineLabel>
+                                }
+                                disabled={dialogState.visibleDialog !== 'NONE'}
+                            />
                         </Stack>
                     </Container>
                     {
