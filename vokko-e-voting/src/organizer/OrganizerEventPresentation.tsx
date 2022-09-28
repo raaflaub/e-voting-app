@@ -7,6 +7,7 @@ import EventMonitorContextProvider from "../provider/EventMonitorContextProvider
 import EventStatusBar from "../event/EventStatusBar";
 import OrganizerMotionList from "./OrganizerMotionList";
 import {IVoting} from "../api/model/ivoting";
+import OrganizerEventSession from "./OrganizerEventSession";
 
 export type OrganizerEventPresentationProps = { event: Event }
 
@@ -15,24 +16,6 @@ export default function OrganizerEventPresentation({ event }: OrganizerEventPres
     const params = useParams();
 
     const completeToDoMutation = useResetEventsMutation();
-
-    const patchEventMotionMutation = useUpdateMotionMutation();
-
-    const startVote = (motion: IVoting) => {
-        const startDateNow = new Date();
-        const oneMinuteMillis = 60*1000;
-        const params = {
-            eventId: event.id!,
-            motionId: motion.id!,
-            patchEventMotionRequestDocument: {
-                data: {
-                    startDate: startDateNow,
-                    endDate: new Date(startDateNow.getTime() + oneMinuteMillis)
-                }
-            }
-        }
-        patchEventMotionMutation.mutate(params);
-    }
 
     return (
         <Container maxWidth="sm">
@@ -44,19 +27,13 @@ export default function OrganizerEventPresentation({ event }: OrganizerEventPres
                    spacing={4}
             >
                 {
-                    event && event.motions &&
+                    event &&
                     <EventMonitorContextProvider eventId={event.id!}>
-                        <Container maxWidth="md">
-                            <EventStatusBar/>
-                            <OrganizerMotionList
-                                motions={event.motions}
-                                actionTitle="Wahl jetzt starten (1 Minute)"
-                                onAction={startVote}
-                            />
-                        </Container>
+                        <OrganizerEventSession event={event} />
                     </EventMonitorContextProvider>
                 }
             </Stack>
         </Container>
     );
 }
+
