@@ -4,7 +4,7 @@ import VokkoHeader from "../header/VokkoHeader";
 import {Outlet, useParams} from "react-router-dom";
 import OrganizerEventTabs, {OrganizerTab} from "./OrganizerEventTabs";
 import {isToday, isFutureEvent, isPastEvent} from "../event/eventUtils";
-import OrganizerEventSetup from "./OrganizerEventSetup";
+import OrganizerEventSetup from "../setup/OrganizerEventSetup";
 import Loading from "../landing/Loading";
 import {useEvent} from "../api/persistence";
 import OrganizerEventPresentation from "./OrganizerEventPresentation";
