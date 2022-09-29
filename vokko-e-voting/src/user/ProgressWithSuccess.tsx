@@ -12,7 +12,7 @@ export type ProgressWithSuccess = {
 export default function ProgressWithSuccess({ loading, success }: ProgressWithSuccess) {
     return (
         <Box sx={{ position:'relative' }}>
-            <Avatar sx={{ bgcolor:loading? blue[50] : blue[700] }}>
+            <Avatar sx={{ bgcolor:success? blue[700] : blue[50] }}>
                 {success && <CheckIcon />}
             </Avatar>
                 {
