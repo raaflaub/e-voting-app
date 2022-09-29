@@ -1,59 +1,34 @@
-import React, {useState} from 'react';
-import {Typography} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Alert, Typography} from "@mui/material";
 import SetupSection from "./SetupSection";
 import Button from "@mui/material/Button";
 import CategoryTitle from "../layout/CategoryTitle";
+import UploadCSV, {INITIAL_UPLOADSTATE, StringTable, UploadState} from "./UploadCSV";
 
 export type SetupParticipantsProps = {}
 
 export default function SetupParticipants({}: SetupParticipantsProps) {
 
-    const [ filelist, setFilelist ] = useState('nothing selected')
+    const [ uploadState, setUploadState ] = useState<UploadState>(INITIAL_UPLOADSTATE);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFilelist('event.target.files = ' + JSON.stringify(event.target.files))
-        if (event?.target?.files && event?.target?.files[0]) {
-            setFilelist(filelist => ` ... createObjectURL('${JSON.stringify(event!.target!.files![0])}')` );
-            var myFile = event?.target?.files[0];
-            var reader = new FileReader();
-
-            reader.addEventListener('load', function (e) {
-
-                let csvdata = e.target?.result;
-                if(typeof csvdata === 'string') {
-                    console.log('we have string csvdata:', csvdata);
-                    if (csvdata.includes(';'))
-                        getParsecsvdata(csvdata,';');
-                    else
-                        getParsecsvdata(csvdata,',');
-                }
-            });
-
-            reader.readAsBinaryString(myFile);
+    useEffect(() => {
+        if (uploadState.isSuccess && uploadState.data) {
+            // Mail ausloesen
+            alert("Mail auslösen an: " + JSON.stringify(uploadState.data))
         }
-    }
-
-    const getParsecsvdata = function(data: string, separator: string) {
-
-        let parsedata = [];
-
-        let newLinebrk = data.split("\n");
-        for(let i = 0; i < newLinebrk.length; i++) {
-
-            parsedata.push(newLinebrk[i].split(separator))
-        }
-
-        console.table(parsedata);
-    }
+    }, [uploadState]);
 
     return (
         <SetupSection>
-            <CategoryTitle>Teilnehmer einladen</CategoryTitle>
-            <Button variant="contained" component="label">
+            <CategoryTitle>Teilnehmer per Mail einladen</CategoryTitle>
+            <UploadCSV variant="contained" uploadState={uploadState} setUploadState={setUploadState}>
                 CSV-Datei hochladen
-                <input hidden accept="text/csv" multiple type="file" onChange={handleChange}/>
-            </Button>
-            <Typography variant="body2">{filelist}</Typography>
+            </UploadCSV>
+            <Typography variant="body2">{JSON.stringify(uploadState.data)}</Typography>
+            {
+                uploadState.isError &&
+                <Alert severity="error">Upload fehlgeschlagen: {uploadState.error}</Alert>
+            }
         </SetupSection>
 
     );
