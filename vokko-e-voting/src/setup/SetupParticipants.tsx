@@ -1,19 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {
     Alert, CircularProgress,
-    Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
-    Typography
 } from "@mui/material";
 import SetupSection from "./SetupSection";
-import Button from "@mui/material/Button";
 import CategoryTitle from "../layout/CategoryTitle";
-import UploadCSV, {INITIAL_UPLOADSTATE, StringTable, UploadState} from "./UploadCSV";
+import UploadCSV, {INITIAL_UPLOADSTATE, UploadState} from "./UploadCSV";
 
 export type SetupParticipantsProps = {}
 
@@ -29,7 +26,7 @@ export default function SetupParticipants({}: SetupParticipantsProps) {
 
     return (
         <SetupSection>
-            <CategoryTitle>Teilnehmer per Mail einladen</CategoryTitle>
+            <CategoryTitle>Teilnehmer per E-Mail einladen</CategoryTitle>
             <UploadCSV variant="contained" uploadState={uploadState} setUploadState={setUploadState}>
                 CSV-Datei hochladen
             </UploadCSV>
