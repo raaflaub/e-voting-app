@@ -78,4 +78,10 @@ export interface Voting {
      * @memberof Voting
      */
     id?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Voting
+     */
+    question?: string | null;
 }

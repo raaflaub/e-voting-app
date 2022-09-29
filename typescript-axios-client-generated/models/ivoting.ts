@@ -23,31 +23,7 @@ export interface IVoting {
      * @type {string}
      * @memberof IVoting
      */
-    id?: string | null;
-    /**
-     * 
-     * @type {Date}
-     * @memberof IVoting
-     */
-    endDate?: Date | null;
-    /**
-     * 
-     * @type {Array<VotingOption>}
-     * @memberof IVoting
-     */
-    options?: Array<VotingOption> | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof IVoting
-     */
     ownerId?: string | null;
-    /**
-     * 
-     * @type {Date}
-     * @memberof IVoting
-     */
-    startDate?: Date | null;
     /**
      * 
      * @type {string}
@@ -56,10 +32,22 @@ export interface IVoting {
     votingTitle?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof IVoting
      */
-    timeout?: number;
+    description?: string | null;
+    /**
+     * 
+     * @type {Date}
+     * @memberof IVoting
+     */
+    startDate?: Date | null;
+    /**
+     * 
+     * @type {Date}
+     * @memberof IVoting
+     */
+    endDate?: Date | null;
     /**
      * 
      * @type {Date}
@@ -74,8 +62,26 @@ export interface IVoting {
     planedEndDate?: Date;
     /**
      * 
+     * @type {number}
+     * @memberof IVoting
+     */
+    timeout?: number;
+    /**
+     * 
+     * @type {Array<VotingOption>}
+     * @memberof IVoting
+     */
+    options?: Array<VotingOption> | null;
+    /**
+     * 
      * @type {string}
      * @memberof IVoting
      */
-    description?: string | null;
+    id?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof IVoting
+     */
+    question?: string | null;
 }

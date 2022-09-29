@@ -47,4 +47,10 @@ export interface CreateUserRequestData {
      * @memberof CreateUserRequestData
      */
     publicKey?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateUserRequestData
+     */
+    userId?: string | null;
 }

@@ -649,6 +649,10 @@
           "isCastingSuccessfull": {
             "type": "boolean"
           },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          },
           "resultsAvailableAt": {
             "type": "string",
             "format": "date-time"
@@ -685,6 +689,10 @@
             "nullable": true
           },
           "publicKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
             "type": "string",
             "nullable": true
           }
@@ -888,24 +896,15 @@
       "IVoting": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "options": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VotingOption"
-            },
-            "nullable": true,
-            "readOnly": true
-          },
           "ownerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "votingTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
             "type": "string",
             "nullable": true
           },
@@ -914,13 +913,10 @@
             "format": "date-time",
             "nullable": true
           },
-          "votingTitle": {
+          "endDate": {
             "type": "string",
+            "format": "date-time",
             "nullable": true
-          },
-          "timeout": {
-            "type": "integer",
-            "format": "int32"
           },
           "planedStartDate": {
             "type": "string",
@@ -930,7 +926,23 @@
             "type": "string",
             "format": "date-time"
           },
-          "description": {
+          "timeout": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VotingOption"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "question": {
             "type": "string",
             "nullable": true
           }
@@ -1117,6 +1129,10 @@
             "nullable": true
           },
           "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "question": {
             "type": "string",
             "nullable": true
           }

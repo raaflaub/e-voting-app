@@ -25,6 +25,12 @@ export interface CastVoteResponseData {
     isCastingSuccessfull?: boolean;
     /**
      * 
+     * @type {string}
+     * @memberof CastVoteResponseData
+     */
+    errorMessage?: string | null;
+    /**
+     * 
      * @type {Date}
      * @memberof CastVoteResponseData
      */
