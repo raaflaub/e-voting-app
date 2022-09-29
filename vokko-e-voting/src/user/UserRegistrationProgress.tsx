@@ -1,17 +1,24 @@
 import React, {useContext, useEffect} from 'react';
-import {CircularProgress, Container, Stack} from "@mui/material";
+import {CircularProgress, Container, Stack, Typography} from "@mui/material";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import VokkoHeader from "../header/VokkoHeader";
 import {useRegistrationByInvitationLink} from "./userRegistration";
 import CategoryTitle from "../layout/CategoryTitle";
 import {UserContext} from "../provider/UserContextProvider";
 import {HubContext} from "../provider/HubContextProvider";
+import ProgressWithSuccess from "./ProgressWithSuccess";
 
 export default function UserRegistrationProgress() {
 
     const hub = useContext(HubContext);
+    const user = useContext(UserContext);
 
-    const { invitationLinkUser, registrationInProgess, error } = useRegistrationByInvitationLink();
+    const generallyLoading = user.loading;
+    const creatingKeypair = !user.value?.privateKey;
+    const creatingBackendUser = !user.value?.privateKey;
+
+
+    const { invitationLinkUser, registrationInProgess, keypairCreated, userCreated, error } = useRegistrationByInvitationLink();
 
     const params = useParams();
     const eventId = params.eventId!;
@@ -30,28 +37,28 @@ export default function UserRegistrationProgress() {
         if (error) {
             navigate('/');
         } else if (hub && !registrationInProgess) {
-            navigate(targetView);
+            setTimeout(() => navigate(targetView), 500);
         }
     }, [error, registrationInProgess, targetView, hub]);
+
+    console.log('keypairCreated',keypairCreated);
+    console.log('userCreated',userCreated);
 
     return (
         <>
             <VokkoHeader title=" " backButton={false} userProfile={true} />
             <Container maxWidth="xs">
-                <Stack display="flex"
-                       height="100vh"
-                       flexDirection="column"
-                       justifyContent="center"
-                       alignItems="center"
-                       spacing={4}
-                >
-                    <CircularProgress color="inherit"/>
-                    {
-                        invitationLinkUser &&
-                        <CategoryTitle>Willkommen</CategoryTitle>
-                    }
+                <CategoryTitle>Willkommen</CategoryTitle>
+                <Stack direction="column" spacing={2} sx={{ mt: 6, mb: 1}}>
+                    <Stack direction="row" spacing={4} alignItems="center">
+                        <ProgressWithSuccess loading={registrationInProgess && !keypairCreated} success={keypairCreated}/>
+                        <Typography variant="subtitle1" color="text.secondary">Schlüssel wird generiert</Typography>
+                    </Stack>
+                    <Stack direction="row" spacing={4} alignItems="center">
+                        <ProgressWithSuccess loading={registrationInProgess && keypairCreated} success={!registrationInProgess}/>
+                        <Typography variant="subtitle1" color="text.secondary">Ballotbox wird eingerichtet</Typography>
+                    </Stack>
                 </Stack>
-
             </Container>
         </>
     );
