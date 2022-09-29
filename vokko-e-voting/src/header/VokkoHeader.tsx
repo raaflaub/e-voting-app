@@ -49,15 +49,13 @@ export default function VokkoHeader( { title, backButton, userProfile } : VokkoH
 
                 { userProfile &&
                     <>
-                        <Box sx={{ display: { xs: 'none', sm: 'flex' } }} >
-                            <IconButton color="inherit" sx={{ pt:0, pb: 0, pr: 0 }}>
-                                <UserAvatar user={user.value?.user ?? null}/>
-                            </IconButton>
+                        <Box sx={{ display: { xs: 'none', md: 'flex' } }} >
+                            <UserAvatar user={user.value?.user ?? null}/>
                             <Typography variant="h6" align="right" marginLeft={2}>
                                 { user?.value?.user?.email }
                             </Typography>
                         </Box>
-                        <Box sx={{ display: { xs: 'flex', sm: 'none' } }} >
+                        <Box sx={{ display: { xs: 'flex', md: 'none' } }} >
                             <IconButton color="inherit" sx={{ p:0 }} onClick={handleOpenProfileMenu}>
                                 <UserAvatar user={user.value?.user ?? null}/>
                             </IconButton>
