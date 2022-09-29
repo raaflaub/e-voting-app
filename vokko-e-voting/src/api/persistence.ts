@@ -12,6 +12,7 @@ import {CastVoteResponseDocument} from "./model/cast-vote-response-document";
 import {PostEventRequestDocument} from "./model/post-event-request-document";
 import {CreateVotingResponseDocument} from "./model/create-voting-response-document";
 import {CreateVotingRequestDocument} from "./model/create-voting-request-document";
+import {GetUserResponseDocument} from "./model/get-user-response-document";
 
 
 
@@ -43,8 +44,8 @@ async function loadAllEvents() {
 }
 
 export function useAllEvents() {
-    const { isLoading, error, data } = useQuery<GetAllEventsResponseDocument>([ALL_EVENTS_QUERY_KEY], () => loadAllEvents());
-    return { isLoading, error, events: data?.data ?? [] };
+    const { isLoading, isError, error, isSuccess, data } = useQuery<GetAllEventsResponseDocument>([ALL_EVENTS_QUERY_KEY], () => loadAllEvents());
+    return { isLoading, isError, error, isSuccess, events: data?.data ?? [] };
 }
 
 const EVENT_QUERY_KEY = 'event';
@@ -55,8 +56,20 @@ async function loadEvent(eventId: string) {
 }
 
 export function useEvent(eventId: string) {
-    const { isLoading, error, data } = useQuery<GetEventResponseDocument>([EVENT_QUERY_KEY, eventId], () => loadEvent(eventId));
-    return { isLoading, error, event: data?.data };
+    const { isLoading, isError, error, isSuccess, data } = useQuery<GetEventResponseDocument>([EVENT_QUERY_KEY, eventId], () => loadEvent(eventId));
+    return { isLoading, isError, error, isSuccess, event: data?.data };
+}
+
+const USER_QUERY_KEY = 'user';
+
+async function loadUser(userId: string) {
+    const serverResponse = await axiosInstance.get<GetUserResponseDocument>(`users/${userId}`);
+    return serverResponse.data;
+}
+
+export function useUser(userId: string) {
+    const { isLoading, isError, error, isSuccess, data } = useQuery<GetUserResponseDocument>([USER_QUERY_KEY, userId], () => loadUser(userId));
+    return { isLoading, isError, error, isSuccess, user: data?.data };
 }
 
 export function useRefreshEvents() {
@@ -142,7 +155,9 @@ export function useCreateUserMutation(): UseMutationResult<AxiosResponse<CreateU
             return axiosInstance.post<any, AxiosResponse<CreateUserResponseDocument>>('users', createUserRequestDocument);
         },
         {
-            onSuccess() {}
+            onSuccess() {
+                queryClient.invalidateQueries(USER_QUERY_KEY);
+            }
         }
     );
 }
@@ -153,7 +168,10 @@ export function useCreateVotingMutation(): UseMutationResult<AxiosResponse<Creat
             return axiosInstance.post<any, AxiosResponse<CreateVotingResponseDocument>>('votings', createVotingRequestDocument);
         },
         {
-            onSuccess() {}
+            onSuccess() {
+                queryClient.invalidateQueries(ALL_EVENTS_QUERY_KEY);
+                queryClient.invalidateQueries(EVENT_QUERY_KEY);
+            }
         }
     );
 }
