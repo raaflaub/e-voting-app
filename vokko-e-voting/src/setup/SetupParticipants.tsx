@@ -1,5 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Typography} from "@mui/material";
+import {
+    Alert, CircularProgress,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography
+} from "@mui/material";
 import SetupSection from "./SetupSection";
 import Button from "@mui/material/Button";
 import CategoryTitle from "../layout/CategoryTitle";
@@ -14,7 +24,6 @@ export default function SetupParticipants({}: SetupParticipantsProps) {
     useEffect(() => {
         if (uploadState.isSuccess && uploadState.data) {
             // Mail ausloesen
-            alert("Mail auslösen an: " + JSON.stringify(uploadState.data))
         }
     }, [uploadState]);
 
@@ -24,7 +33,38 @@ export default function SetupParticipants({}: SetupParticipantsProps) {
             <UploadCSV variant="contained" uploadState={uploadState} setUploadState={setUploadState}>
                 CSV-Datei hochladen
             </UploadCSV>
-            <Typography variant="body2">{JSON.stringify(uploadState.data)}</Typography>
+            {
+                uploadState.data &&
+                <TableContainer sx={{ mt:4, mb:2, mx:2 }}>
+                    <Table size="small" aria-label="a dense table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Vorname</TableCell>
+                                <TableCell>Nachname</TableCell>
+                                <TableCell>E-Mail</TableCell>
+                                <TableCell>gesendet</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {uploadState.data.map((row, rowIndex) => (
+                                <TableRow
+                                    key={rowIndex}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    {row.map((value, colIndex) => (
+                                        <TableCell key={colIndex}>
+                                            {value}
+                                        </TableCell>
+                                    ))}
+                                    <TableCell>
+                                        <CircularProgress size="1rem" />
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            }
             {
                 uploadState.isError &&
                 <Alert severity="error">Upload fehlgeschlagen: {uploadState.error}</Alert>

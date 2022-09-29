@@ -33,7 +33,9 @@ export default function UploadCSV({ variant, uploadState, setUploadState, childr
         let lines = data.split("\n");
 
         for(let i = 0; i < lines.length; i++) {
-            parsedata.push(lines[i].split(separator))
+            if(lines[i]) {
+                parsedata.push(lines[i].split(separator))
+            }
         }
 
         setUploadState({ data: parsedata, isLoading: false, isSuccess: true, isError: false, error: null});
