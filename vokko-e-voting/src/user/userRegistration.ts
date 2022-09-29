@@ -126,5 +126,11 @@ export function useRegistrationByInvitationLink() {
         }
 
     }, [registeredUser, invitationLinkUser, registrationInProgess, loading, error, createUserResponseDocument, createUserMutation,keyPair]);
-    return { invitationLinkUser, registrationInProgess, error };
+    return {
+        invitationLinkUser,
+        registrationInProgess,
+        keypairCreated: (keyPair !== null),
+        userCreated: (createUserResponseDocument !== null),
+        error
+    };
 }
