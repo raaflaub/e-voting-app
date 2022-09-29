@@ -23,14 +23,24 @@ export function useSignVote(user: RegisteredUser): SignVoteAPI {
                 ...signVoteApi, isLoading: true, isSuccess: false, isError: false, error: null, signedVoteRequest: null
             }));
 
-            if (!user.user?.publicKey || !user.privateKey) {
+            if (!user.sameAsInBackend) {
+                throw new Error('### signVote: user is not same as in backend: ' + JSON.stringify(user))
+            }
+
+            if (!user.value) {
+                throw new Error('### signVote: user is not registered in local storage: ' + JSON.stringify(user))
+            }
+
+            const localUser = user.value!;
+
+            if (!localUser.user?.publicKey || !localUser.privateKey) {
                 console.error('### signVote: invalid keypair')
                 throw new Error("### invalid keypair");
             }
 
             const keyPair: IKeyPair = {
-                PublicKey: user.user?.publicKey,
-                PrivateKey: user.privateKey
+                PublicKey: localUser.user?.publicKey,
+                PrivateKey: localUser.privateKey
             };
 
             const rsaProvider = new RsaProvider(window.crypto,new TextEncoder());

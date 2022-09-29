@@ -34,7 +34,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
 
     const castVoteMutation = useCastVoteMutation();
     const user = useContext(UserContext);
-    const signVote = useSignVote(user.value!);
+    const signVote = useSignVote(user);
 
     const castVote = () => {
         const castVoteRequestData = {
@@ -69,7 +69,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
                 });
             }
         }
-    }, [castedVote, thisVote, signVote, castVoteMutation]);
+    }, [castedVote, thisVote, signVote, castVoteMutation, castVotesHistory]);
 
     return (
         <Dialog

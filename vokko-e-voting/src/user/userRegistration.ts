@@ -32,6 +32,7 @@ function useRegisteredUser() {
 
     const registrationIsComplete =
         userIsRegistered
+        && registeredUser.sameAsInBackend
         && typeof registeredUser.value?.user?.userId === 'string' && (registeredUser.value?.user?.userId !== '')
         && typeof registeredUser.value?.user?.firstName === 'string' && (registeredUser.value?.user?.firstName !== '')
         && typeof registeredUser.value?.user?.lastName === 'string' && (registeredUser.value?.user?.lastName !== '')
