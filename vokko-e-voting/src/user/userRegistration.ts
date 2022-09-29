@@ -1,4 +1,5 @@
 import {IUser} from "../api/model/iuser";
+import {Event} from "../api/model/event";
 import {useSearchParams} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {CreateUserRequestDocument} from "../api/model/create-user-request-document";
@@ -6,6 +7,48 @@ import {UserContext} from "../provider/UserContextProvider";
 import {useCreateUserMutation} from "../api/persistence";
 import {RsaProvider} from "../criptography/RsaProvider";
 import {IKeyPair} from "../criptography/IKeyPair";
+import {getTimeString} from "../event/eventUtils";
+
+export function buildInvitationLink(baseUrl: string, eventId: string, user: IUser, view?: string) {
+    const url = new URL('join/' + encodeURIComponent(eventId), baseUrl);
+    url.searchParams.append('lastname', user.lastName ?? '');
+    url.searchParams.append('firstname', user.firstName ?? '');
+    url.searchParams.append('email', user.email ?? '');
+    if (view) {
+        url.searchParams.append('view', view);
+    }
+    console.log('buildInvitationLink', url.toString());
+    return url.toString();
+}
+
+export function buildRelativeInvitationLink(eventId: string, user: IUser, view?: string) {
+    const origin = window.origin;
+    const url = buildInvitationLink(origin, eventId, user, view);
+    return url.slice(origin.length+1, url.length);
+}
+
+export function buildInvitationMailContent(baseUrl: string, event: Event, user: IUser) {
+    const url = buildInvitationLink(baseUrl, event.id ?? 'default', user);
+    return
+`
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>${event.title}</title>
+    <style>
+      body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #666}
+    </style>
+</head>
+<body>
+  <p>Liebe:r ${user.firstName} ${user.lastName}</p>
+  <p>Wir laden dich ein zum Event <strong>${event.title}</strong> am <strong>${event.eventDateAndTime?.toDateString()}</strong> um <strong>${getTimeString(event.eventDateAndTime!)}</strong>.</p>
+  <p>Für die Teilnahme per VOKKO-App bitte auf folgenden Link klicken.</p>
+  <p><a href="${url}">Teilnehmen</a></p>
+</body>
+</html>
+`;
+}
 
 function isUserComplete(user: IUser) {
     const EMAIL_REGEX = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -23,6 +66,7 @@ function useInvitationLinkUser() {
         lastName: searchParams.get("lastname"),
         email: searchParams.get("email")
     };
+    console.log('useInvitationLinkUser', JSON.stringify(invitationLinkUser));
     return { invitationLinkUser, invitationLinkIsComplete: isUserComplete(invitationLinkUser)};
 }
 

@@ -8,6 +8,8 @@ import CategoryTitle from "../layout/CategoryTitle";
 import VoteProgress from "../vote/VoteProgress";
 import VoteOptionsControl from "../vote/VoteOptionsControl";
 import VoteResultsPieChart from "../vote/VoteResultsPieChart";
+import {IUser} from "../api/model/iuser";
+import {buildInvitationLink, buildRelativeInvitationLink} from "../user/userRegistration";
 
 export default function Landing() {
 
@@ -33,6 +35,13 @@ export default function Landing() {
         }
     }, [hub, user]);
 
+    const user1: IUser = { lastName: "Organizer", firstName: "The", email: "organizer@vokko.cloud"};
+    console.log('invitation link 1', buildRelativeInvitationLink("default", user1, "organizer"));
+
+    const randomId = Math.random().toString(36).substring(3,7);
+    const user2: IUser = { lastName: randomId, firstName: "Voter", email: `voter.${randomId}@vokko.cloud`};
+    console.log('invitation link 2', buildRelativeInvitationLink("default", user2 ));
+
     return (
         <>
             <VokkoHeader title=" " backButton={false} userProfile={false} />
@@ -56,7 +65,10 @@ export default function Landing() {
                         <Typography variant="subtitle1"  sx={{ mb: 2}} >Bitte registriere dich:</Typography>
                         <Button
                             variant="outlined"
-                            onClick={() => navigate("join/default?lastname=Organizer&firstname=The&email=organizer@vokko.cloud&view=organizer")}>
+                            onClick={() => {
+                                const user: IUser = { lastName: "Organizer", firstName: "The", email: "organizer@vokko.cloud"};
+                                navigate(buildRelativeInvitationLink( "default", user, "organizer"));
+                            }}>
                             Als Organisator registrieren
                         </Button>
                     </>
@@ -69,7 +81,8 @@ export default function Landing() {
                         <Button onClick={defaultAction}>Default action</Button>
                         <Button onClick={() => {
                             const randomId = Math.random().toString(36).substring(3,7);
-                            navigate(`join/default?lastname=${randomId}&firstname=VoterThe&email=voter.${randomId}@vokko.cloud`);
+                            const user: IUser = { lastName: randomId, firstName: "Voter", email: `voter.${randomId}@vokko.cloud`};
+                            navigate(buildRelativeInvitationLink( "default", user));
                         }}>Register as voter</Button>
                         <Button onClick={() => navigate("organizer")}>Organizer View</Button>
                     </ButtonGroup>
