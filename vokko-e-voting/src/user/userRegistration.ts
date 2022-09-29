@@ -43,7 +43,8 @@ export function buildInvitationMailContent(baseUrl: string, event: Event, user: 
           line-height: 24.5px;
       }
       p {
-          margin: 32px
+          margin-top: 32px;
+          margin-bottom: 32px;
       }
       a {
           display: block;
