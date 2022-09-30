@@ -11,7 +11,7 @@ export default function OrganizerEventSetup({ event }: OrganizerEventSetupProps)
     return (
         <Container maxWidth="md">
             <Stack direction="column" spacing={2} sx={{ mt: 6, mb: 1}}>
-                <SetupParticipants />
+                <SetupParticipants event={event} />
                 <SetupMotions event={event} />
             </Stack>
         </Container>

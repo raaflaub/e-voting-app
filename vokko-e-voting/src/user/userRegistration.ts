@@ -30,8 +30,6 @@ export function buildRelativeInvitationLink(eventId: string, user: IUser, view?:
 export function buildInvitationMailContent(baseUrl: string, event: Event, user: IUser) {
     const url = buildInvitationLink(baseUrl, event.id ?? 'default', user);
     return (`
-<!DOCTYPE html>
-<html lang="de">
 <head>
     <meta charset="UTF-8">
     <title>${event.title}</title>
@@ -78,7 +76,6 @@ export function buildInvitationMailContent(baseUrl: string, event: Event, user: 
   <p>Für die Teilnahme per VOKKO-App bitte auf folgenden Link klicken.</p>
   <p><a href="${url}">Teilnehmen</a></p>
 </body>
-</html>
 `);
 }
 
