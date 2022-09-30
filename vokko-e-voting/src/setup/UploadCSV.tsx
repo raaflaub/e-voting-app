@@ -22,19 +22,20 @@ export type UploadCSVProps = {
     variant: 'contained' | 'outlined' | 'text';
     uploadState: UploadState;
     setUploadState: (uploadState: UploadState) => void;
+    disabled: boolean;
     children: ReactNode;
 }
 
-export default function UploadCSV({ variant, uploadState, setUploadState, children }: UploadCSVProps) {
+export default function UploadCSV({ variant, uploadState, setUploadState, disabled, children }: UploadCSVProps) {
 
     const parseCSVData = function(data: string, separator: string) {
 
         let parsedata: StringTable = [];
-        let lines = data.split("\n");
+        let lines = data.split("\n").map(line => line.trim());
 
         for(let i = 0; i < lines.length; i++) {
             if(lines[i]) {
-                parsedata.push(lines[i].split(separator))
+                parsedata.push(lines[i].split(separator).map(value => value.trim()))
             }
         }
 
@@ -67,7 +68,7 @@ export default function UploadCSV({ variant, uploadState, setUploadState, childr
     }
 
     return (
-        <Button variant="contained" component="label">
+        <Button variant="contained" component="label" disabled={disabled} >
             {children}
             <input hidden accept="text/csv" multiple type="file" onChange={handleChange}/>
         </Button>
