@@ -13,6 +13,8 @@ import {PostEventRequestDocument} from "./model/post-event-request-document";
 import {CreateVotingResponseDocument} from "./model/create-voting-response-document";
 import {CreateVotingRequestDocument} from "./model/create-voting-request-document";
 import {GetUserResponseDocument} from "./model/get-user-response-document";
+import {InviteUserRequestDocument} from "./model/invite-user-request-document";
+import {InviteUserResponseDocument} from "./model/invite-user-response-document";
 
 
 
@@ -187,6 +189,16 @@ export function useCastVoteMutation(): UseMutationResult<AxiosResponse<CastVoteR
                 queryClient.invalidateQueries(ALL_EVENTS_QUERY_KEY);
                 queryClient.invalidateQueries(EVENT_QUERY_KEY);
             }
+        }
+    );
+}
+
+export function useUserInvitationMutation(): UseMutationResult<AxiosResponse<InviteUserResponseDocument>, unknown, InviteUserRequestDocument, unknown> {
+    return useMutation((inviteUserRequestDocument: InviteUserRequestDocument) => {
+            return axiosInstance.post<any, AxiosResponse<InviteUserResponseDocument>>('users/invitation', inviteUserRequestDocument);
+        },
+        {
+            onSuccess() {}
         }
     );
 }
