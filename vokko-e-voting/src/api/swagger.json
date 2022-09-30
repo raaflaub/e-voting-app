@@ -395,6 +395,54 @@
         }
       }
     },
+    "/jsonapi/v1/users/invitation": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteUserRequestDocument"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteUserRequestDocument"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteUserRequestDocument"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteUserResponseDocument"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteUserResponseDocument"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteUserResponseDocument"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/jsonapi/v1/votings": {
       "post": {
         "tags": [
@@ -945,6 +993,59 @@
           "question": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InviteUserRequestData": {
+        "type": "object",
+        "properties": {
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "signature": {
+            "type": "string",
+            "nullable": true
+          },
+          "expiryDateTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InviteUserRequestDocument": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/InviteUserRequestData"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InviteUserResponseData": {
+        "type": "object",
+        "properties": {
+          "hasBeenSentSuccessfully": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InviteUserResponseDocument": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/InviteUserResponseData"
           }
         },
         "additionalProperties": false
