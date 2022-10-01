@@ -1,7 +1,7 @@
 import React from 'react';
 import VokkoHeader from "../header/VokkoHeader";
 import EventList from "../event/EventList";
-import {Box, Container, Tab, Tabs} from "@mui/material";
+import {Container} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import { Event } from "../api/model/event";
 import { isToday, isFutureEvent, isPastEvent } from "../event/eventUtils";

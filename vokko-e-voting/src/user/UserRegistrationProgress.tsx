@@ -1,24 +1,17 @@
 import React, {useContext, useEffect} from 'react';
-import {CircularProgress, Container, Stack, Typography} from "@mui/material";
+import {Container, Stack, Typography} from "@mui/material";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import VokkoHeader from "../header/VokkoHeader";
 import {useRegistrationByInvitationLink} from "./userRegistration";
 import CategoryTitle from "../layout/CategoryTitle";
-import {UserContext} from "../provider/UserContextProvider";
 import {HubContext} from "../provider/HubContextProvider";
 import ProgressWithSuccess from "./ProgressWithSuccess";
 
 export default function UserRegistrationProgress() {
 
     const hub = useContext(HubContext);
-    const user = useContext(UserContext);
 
-    const generallyLoading = user.loading;
-    const creatingKeypair = !user.value?.privateKey;
-    const creatingBackendUser = !user.value?.privateKey;
-
-
-    const { invitationLinkUser, registrationInProgess, keypairCreated, userCreated, error } = useRegistrationByInvitationLink();
+    const { registrationInProgess, keypairCreated, userCreated, error } = useRegistrationByInvitationLink();
 
     const params = useParams();
     const eventId = params.eventId!;
@@ -39,7 +32,7 @@ export default function UserRegistrationProgress() {
         } else if (hub && !registrationInProgess) {
             setTimeout(() => navigate(targetView), 500);
         }
-    }, [error, registrationInProgess, targetView, hub]);
+    }, [error, registrationInProgess, targetView, hub, navigate]);
 
     console.log('keypairCreated',keypairCreated);
     console.log('userCreated',userCreated);

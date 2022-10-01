@@ -1,15 +1,14 @@
-import React, {useContext, useEffect} from 'react';
-import {Outlet, useNavigate} from "react-router-dom";
-import {Button, ButtonGroup, Container, Grid, Typography} from "@mui/material";
+import React, {useCallback, useContext, useEffect} from 'react';
+import {useNavigate} from "react-router-dom";
+import {Button, ButtonGroup, Container, Typography} from "@mui/material";
 import VokkoHeader from "../header/VokkoHeader";
 import {UserContext} from "../provider/UserContextProvider";
 import {HubContext} from "../provider/HubContextProvider";
 import CategoryTitle from "../layout/CategoryTitle";
-import VoteProgress from "../vote/VoteProgress";
 import VoteOptionsControl from "../vote/VoteOptionsControl";
 import VoteResultsPieChart from "../vote/VoteResultsPieChart";
 import {IUser} from "../api/model/iuser";
-import {buildInvitationLink, buildRelativeInvitationLink} from "../user/userRegistration";
+import {buildRelativeInvitationLink} from "../user/userRegistration";
 
 export default function Landing() {
 
@@ -23,17 +22,17 @@ export default function Landing() {
     // Sobald Hub-Verbindung steht und falls der User korrekt registriert ist:
     // Weiterleiten zur Voter-Event-Uebersicht.
 
-    const defaultAction = () => {
+    const defaultAction = useCallback(() => {
         if (hub && user.value?.user?.userId) {
             navigate('/voter');
         }
-    }
+    }, [hub, user, navigate]);
 
     useEffect(() => {
         if (process.env.NODE_ENV !== 'development') {
             defaultAction();
         }
-    }, [hub, user]);
+    }, [hub, user, defaultAction]);
 
     const user1: IUser = { lastName: "Organizer", firstName: "The", email: "organizer@vokko.cloud"};
     console.log('invitation link 1', buildRelativeInvitationLink("default", user1, "organizer"));

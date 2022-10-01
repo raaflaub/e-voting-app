@@ -1,17 +1,14 @@
 import React, {useState} from 'react';
-import {Box, Container, Tab, Tabs} from "@mui/material";
 import VokkoHeader from "../header/VokkoHeader";
-import {Outlet, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import OrganizerEventTabs, {OrganizerTab} from "./OrganizerEventTabs";
-import {isToday, isFutureEvent, isPastEvent} from "../event/eventUtils";
+import {isToday, isPastEvent} from "../event/eventUtils";
 import OrganizerEventSetup from "../setup/OrganizerEventSetup";
 import Loading from "../landing/Loading";
 import {useEvent} from "../api/persistence";
 import OrganizerEventPresentation from "./OrganizerEventPresentation";
 
-export type OrganizerEventDetailsProps = {}
-
-export default function OrganizerEventDetails({}: OrganizerEventDetailsProps) {
+export default function OrganizerEventDetails() {
 
     const [activeTab, setActiveTab] = useState<OrganizerTab>('setup');
 

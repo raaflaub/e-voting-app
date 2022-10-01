@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import {Stack} from "@mui/material";
-import MotionListItem, {MotionListItemProps} from "./MotionListItem";
+import MotionListItem from "./MotionListItem";
 import {IVoting} from "../api/model/ivoting";
 
 export type MotionListProps = {

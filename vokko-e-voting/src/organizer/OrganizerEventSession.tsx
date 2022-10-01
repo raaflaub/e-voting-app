@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Box, Button, Container} from "@mui/material";
+import {Box, Container} from "@mui/material";
 import EventStatusBar from "../event/EventStatusBar";
 import OrganizerMotionList from "./OrganizerMotionList";
 import {IVoting} from "../api/model/ivoting";

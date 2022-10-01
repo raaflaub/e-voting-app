@@ -1,6 +1,5 @@
 import React from 'react';
 import {IVoting} from "../api/model/ivoting";
-import {Typography} from "@mui/material";
 import VoteResultsPieChart from "./VoteResultsPieChart";
 
 

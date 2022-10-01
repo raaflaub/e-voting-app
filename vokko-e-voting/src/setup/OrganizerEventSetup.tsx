@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Container, Grid, Stack, Typography} from "@mui/material";
+import {Container, Stack} from "@mui/material";
 import {Event} from "../api/model/event";
 import SetupParticipants from "./SetupParticipants";
 import SetupMotions from "./SetupMotions";

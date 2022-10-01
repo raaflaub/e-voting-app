@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {EventMonitorContext} from "../provider/EventMonitorContextProvider";
-import {getVotingEndTag, getVotingStartTag } from "../event/eventUtils";
+import {getVotingEndTag, getVotingStartTag} from "../event/eventUtils";
 import {isEndDateWithinTimeout} from "./voteUtils";
 
 export type VotingDialogState = {
