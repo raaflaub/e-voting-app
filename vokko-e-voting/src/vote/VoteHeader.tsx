@@ -1,6 +1,6 @@
 import React from 'react';
 import {IVoting} from "../api/model/ivoting";
-import {Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import VoteProgress from "./VoteProgress";
 import {getVoteResultState} from "./voteUtils";
 import MotionStatusBar from "../motion/MotionStatusBar";
@@ -14,30 +14,32 @@ export default function VoteHeader({ motion }: VoteHeaderProps) {
     const votingState = getVoteResultState(motion);
     return (
         <>
-            <Card variant="outlined" sx={{ /*backgroundColor: "#f5f5f5"*/ }}>
+            <Card>
                 <CardContent>
                     {
                         //motion.question &&
                         <Typography variant="h6" mb={2}>
-                            {motion.question || "here would be the question"}
+                            {motion.question || "<question>"}
                         </Typography>
                     }
                     {
                         //motion.description &&
                         <Typography variant="body2">
-                            {motion.description || "here would be the description"}
+                            {motion.description || "<description>"}
                         </Typography>
                     }
                 </CardContent>
                 <CardActions>
-                    {
-                        (votingState !== 'IN_PROGRESS') &&
-                        <MotionStatusBar motion={motion}/>
-                    }
-                    {
-                        (votingState === 'IN_PROGRESS') &&
-                        <VoteProgress startDate={motion.startDate!} endDate={motion.endDate!}/>
-                    }
+                    <Box width="100%" mx="6px" >
+                        {
+                            (votingState !== 'IN_PROGRESS') &&
+                            <MotionStatusBar motion={motion}/>
+                        }
+                        {
+                            (votingState === 'IN_PROGRESS') &&
+                            <VoteProgress startDate={motion.startDate!} endDate={motion.endDate!}/>
+                        }
+                    </Box>
                 </CardActions>
             </Card>
         </>
