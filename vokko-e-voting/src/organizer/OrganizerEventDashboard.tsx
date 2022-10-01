@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import VokkoHeader from "../header/VokkoHeader";
 import EventList from "../event/EventList";
-import {Container} from "@mui/material";
+import {Container, IconButton, Stack} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import { Event } from "../api/model/event";
 import { isToday, isFutureEvent, isPastEvent } from "../event/eventUtils";
 import {useAllEvents} from "../api/persistence";
+import Button from "@mui/material/Button";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import {blue} from "@mui/material/colors";
+import NewEventForm from "../setup/NewEventForm";
 
 export default function OrganizerEventDashboard() {
 
@@ -16,6 +20,8 @@ export default function OrganizerEventDashboard() {
     const pastEvents    = events.filter(e => isPastEvent(e));
 
     const navigate = useNavigate();
+
+    const [ showNewEventForm, setShowNewEventForm ] = useState(false);
 
     const viewVokkoEventSetup = (vokkoEvent: Event) => {
         navigate(`/organizer/events/${vokkoEvent.id}`);
@@ -29,6 +35,18 @@ export default function OrganizerEventDashboard() {
         <>
             <VokkoHeader title="Übersicht" backButton={false} userProfile={true} />
             <Container maxWidth="md">
+                <Stack direction="row" alignItems="center" justifyContent="center" sx={{ my:4 }} >
+                    {
+                        !showNewEventForm &&
+                        <IconButton size="large" sx={{ color:blue[700] }} onClick={() => setShowNewEventForm(true)}>
+                            <AddCircleIcon sx={{ fontSize:"64px" }}/>
+                        </IconButton>
+                    }
+                    {
+                        showNewEventForm &&
+                        <NewEventForm onClose={() => setShowNewEventForm(false)} />
+                    }
+                 </Stack>
                 {
                     futureEvents && (futureEvents.length > 0) &&
                     <EventList
