@@ -1,8 +1,12 @@
 import {Event} from '../api/model/event';
 import {IVoting} from "../api/model/ivoting";
 
+export function getDateString(dateTime: Date | null) {
+    return dateTime?.toLocaleDateString() ?? '';
+}
+
 export function getTimeString(dateTime: Date | null) {
-    return dateTime?.toISOString().slice(11, 16);
+    return dateTime?.toLocaleTimeString() ?? '';
 }
 
 export function isToday(e: Event): boolean {

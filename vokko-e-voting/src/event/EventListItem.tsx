@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import {Event} from "../api/model/event";
+import {getDateString, getTimeString} from "./eventUtils";
 
 export type EventListItemProps = {
         event: Event,
@@ -19,7 +20,8 @@ export default function EventListItem({ event, actionTitle, onAction, primary }:
             <CardContent>
                 {(event.planedStartDate ?? event.eventDateAndTime) &&
                 <Typography color="text.secondary">
-                    {(event.planedStartDate ?? event.eventDateAndTime)?.toLocaleString()}
+                    {getDateString(event.planedStartDate ?? event.eventDateAndTime ?? null)}
+                    , {getTimeString(event.planedStartDate ?? event.eventDateAndTime ?? null)}
                 </Typography>
                 }
                 <Typography variant="h6" component="div">
