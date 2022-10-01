@@ -18,14 +18,8 @@ export default function VoteHeader({ motion }: VoteHeaderProps) {
                 <CardContent>
                     {
                         //motion.question &&
-                        <Typography variant="h6" mb={2}>
+                        <Typography variant="h6">
                             {motion.question || "<question>"}
-                        </Typography>
-                    }
-                    {
-                        //motion.description &&
-                        <Typography variant="body2">
-                            {motion.description || "<description>"}
                         </Typography>
                     }
                 </CardContent>
