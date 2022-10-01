@@ -11,9 +11,11 @@ import {
     useUpdateMotionMutation
 } from "../api/persistence";
 import TimeLineLabel from "../layout/TimeLineLabel";
-import {getTimeString} from "../event/eventUtils";
+import {getMotionById, getTimeString} from "../event/eventUtils";
 import TimeLineButton from "../layout/TimeLineButton";
 import {EventMonitorContext} from "../provider/EventMonitorContextProvider";
+import VoteOnMotionDialog from "../vote/VoteOnMotionDialog";
+import {getVoteResultState} from "../vote/voteUtils";
 
 export type OrganizerEventSessionProps = { event: Event }
 
@@ -86,12 +88,26 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
         updateEventMotionMutation.mutate(params);
     }
 
+    const [ tieBreakVoteForMotion, setTieBreakVoteForMotion ] = useState<string|null>(null);
+
+    const tieBreak = (motion: IVoting) => {
+        setTieBreakVoteForMotion(motion.id ?? null);
+    }
+
+    const startVoteOrTieBreak = (motion: IVoting) => {
+        if (getVoteResultState(motion) === 'DRAW')
+            tieBreak(motion);
+        else
+            startVote(motion);
+    }
+
     const eventSessionState =
         !event.eventDateAndTime? 'NOT_STARTED'
         : !event.endDateAndTime? 'RUNNING'
         : 'ENDED';
 
     return (
+        <>
         <Container maxWidth="md">
             <EventStatusBar/>
             <Box py={4}>
@@ -110,8 +126,8 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                     (eventSessionState === 'RUNNING') && event.motions &&
                     <OrganizerMotionList
                         motions={event.motions}
-                        actionTitle="Wahl jetzt starten (1 Minute)"
-                        onAction={startVote}
+                        actionTitle={"Wahl jetzt starten (1 Minute) oder Stichentscheid"}
+                        onAction={startVoteOrTieBreak}
                         header={
                             <TimeLineLabel>
                                 {getTimeString(event.eventDateAndTime ?? null)} – Start
@@ -150,5 +166,12 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                 }
             </Box>
         </Container>
+            <VoteOnMotionDialog
+                open={tieBreakVoteForMotion !== null}
+                onClose={() => setTieBreakVoteForMotion(null)}
+                motion={tieBreakVoteForMotion ? getMotionById(event, tieBreakVoteForMotion) : null}
+                isTieBreakVote={true}
+            />
+        </>
     );
 }
