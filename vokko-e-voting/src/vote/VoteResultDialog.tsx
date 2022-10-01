@@ -5,8 +5,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {IconButton} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {IVoting} from "../api/model/ivoting";
-import VoteHeader from "./VoteHeader";
 import VoteResults from "./VoteResults";
+import VoteCard from "./VoteCard";
 
 export type VoteResultDialogProps = {
     open: boolean;
@@ -18,29 +18,19 @@ export default function VoteResultDialog({ open, onClose, motion } : VoteResultD
 
 
     return (
-        <Dialog
-            open={open}
-            onClose={onClose}
-            fullWidth={true}
-        >
+        <Dialog open={open} onClose={onClose} fullWidth={true}>
             <DialogTitle>
                 {motion?.votingTitle || "votingTitle"}
-                <IconButton
-                    onClick={() => { onClose(); }}
-                    sx={{
-                        position: 'absolute',
-                        right: 8,
-                        top: 8
-                    }}
-                >
+                <IconButton onClick={() => { onClose(); }} sx={{ position: 'absolute', right: 8, top: 8 }}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
             {
                 motion &&
                 <DialogContent>
-                    <VoteHeader motion={motion} />
-                    <VoteResults motion={motion} />
+                    <VoteCard motion={motion} >
+                        <VoteResults motion={motion} />
+                    </VoteCard>
                 </DialogContent>
             }
         </Dialog>
