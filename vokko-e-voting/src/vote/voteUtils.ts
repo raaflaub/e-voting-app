@@ -1,7 +1,7 @@
 import {VotingOption} from "../api/model/voting-option";
 import {IVoting} from "../api/model/ivoting";
 
-type VotingState = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'ACCEPTED' | 'REJECTED' | 'DRAW';
+export type VotingState = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'ACCEPTED' | 'REJECTED' | 'DRAW';
 
 const VOTING_STATE_TEXTS_DE = {
     'PENDING':     'Ausstehend',
