@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import {IVoting} from "../api/model/ivoting";
 import {Button} from "@mui/material";
+import MotionStatusBar from "../motion/MotionStatusBar";
 
 export type OrganizerMotionListItemProps = {
     motion: IVoting;
@@ -19,6 +20,7 @@ export default function OrganizerMotionListItem({ motion, actionTitle, onAction 
                 <Typography variant="h6" component="div">
                     { motion.votingTitle }
                 </Typography>
+                <MotionStatusBar motion={motion} />
                 <Typography color="text.secondary">
                     { motion.description }
                 </Typography>

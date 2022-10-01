@@ -5,10 +5,11 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import {IVoting} from "../api/model/ivoting";
 import {Button} from "@mui/material";
-import {getVoteResultState, isYesNoVote, VOTING_STATE_TEXTS_DE} from "../vote/voteUtils";
+import {getVoteResultState, isYesNoVote} from "../vote/voteUtils";
 import VoteProgress from "../vote/VoteProgress";
-import {getVotingEndTag, getVotingStartTag} from "../event/eventUtils";
+import {getVotingStartTag} from "../event/eventUtils";
 import {CastVotesHistoryContext} from "../provider/CastVotesHistoryContextProvider";
+import MotionStatusBar from "./MotionStatusBar";
 
 export type MotionListItemProps = {
     motion: IVoting;
@@ -20,11 +21,11 @@ export type MotionListItemProps = {
 
 export default function MotionListItem({ motion, onPreview, onVote, onViewResults, disabled }: MotionListItemProps) {
     const voteResultState = getVoteResultState(motion);
-    const showProgress = (voteResultState === 'INPROGRESS') && (!disabled);
+    const showProgress = (voteResultState === 'IN_PROGRESS') && (!disabled);
 
     const castVotesHistory = useContext(CastVotesHistoryContext);
     const hasCastVote = castVotesHistory.hasCastVote(getVotingStartTag(motion));
-    const showResultsDisabled = disabled || (voteResultState === 'INPROGRESS');
+    const showResultsDisabled = disabled || (voteResultState === 'IN_PROGRESS');
 
     return (
         <Card sx={{backgroundColor: "#f5f5f5"}}>
@@ -38,9 +39,7 @@ export default function MotionListItem({ motion, onPreview, onVote, onViewResult
                 }
                 {
                     !showProgress &&
-                    <Typography variant="subtitle1">
-                        {VOTING_STATE_TEXTS_DE[voteResultState]}
-                    </Typography>
+                    <MotionStatusBar motion={motion} />
                 }
                 <Typography color="text.secondary">
                     { motion.description }
@@ -53,7 +52,7 @@ export default function MotionListItem({ motion, onPreview, onVote, onViewResult
                         <Button onClick={(e) => onPreview(motion)} disabled={disabled}>Vorschau</Button>
                     }
                     {
-                        onVote && (voteResultState === 'INPROGRESS') && !hasCastVote &&
+                        onVote && (voteResultState === 'IN_PROGRESS') && !hasCastVote &&
                         <Button variant="contained" onClick={(e) => onVote(motion)} disabled={disabled}>
                             { motion.options && isYesNoVote(motion.options) ? "Abstimmen" : "Wählen" }
                         </Button>
@@ -61,8 +60,8 @@ export default function MotionListItem({ motion, onPreview, onVote, onViewResult
                     {
                         onViewResults &&
                         (voteResultState === 'COMPLETED' || voteResultState === 'ACCEPTED'
-                            || voteResultState === 'REJECTED' || voteResultState === 'TIE'
-                            || ((voteResultState === 'INPROGRESS') && hasCastVote)) &&
+                            || voteResultState === 'REJECTED' || voteResultState === 'DRAW'
+                            || ((voteResultState === 'IN_PROGRESS') && hasCastVote)) &&
                         <Button onClick={(e) => onViewResults(motion)} disabled={showResultsDisabled}>Resultat</Button>
                     }
                 </CardActions>

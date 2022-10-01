@@ -1,26 +1,25 @@
 import React from 'react';
 import {IVoting} from "../api/model/ivoting";
-import Card from "@mui/material/Card";
-import {CardHeader, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
 import VoteProgress from "./VoteProgress";
-import {VotingState} from "./voteUtils";
+import {getVoteResultState} from "./voteUtils";
+import MotionStatusBar from "../motion/MotionStatusBar";
 
-export type VoteHeaderProps = { motion: IVoting, votingState: VotingState }
+export type VoteHeaderProps = { motion: IVoting }
 
-export default function VoteHeader({ motion, votingState }: VoteHeaderProps) {
+export default function VoteHeader({ motion }: VoteHeaderProps) {
+    const votingState = getVoteResultState(motion);
     return (
         <>
             <Typography variant="h6">
                 {motion.question || "here would be the question"}
             </Typography>
             {
-                (votingState !== 'INPROGRESS') &&
-                <Typography variant="subtitle1">
-                    {votingState}
-                </Typography>
+                (votingState !== 'IN_PROGRESS') &&
+                <MotionStatusBar motion={motion} />
             }
             {
-                (votingState === 'INPROGRESS') &&
+                (votingState === 'IN_PROGRESS') &&
                 <VoteProgress startDate={motion.startDate!} endDate={motion.endDate!} />
             }
         </>

@@ -91,24 +91,24 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
                 </IconButton>
             </DialogTitle>
             {
-                (castedVote === thisVote) &&
+                motion && (castedVote === thisVote) &&
                 <DialogContent>
-                    <VoteHeader motion={motion!} votingState="INPROGRESS" />
+                    <VoteHeader motion={motion} />
                     <CategoryTitle>
                         Vielen Dank!
                     </CategoryTitle>
                     <Typography variant="body2">
-                        Die Resultate werden angezeigt, sobald die {motion?.options && isYesNoVote(motion?.options)?"Abstimmung":"Wahl"} beendet ist.
+                        Die Resultate werden angezeigt, sobald die {motion.options && isYesNoVote(motion.options)?"Abstimmung":"Wahl"} beendet ist.
                     </Typography>
                 </DialogContent>
             }
             {
-                (castedVote !== thisVote) &&
+                motion && (castedVote !== thisVote) &&
                 <>
 
                     <DialogContent>
-                                <VoteHeader motion={motion!} votingState="INPROGRESS" />
-                                <VoteOptionsControl options={motion?.options ?? []} voteOptionCount={1} onSelectionChanged={setSelectedOptions} />  {/*value = {selectedOption}*/}
+                                <VoteHeader motion={motion} />
+                                <VoteOptionsControl options={motion.options ?? []} voteOptionCount={1} onSelectionChanged={setSelectedOptions} />
                     </DialogContent>
                     <DialogActions sx={{ m: 0, p: 2 }}>
                                 <LoadingButton
