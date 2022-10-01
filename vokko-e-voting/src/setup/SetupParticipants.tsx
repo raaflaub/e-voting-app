@@ -20,7 +20,7 @@ export type SetupParticipantsProps = { event: Event }
 
 export default function SetupParticipants({ event }: SetupParticipantsProps) {
 
-    const [ uploadedParticipants, setUploadParticipants ] = useState<UploadState>(INITIAL_UPLOADSTATE);
+    const [ uploadedParticipants, setUploadedParticipants ] = useState<UploadState>(INITIAL_UPLOADSTATE);
     const userInvitationMutation = useUserInvitationMutation();
 
     type InviteUserQueueEntry = InviteUserRequestData | 'EMPTY' | 'EOF';
@@ -76,7 +76,7 @@ export default function SetupParticipants({ event }: SetupParticipantsProps) {
             <UploadCSV
                 variant="contained"
                 uploadState={uploadedParticipants}
-                setUploadState={setUploadParticipants}
+                setUploadState={setUploadedParticipants}
                 disabled={sendInvitationsInProgress}
             >
                 CSV-Datei hochladen
