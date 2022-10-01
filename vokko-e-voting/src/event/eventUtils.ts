@@ -39,7 +39,7 @@ export function getVotingEndTag(v: IVoting): string {
     return `${v.id}-${v.endDate?.toISOString()}`;
 }
 
-export function getMotionById(e: Event, motionId: string | null): IVoting | undefined {
-    return e.motions?.find(v => v.id === motionId)
+export function getMotionById(e: Event, motionId: string | null): IVoting | null {
+    return e.motions?.find(v => v.id === motionId) ?? null
 }
 
