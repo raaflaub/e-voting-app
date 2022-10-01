@@ -21,19 +21,13 @@ export default function VoteHeader({ motion, isTieBreakVote }: VoteHeaderProps) 
                 <CardContent>
                     {
                         //motion.question &&
-                        <Typography variant="h6" mb={2}>
+                        <Typography variant="h6">
                             {motion.question || "<question>"}
                         </Typography>
                     }
-                    {
-                        //motion.description &&
-                        <Typography variant="body2">
-                            {motion.description || "<description>"}
-                        </Typography>
-                    }
                 </CardContent>
-                <CardActions>
-                    <Box width="100%" mx="6px" >
+            </Card>
+            <Box width="100%" mx={0.2} mt={3}>
                         {
                             (isTieBreakVote || (votingState !== 'IN_PROGRESS')) &&
                             <MotionStatusBar motion={motion}/>
@@ -43,8 +37,6 @@ export default function VoteHeader({ motion, isTieBreakVote }: VoteHeaderProps) 
                             <VoteProgress startDate={motion.startDate!} endDate={motion.endDate!}/>
                         }
                     </Box>
-                </CardActions>
-            </Card>
         </>
     );
 }

@@ -27,8 +27,12 @@ export default function VoteCard({ motion, isTieBreakVote, collapsed, collapsedS
             <CardContent>
                 <VoteHeader motion={motion} isTieBreakVote={isTieBreakVote}/>
             </CardContent>
-            <Collapse in={!collapsed} timeout={1000} collapsedSize={collapsedSize} onExited={transitionExited}>
-                <CardContent>
+            <Collapse in={!collapsed}
+                      timeout={1000}
+                      collapsedSize={collapsedSize}
+                      onExited={transitionExited}
+            >
+                <CardContent sx={{ pt:0 }}>
                     {
                         <Fade in={showCollapsedContent} timeout={200}>
                             <div>{collapsedContent}</div>
