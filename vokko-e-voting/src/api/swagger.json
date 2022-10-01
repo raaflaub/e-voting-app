@@ -1019,6 +1019,18 @@
           "expiryDateTime": {
             "type": "string",
             "format": "date-time"
+          },
+          "eventTitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "eventDateAndTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false

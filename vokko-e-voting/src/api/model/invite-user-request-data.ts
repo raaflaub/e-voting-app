@@ -47,4 +47,22 @@ export interface InviteUserRequestData {
      * @memberof InviteUserRequestData
      */
     expiryDateTime?: Date;
+    /**
+     * 
+     * @type {string}
+     * @memberof InviteUserRequestData
+     */
+    eventTitle?: string | null;
+    /**
+     * 
+     * @type {Date}
+     * @memberof InviteUserRequestData
+     */
+    eventDateAndTime?: Date;
+    /**
+     * 
+     * @type {string}
+     * @memberof InviteUserRequestData
+     */
+    eventId?: string;
 }
