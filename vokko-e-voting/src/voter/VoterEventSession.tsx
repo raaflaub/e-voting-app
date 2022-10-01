@@ -69,7 +69,7 @@ export default function VoterEventSession() {
                         <EventStatusBar/>
                         <Stack
                             sx={{
-                                py:4,
+                                py:2,
                                 borderColor:"text-secondary",
                                 borderTopStyle:"solid",
                                 borderTopWidth:1,
