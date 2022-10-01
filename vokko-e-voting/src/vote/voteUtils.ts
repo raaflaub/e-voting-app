@@ -24,10 +24,6 @@ export function isYesNoVote(options: VotingOption[] | null) {
     return options && options.find(isYes) && options.find(isNo);
 }
 
-function hasVotes(options: VotingOption[] | null) {
-    return options && options.find(option => (option.voteCount ?? 0) > 0);
-}
-
 function isVoteInProgress(motion: IVoting | null): boolean {
     const currentTime = new Date().getTime();
     if (motion?.startDate && motion?.endDate) {
@@ -73,7 +69,7 @@ export function getVoteResultState(motion: IVoting | null, numWinners: number = 
     }
 }
 
-/*export*/ function getWinningOptions(options: VotingOption[], numWinners: number = 1) {
+function getWinningOptions(options: VotingOption[], numWinners: number = 1) {
     const sortedOptions = options.sort(
         (option1, option2) =>
             Math.sign((option2.voteCount ?? 0) - (option1.voteCount ?? 0))
@@ -92,7 +88,7 @@ export function getVoteResultState(motion: IVoting | null, numWinners: number = 
     }
 }
 
-/*export*/ function getWinningOptionsText(options: VotingOption[]) {
+function getWinningOptionsText(options: VotingOption[]) {
     return getWinningOptions(options)
         ?.map((votingOption: VotingOption) => votingOption.title)
         .join(", ")
