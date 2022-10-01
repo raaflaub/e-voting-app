@@ -7,13 +7,14 @@ import {IVoting} from "../api/model/ivoting";
 
 export type VoteCardProps = {
     motion: IVoting,
+    isTieBreakVote?: boolean;
     collapsed?: boolean,
     collapsedSize?: string,
     collapsedContent?: ReactNode,
     children: ReactNode
 }
 
-export default function VoteCard({ motion, collapsed, collapsedSize, collapsedContent, children }: VoteCardProps) {
+export default function VoteCard({ motion, isTieBreakVote, collapsed, collapsedSize, collapsedContent, children }: VoteCardProps) {
 
     const [ showCollapsedContent, setShowCollapsedContent ] = useState(collapsed);
 
@@ -24,7 +25,7 @@ export default function VoteCard({ motion, collapsed, collapsedSize, collapsedCo
     return (
         <Card sx={{ backgroundColor: "#f5f5f5" }}>
             <CardContent>
-                <VoteHeader motion={motion} />
+                <VoteHeader motion={motion} isTieBreakVote={isTieBreakVote}/>
             </CardContent>
             <Collapse in={!collapsed} timeout={1000} collapsedSize={collapsedSize} onExited={transitionExited}>
                 <CardContent>

@@ -8,9 +8,12 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 
-export type VoteHeaderProps = { motion: IVoting }
+export type VoteHeaderProps = {
+    motion: IVoting
+    isTieBreakVote?: boolean;
+}
 
-export default function VoteHeader({ motion }: VoteHeaderProps) {
+export default function VoteHeader({ motion, isTieBreakVote }: VoteHeaderProps) {
     const votingState = getVoteResultState(motion);
     return (
         <>
@@ -32,11 +35,11 @@ export default function VoteHeader({ motion }: VoteHeaderProps) {
                 <CardActions>
                     <Box width="100%" mx="6px" >
                         {
-                            (votingState !== 'IN_PROGRESS') &&
+                            (isTieBreakVote || (votingState !== 'IN_PROGRESS')) &&
                             <MotionStatusBar motion={motion}/>
                         }
                         {
-                            (votingState === 'IN_PROGRESS') &&
+                            !isTieBreakVote && (votingState === 'IN_PROGRESS') &&
                             <VoteProgress startDate={motion.startDate!} endDate={motion.endDate!}/>
                         }
                     </Box>

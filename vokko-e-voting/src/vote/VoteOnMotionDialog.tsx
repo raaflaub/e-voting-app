@@ -23,9 +23,10 @@ export type VoteOnMotionDialogProps = {
     open: boolean;
     onClose: () => void;
     motion: IVoting | null;
+    isTieBreakVote?: boolean;
 }
 
-export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMotionDialogProps) {
+export default function VoteOnMotionDialog({ open, onClose, motion, isTieBreakVote } : VoteOnMotionDialogProps) {
 
     const thisVote = motion? getVotingStartTag(motion): null;
     const [castedVote, setCastedVote] = useState<string|null>(null);
@@ -79,7 +80,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
             fullWidth={true}
         >
             <DialogTitle>
-                {motion?.votingTitle}
+                {(isTieBreakVote ? 'Stichentscheid: ' : '') + motion?.votingTitle}
                 <IconButton
                     onClick={() => { onClose(); }}
                     sx={{
@@ -98,14 +99,26 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
                     <DialogContent>
                         <VoteCard
                             motion={motion}
+                            isTieBreakVote={isTieBreakVote}
                             collapsed={castedVote === thisVote}
                             collapsedSize="92px"
                             collapsedContent={
-                                <Typography variant="body2" color="text.secondary">
-                                    Vielen Dank! Die Resultate werden angezeigt, sobald die {motion.options && isYesNoVote(motion.options)?"Abstimmung":"Wahl"} beendet ist.
-                                </Typography>
+                                <>
+                                    {
+                                        !isTieBreakVote &&
+                                        <Typography variant="body2" color="text.secondary">
+                                            Vielen Dank! Die Resultate werden angezeigt, sobald die {motion.options && isYesNoVote(motion.options)?"Abstimmung":"Wahl"} beendet ist.
+                                        </Typography>
+                                    }
+                                    {
+                                        isTieBreakVote &&
+                                        <Typography variant="body2" color="text.secondary">
+                                            Vielen Dank!
+                                        </Typography>
+                                    }
+                                </>
                             }
-                        >
+                    >
                             <VoteOptionsControl options={motion.options ?? []} voteOptionCount={1} onSelectionChanged={setSelectedOptions} disabled={signVote.isLoading || castVoteMutation.isLoading}/>
                         </VoteCard>
                     </DialogContent>
