@@ -8,7 +8,7 @@ export default function SetupSection({ children }: SetupSectionProps) {
         <Paper
             elevation={12}
             sx={{
-                pt:1, pb:4,
+                pt:1, pb:4, px:2,
                 backgroundColor: '#fff',
                 textAlign: 'center',
             }}>
