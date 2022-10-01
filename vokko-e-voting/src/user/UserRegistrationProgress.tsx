@@ -11,7 +11,7 @@ export default function UserRegistrationProgress() {
 
     const hub = useContext(HubContext);
 
-    const { registrationInProgess, keypairCreated, userCreated, error } = useRegistrationByInvitationLink();
+    const { registrationInProgess, keypairCreated, error } = useRegistrationByInvitationLink();
 
     const params = useParams();
     const eventId = params.eventId!;
@@ -33,9 +33,6 @@ export default function UserRegistrationProgress() {
             setTimeout(() => navigate(targetView), 500);
         }
     }, [error, registrationInProgess, targetView, hub, navigate]);
-
-    console.log('keypairCreated',keypairCreated);
-    console.log('userCreated',userCreated);
 
     return (
         <>
