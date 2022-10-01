@@ -79,6 +79,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
         >
             <DialogTitle>
                 {motion?.votingTitle}
+                <VoteHeader motion={motion!} />
                 <IconButton
                     onClick={() => { onClose(); }}
                     sx={{
@@ -94,12 +95,6 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
                 motion && (castedVote === thisVote) &&
                 <DialogContent>
                     <VoteHeader motion={motion} />
-                    <CategoryTitle>
-                        Vielen Dank!
-                    </CategoryTitle>
-                    <Typography variant="body2">
-                        Die Resultate werden angezeigt, sobald die {motion.options && isYesNoVote(motion.options)?"Abstimmung":"Wahl"} beendet ist.
-                    </Typography>
                 </DialogContent>
             }
             {
@@ -128,6 +123,10 @@ export default function VoteOnMotionDialog({ open, onClose, motion } : VoteOnMot
             {
                 castVoteMutation.isError &&
                 <Alert severity="error">Senden der Stimme fehlgeschlagen: {castVoteMutation.error?.toString()}</Alert>
+            }
+            {
+                motion && (castedVote === thisVote) && castVoteMutation.isSuccess &&
+                <Alert severity="success">Vielen Dank! Die Resultate werden angezeigt, sobald die {motion.options && isYesNoVote(motion.options)?"Abstimmung":"Wahl"} beendet ist.</Alert>
             }
         </Dialog>
     );
