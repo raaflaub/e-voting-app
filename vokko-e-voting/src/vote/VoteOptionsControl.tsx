@@ -96,7 +96,7 @@ export default function VoteOptionsControl(voteOptionsProps:IVoteOptionsProps) {
                 required
                 error={error}
                 component="fieldset"
-                sx={{ m: 3 }}
+                sx={{ m: 0 }}
                 variant="standard"
             >
                 <FormLabel disabled={voteOptionsProps.disabled} component="legend">Maximal {voteOptionsProps.voteOptionCount} Option(en) wählen.</FormLabel>

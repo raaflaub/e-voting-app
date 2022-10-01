@@ -23,19 +23,17 @@ export default function VoteHeader({ motion }: VoteHeaderProps) {
                         </Typography>
                     }
                 </CardContent>
-                <CardActions>
-                    <Box width="100%" mx="6px" >
-                        {
-                            (votingState !== 'IN_PROGRESS') &&
-                            <MotionStatusBar motion={motion}/>
-                        }
-                        {
-                            (votingState === 'IN_PROGRESS') &&
-                            <VoteProgress startDate={motion.startDate!} endDate={motion.endDate!}/>
-                        }
-                    </Box>
-                </CardActions>
             </Card>
+            <Box width="100%" mx={0.2} mt={3}>
+                {
+                    (votingState !== 'IN_PROGRESS') &&
+                    <MotionStatusBar motion={motion}/>
+                }
+                {
+                    (votingState === 'IN_PROGRESS') &&
+                    <VoteProgress startDate={motion.startDate!} endDate={motion.endDate!}/>
+                }
+            </Box>
         </>
     );
 }
