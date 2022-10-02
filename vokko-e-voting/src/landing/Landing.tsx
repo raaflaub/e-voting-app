@@ -9,6 +9,7 @@ import VoteOptionsControl from "../vote/VoteOptionsControl";
 import VoteResultsPieChart from "../vote/VoteResultsPieChart";
 import {IUser} from "../api/model/iuser";
 import {buildRelativeInvitationLink} from "../user/userRegistration";
+import {ResultBar} from "../results/ResultBar";
 
 export default function Landing() {
 
@@ -87,7 +88,8 @@ export default function Landing() {
                     </ButtonGroup>
                     {/*<VoteProgress endDate={new Date(Date.now() + 120000)} />*/}
 
-                    <VoteResultsPieChart options={
+
+                    <ResultBar  options={
 
                         [
                             {votingOptionId: "dsadasdadss-dasdsadsadassdas-dsasdasdsa", title: "Yes",voteCount: 10},
@@ -97,24 +99,24 @@ export default function Landing() {
 
                     }  />
 
-                    <VoteOptionsControl  options={
+                    {/*<VoteOptionsControl  options={*/}
 
-                        [
-                            {votingOptionId: "dsadasdadss-dasdsadsadassdas-dsasdasdsa", title: "Yes"},
-                            {votingOptionId: "dsadasddsadas-dasdsadsadassdas-dsasdasdsa", title: "No"},
-                            {votingOptionId: "dsadasddsa-dasdsadsadassdas-dsasdasdsa", title: "Abstain"}
-                        ]
+                    {/*    [*/}
+                    {/*        {votingOptionId: "dsadasdadss-dasdsadsadassdas-dsasdasdsa", title: "Yes"},*/}
+                    {/*        {votingOptionId: "dsadasddsadas-dasdsadsadassdas-dsasdasdsa", title: "No"},*/}
+                    {/*        {votingOptionId: "dsadasddsa-dasdsadsadassdas-dsasdasdsa", title: "Abstain"}*/}
+                    {/*    ]*/}
 
-                    } voteOptionCount={1} onSelectionChanged={console.log}/>
-                    <VoteOptionsControl options={
+                    {/*} voteOptionCount={1} onSelectionChanged={console.log}/>*/}
+                    {/*<VoteOptionsControl options={*/}
 
-                        [
-                            {votingOptionId: "dsadasdadss-dasdsadsadassdas-dsasdasdsa", title: "Walter"},
-                            {votingOptionId: "dsadasddsadas-dasdsadsadassdas-dsasdasdsa", title: "Remo"},
-                            {votingOptionId: "dsadasddsa-dasdsadsadassdas-dsasdasdsa", title: "Jonas"}
-                        ]
+                    {/*    [*/}
+                    {/*        {votingOptionId: "dsadasdadss-dasdsadsadassdas-dsasdasdsa", title: "Walter"},*/}
+                    {/*        {votingOptionId: "dsadasddsadas-dasdsadsadassdas-dsasdasdsa", title: "Remo"},*/}
+                    {/*        {votingOptionId: "dsadasddsa-dasdsadsadassdas-dsasdasdsa", title: "Jonas"}*/}
+                    {/*    ]*/}
 
-                    } voteOptionCount={2} onSelectionChanged={console.log} disabled={true}/>
+                    {/*} voteOptionCount={2} onSelectionChanged={console.log} disabled={true}/>*/}
                 </Container>
 
                 }

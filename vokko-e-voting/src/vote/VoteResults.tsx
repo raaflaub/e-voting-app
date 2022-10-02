@@ -1,6 +1,7 @@
 import React from 'react';
 import {IVoting} from "../api/model/ivoting";
 import VoteResultsPieChart from "./VoteResultsPieChart";
+import {ResultBar} from "../results/ResultBar";
 
 
 export type VoteResultsProps = { motion: IVoting }
@@ -15,7 +16,7 @@ export default function VoteResults({ motion }: VoteResultsProps) {
         //     </Typography>
         //
         // </div>
-    <VoteResultsPieChart options={motion.options!} />
+    <ResultBar options={motion.options!} />
 
 
     );
