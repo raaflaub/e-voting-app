@@ -29,14 +29,13 @@ ChartJS.register(
 
 export const options = {
     indexAxis: 'y' as const,
-
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     responsive: true,
     plugins:
         {
             ChartDataLabels,
         legend: {
-            position: 'bottom' as const,
+            position: 'right' as const,
             display: false
         },
         title: {
@@ -44,39 +43,69 @@ export const options = {
         }
 
     },
+
     // Core options
-    aspectRatio: 5 / 3,
+
     layout: {
-        padding: {
-            top: 24,
-            right: 16,
-            bottom: 0,
-            left: 8
-        }
+
+        padding: 0
+
+
     },
     scales: {
         x: {
             display: false,
             stacked: false,
-            barPercentage: 1
+            ticks: {
+
+                display: false,
+            },
+            gridLines: {
+                display: false,
+                tickMarkLength: 0,
+
+            },
+            barThickness: 30,
+            beginAtZero: true,
+
         },
         y: {
             display: false,
             stacked: false,
-            barPercentage: 1
+            ticks: {
+                display: false,
+            },
+            gridLines: {
+                display: false,
+
+                tickMarkLength: 0,
+            },
+            barThickness: 50,
+            beginAtZero: true,
+            padding: -50
+
+
         },
     }
 };
 
 
 
+
+
 interface DatasetType {
     label: string;
     data: number[];
-    borderColor: string;
-    backgroundColor: string;
-    datalabels: {}
+    borderColor: string[];
+    backgroundColor: string[];
+    datalabels: {};
+
+
+
 }
+
+
+
 
 interface DataSourceType {
     orientation: 'horizontal' | 'vertical';
@@ -92,21 +121,22 @@ export interface IResultBarProps {
 }
 export function ResultBar(ResultBarProps:IResultBarProps) {
 
+
+
     function getDataSource():DataSourceType
     {
         const colorPalette:string[]  = ["#003f5c", "#2f4b7c", "#665191", "#a05195", "#ffa600","#f95d6a","#ff7c43","#ffa600"];
         const data:DataSourceType = {
             orientation: 'horizontal',
             labels: ResultBarProps.options.map(option => option.title ?? ''),
-            datasets:  ResultBarProps.options.map((option,index):DatasetType => {
-                return {
-                    label : option.title!,
-                    data: [option.voteCount!],
-                    borderColor: colorPalette.reverse().slice(0,ResultBarProps.options.length)[index],
-                    backgroundColor: colorPalette.slice(0,ResultBarProps.options.length)[index],
+            datasets:  [ {
+                    label : '',
+                    data: ResultBarProps.options.map(option => option.voteCount ?? 0),
+                    borderColor: colorPalette.reverse().slice(0,ResultBarProps.options.length),
+                    backgroundColor: colorPalette.slice(0,ResultBarProps.options.length),
                     datalabels: {
 
-                        formatter: (value: number) => {
+                        formatter: (value: number,context:any) => {
 
                             let percentage = 0;
 
@@ -118,24 +148,23 @@ export function ResultBar(ResultBarProps:IResultBarProps) {
 
                             }
 
+                            return context.chart.data.labels[context.dataIndex] + ' ' + percentage + '%';
 
-                            return option.title! + ' ' + percentage + '%';
 
                         },
                         color: 'white',
                         align: 'start',
                         anchor: 'start',
 
-                    }
-                }})
+                    }}]};
 
-        };
+
 
         return data;
     }
     return (
-    <Box >
-     <Bar options={options} data={getDataSource()}  />
+        <Box sx={{ width: '100%'}}>
+     <Bar options={options} data={getDataSource()}/>
         </Box>
         );
 }

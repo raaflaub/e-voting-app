@@ -7,6 +7,7 @@ import OrganizerEventSetup from "../setup/OrganizerEventSetup";
 import Loading from "../landing/Loading";
 import {useEvent} from "../api/persistence";
 import OrganizerEventPresentation from "./OrganizerEventPresentation";
+import OrganizerEventResultList from "./OrganizerEventResultList";
 
 export default function OrganizerEventDetails() {
 
@@ -34,8 +35,8 @@ export default function OrganizerEventDetails() {
                 <OrganizerEventPresentation event={event} />
             }
             {
-                (!event || activeTab === 'results') &&
-                <Loading text="implementing..."/>
+                (event && activeTab === 'results') &&
+                <OrganizerEventResultList event={event} />
             }
         </>
     );
