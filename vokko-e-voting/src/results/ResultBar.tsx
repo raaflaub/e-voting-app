@@ -156,7 +156,7 @@ export function ResultBar(ResultBarProps:IResultBarProps) {
                         },
                         color: 'white',
                         align: 'start',
-                        anchor: 'start',
+                        anchor: 'end',
 
                     }}]};
 
