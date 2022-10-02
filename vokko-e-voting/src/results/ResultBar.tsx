@@ -44,7 +44,9 @@ export const options = {
 
     },
 
-    // Core options
+    animation: {
+        duration: 2000
+    },
 
     layout: {
 
