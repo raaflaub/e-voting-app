@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {InputLabel, OutlinedInput, Paper, Stack, TextField} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {InputLabel, OutlinedInput, Paper, Stack, TextField, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Card from "@mui/material/Card";
@@ -9,6 +9,7 @@ import CategoryTitle from "../layout/CategoryTitle";
 import {LocalizationProvider, DatePicker, TimePicker} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import localeDe from "date-fns/locale/de";
+import {Event} from "../api/model/event";
 
 export type NewEventFormProps = {
     onClose: () => void;
@@ -16,9 +17,56 @@ export type NewEventFormProps = {
 
 export default function NewEventForm({ onClose }: NewEventFormProps) {
 
+    const [ event, setEvent ] = useState<Event>({});
+
+    const [ eventDate, setEventDate ] = useState<Date | null>(null);
+    const [ eventStartTime, setEventStartTime ] = useState<Date | null>(null);
+    const [ eventEndTime, setEventEndTime ] = useState<Date | null>(null);
+
     const [ uploadedMotions, setUploadedMotions ] = useState<UploadState>(INITIAL_UPLOADSTATE);
-    const [ eventDateTime, setEventDateTime ] = useState<Date | null>(null);
-    const [ eventTitle, setEventTitle ] = useState<string>('Neues Event');
+
+    // Werte aus drei Eingabefeldern in zwei DateTime-Werte mit gleichem Datumsteil hineinzwängen.
+
+    useEffect(() => {
+        if (eventDate && eventStartTime) {
+            let newValue = eventDate;
+            newValue.setHours(eventStartTime.getHours());
+            newValue.setMinutes(eventStartTime.getMinutes());
+            setEvent({...event, planedStartDate: newValue});
+        }
+    }, [eventDate, eventStartTime]);
+
+    useEffect(() => {
+        if (eventDate && eventEndTime) {
+            let newValue = eventDate;
+            newValue.setHours(eventEndTime.getHours());
+            newValue.setMinutes(eventEndTime.getMinutes());
+            setEvent({...event, planedEndDate: newValue});
+        }
+    }, [eventDate, eventEndTime]);
+
+    // Hochgeladene Vorlagen übernehmen.
+
+    useEffect(() => {
+        if (uploadedMotions.isSuccess && uploadedMotions.data && !event.motions) {
+            setEvent({
+                ...event,
+                motions: uploadedMotions.data.map(
+                    (rowElements) => ({
+                        ownerId: null,
+                        votingTitle: rowElements[0],
+                        question: rowElements[1],
+                        description: rowElements[2],
+                        options: rowElements.slice(3, rowElements.length-1).map(
+                            (rowElement) => ({ title: rowElement })
+                        )
+                    })
+                )
+            })
+        }
+    }, [uploadedMotions, event]);
+
+    const eventIsComplete = event.planedStartDate && event.planedEndDate && event.title && event.motions;
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localeDe}>
@@ -30,24 +78,27 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
                     <Stack direction="row" spacing={2} alignItems="baseline" justifyContent="center">
                         <DatePicker
                             label="Datum"
-                            value={eventDateTime}
-                            onChange={(newValue) => setEventDateTime(newValue)}
-                            renderInput={(params) => <TextField {...params} sx={{ bgcolor:"#ffffff", width:400}} />}
+                            value={eventDate} onChange={setEventDate}
+                            renderInput={(params) => <TextField {...params} sx={{ bgcolor:"#ffffff", width:350}} />}
                         />
                         <TimePicker
-                            label="Uhrzeit"
-                            value={eventDateTime}
-                            onChange={(newValue) => setEventDateTime(newValue)}
-                            renderInput={(params) => <TextField {...params} sx={{ bgcolor:"#ffffff", width:400}} />}
+                            label="Von"
+                            value={eventStartTime} onChange={setEventStartTime}
+                            renderInput={(params) => <TextField {...params} sx={{ bgcolor:"#ffffff", width:220}} />}
+                        />
+                        <TimePicker
+                            label="Bis"
+                            value={eventEndTime} onChange={setEventEndTime}
+                            renderInput={(params) => <TextField {...params} sx={{ bgcolor:"#ffffff", width:220}} />}
                         />
                     </Stack>
+                    <Typography>{JSON.stringify(event)}</Typography>
                     <FormControl sx={{ m: 1, width:820, height:100 }}>
                         <InputLabel htmlFor="event-title">Titel</InputLabel>
                         <OutlinedInput
                             id="event-title"
                             label="Titel"
-                            value={eventTitle}
-                            onChange={(e) => setEventTitle(e.target.value)}
+                            value={event.title} onChange={e => setEvent({...event, title: e.target.value})}
                             sx={{ bgcolor:"#ffffff"}}/>
                     </FormControl>
                     <Paper variant="outlined"
@@ -61,10 +112,16 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
                         <UploadCSV variant="contained" uploadState={uploadedMotions} setUploadState={setUploadedMotions} disabled={false}>
                             CSV-Datei hochladen
                         </UploadCSV>
+                        {
+                            event?.motions &&
+                            <Typography variant="body2" color="text.secondary" sx={{ my: 2, textAlign: "center"}} >
+                                {event?.motions.length} Vorlage(n) importiert.
+                            </Typography>
+                        }
                     </Paper>
                     <Stack direction="row" spacing={2} alignItems="baseline" justifyContent="flex-end" sx={{ width: 820 }}>
                         <Button variant="text" onClick={onClose}>Abbrechen</Button>
-                        <Button variant="contained" onClick={onClose} disabled>Speichern</Button>
+                        <Button variant="contained" onClick={onClose} disabled={!eventIsComplete}>Speichern</Button>
                     </Stack>
                 </Stack>
 
