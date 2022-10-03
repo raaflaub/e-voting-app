@@ -23,11 +23,10 @@ export default function VoterEventDashboard() {
     };
 
     const viewVokkoEventResults = (vokkoEvent: Event) => {
-        navigate(`/voter/event-session/${vokkoEvent.id}`);
+        navigate(`/voter/event-results/${vokkoEvent.id}`);
     };
 
     const viewVokkoEventPreview = (vokkoEvent: Event) => {
-//        alert(`Navigate to: /voter/event-preview/${vokkoEvent.id}`)
         navigate(`/voter/event-session/${vokkoEvent.id}`);
     };
 

@@ -27,11 +27,11 @@ export default function OrganizerEventDashboard() {
     const [ showNewEventForm, setShowNewEventForm ] = useState(false);
 
     const viewVokkoEventSetup = (vokkoEvent: Event) => {
-        navigate(`/organizer/events/${vokkoEvent.id}`);
+        navigate(`/organizer/events/${vokkoEvent.id}?tab=setup`);
     };
 
     const viewVokkoEventResults = (vokkoEvent: Event) => {
-        navigate(`/organizer/events/${vokkoEvent.id}`);
+        navigate(`/organizer/events/${vokkoEvent.id}?tab=results`);
     };
 
     return (

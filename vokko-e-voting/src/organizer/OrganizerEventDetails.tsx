@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import VokkoHeader from "../header/VokkoHeader";
-import {useParams} from "react-router-dom";
+import {useParams, useSearchParams} from "react-router-dom";
 import OrganizerEventTabs, {OrganizerTab} from "./OrganizerEventTabs";
 import {isToday, isPastEvent} from "../event/eventUtils";
 import OrganizerEventSetup from "../setup/OrganizerEventSetup";
@@ -10,10 +10,15 @@ import OrganizerEventResultList from "./OrganizerEventResultList";
 
 export default function OrganizerEventDetails() {
 
-    const [activeTab, setActiveTab] = useState<OrganizerTab>('setup');
-
     const params = useParams();
     const { event }  = useEvent(params.eventId!);
+
+    const [searchParams] = useSearchParams();
+    const initialTab = searchParams.get("tab");
+    const [activeTab, setActiveTab] = useState<OrganizerTab>(
+        initialTab === 'setup'? 'setup'
+        : initialTab === 'results'? 'results'
+        : 'live');
 
     return (
         <>
