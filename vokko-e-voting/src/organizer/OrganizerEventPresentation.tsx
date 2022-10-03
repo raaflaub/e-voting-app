@@ -9,12 +9,12 @@ export type OrganizerEventPresentationProps = { event: Event }
 export default function OrganizerEventPresentation({ event }: OrganizerEventPresentationProps) {
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
             <Stack display="flex"
                    marginTop={6}
                    flexDirection="column"
                    justifyContent="center"
-                   alignItems="center"
+                   alignItems="stretch"
                    spacing={4}
             >
                 {

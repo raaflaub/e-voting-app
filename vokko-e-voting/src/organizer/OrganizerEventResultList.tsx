@@ -9,12 +9,12 @@ export type OrganizerEventResultListProps = { event: Event }
 export default function OrganizerEventResultList( {event} :  OrganizerEventResultListProps) {
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
             <Stack display="flex"
                    marginTop={6}
                    flexDirection="column"
                    justifyContent="center"
-                   alignItems="center"
+                   alignItems="stretch"
                    spacing={4}
             >
                 {
