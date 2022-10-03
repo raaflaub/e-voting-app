@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {InputLabel, OutlinedInput, Paper, Stack, TextField, Typography} from "@mui/material";
+import {Alert, InputLabel, OutlinedInput, Paper, Stack, TextField, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Card from "@mui/material/Card";
@@ -9,7 +9,10 @@ import CategoryTitle from "../layout/CategoryTitle";
 import {LocalizationProvider, DatePicker, TimePicker} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
 import localeDe from "date-fns/locale/de";
-import {Event} from "../api/model/event";
+import LoadingButton from "@mui/lab/LoadingButton";
+import SaveIcon from "@mui/icons-material/Save";
+import {useCreateEventMutation} from "../api/persistence";
+import {PostEventRequestData} from "../api/model/post-event-request-data";
 
 export type NewEventFormProps = {
     onClose: () => void;
@@ -17,7 +20,9 @@ export type NewEventFormProps = {
 
 export default function NewEventForm({ onClose }: NewEventFormProps) {
 
-    const [ event, setEvent ] = useState<Event>({});
+    const createEventMutation = useCreateEventMutation();
+
+    const [ eventRequestData, setEventRequestData ] = useState<PostEventRequestData>({});
 
     const [ eventDate, setEventDate ] = useState<Date | null>(null);
     const [ eventStartTime, setEventStartTime ] = useState<Date | null>(null);
@@ -32,7 +37,8 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
             let newValue = eventDate;
             newValue.setHours(eventStartTime.getHours());
             newValue.setMinutes(eventStartTime.getMinutes());
-            setEvent({...event, planedStartDate: newValue});
+            // TODO: setEventRequestData({...eventRequestData, planedStartDate: newValue});
+            setEventRequestData({...eventRequestData, eventDateAndTime: newValue});
         }
     }, [eventDate, eventStartTime]);
 
@@ -41,16 +47,16 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
             let newValue = eventDate;
             newValue.setHours(eventEndTime.getHours());
             newValue.setMinutes(eventEndTime.getMinutes());
-            setEvent({...event, planedEndDate: newValue});
+            // TODO: setEventRequestData({...event, planedEndDate: newValue});
         }
     }, [eventDate, eventEndTime]);
 
     // Hochgeladene Vorlagen übernehmen.
 
     useEffect(() => {
-        if (uploadedMotions.isSuccess && uploadedMotions.data && !event.motions) {
-            setEvent({
-                ...event,
+        if (uploadedMotions.isSuccess && uploadedMotions.data && !eventRequestData.motions) {
+            setEventRequestData({
+                ...eventRequestData,
                 motions: uploadedMotions.data.map(
                     (rowElements) => ({
                         ownerId: null,
@@ -64,9 +70,16 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
                 )
             })
         }
-    }, [uploadedMotions, event]);
+    }, [uploadedMotions, eventRequestData]);
 
-    const eventIsComplete = event.planedStartDate && event.planedEndDate && event.title && event.motions;
+    //const eventIsComplete = eventRequestData.planedStartDate && eventRequestData.planedEndDate && eventRequestData.title && eventRequestData.motions;
+    const eventIsComplete = eventRequestData.eventDateAndTime && eventRequestData.title && eventRequestData.motions;
+
+    const createEvent = () => {
+        createEventMutation.mutate({
+            data: eventRequestData
+        });
+    }
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localeDe}>
@@ -92,13 +105,13 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
                             renderInput={(params) => <TextField {...params} sx={{ bgcolor:"#ffffff", width:220}} />}
                         />
                     </Stack>
-                    <Typography>{JSON.stringify(event)}</Typography>
+                    <Typography>{JSON.stringify(eventRequestData)}</Typography>
                     <FormControl sx={{ m: 1, width:820, height:100 }}>
                         <InputLabel htmlFor="event-title">Titel</InputLabel>
                         <OutlinedInput
                             id="event-title"
                             label="Titel"
-                            value={event.title} onChange={e => setEvent({...event, title: e.target.value})}
+                            value={eventRequestData.title} onChange={e => setEventRequestData({...eventRequestData, title: e.target.value})}
                             sx={{ bgcolor:"#ffffff"}}/>
                     </FormControl>
                     <Paper variant="outlined"
@@ -113,16 +126,29 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
                             CSV-Datei hochladen
                         </UploadCSV>
                         {
-                            event?.motions &&
+                            eventRequestData?.motions &&
                             <Typography variant="body2" color="text.secondary" sx={{ my: 2, textAlign: "center"}} >
-                                {event?.motions.length} Vorlage(n) importiert.
+                                {eventRequestData?.motions.length} Vorlage(n) importiert.
                             </Typography>
                         }
                     </Paper>
                     <Stack direction="row" spacing={2} alignItems="baseline" justifyContent="flex-end" sx={{ width: 820 }}>
                         <Button variant="text" onClick={onClose}>Abbrechen</Button>
-                        <Button variant="contained" onClick={onClose} disabled={!eventIsComplete}>Speichern</Button>
+                        <LoadingButton
+                            variant="contained"
+                            onClick={() => createEvent()}
+                            loading={createEventMutation.isLoading}
+                            loadingPosition="end"
+                            endIcon={<SaveIcon />}
+                            disabled={!eventIsComplete}
+                        >
+                            Speichern
+                        </LoadingButton>
                     </Stack>
+                    {
+                        createEventMutation.isError &&
+                        <Alert severity="error">Anlegen des Events fehlgeschlagen: {createEventMutation.error?.toString()}</Alert>
+                    }
                 </Stack>
 
             </CardContent>
