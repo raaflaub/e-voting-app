@@ -5,15 +5,18 @@ import {Container, IconButton, Stack} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import { Event } from "../api/model/event";
 import { isToday, isFutureEvent, isPastEvent } from "../event/eventUtils";
-import {useAllEvents} from "../api/persistence";
+import {useAllEvents, useResetEventsMutation} from "../api/persistence";
 import Button from "@mui/material/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {blue} from "@mui/material/colors";
 import NewEventForm from "../setup/NewEventForm";
+import TimeLineButton from "../layout/TimeLineButton";
 
 export default function OrganizerEventDashboard() {
 
     const { events } = useAllEvents();
+    const resetEventsMutation = useResetEventsMutation();
+
 
     const futureEvents  = events.filter(e => isFutureEvent(e));
     const currentEvents = events.filter(e => isToday(e));
@@ -75,6 +78,13 @@ export default function OrganizerEventDashboard() {
                         onAction={viewVokkoEventResults}
                     />
                 }
+                <TimeLineButton
+                    variant="outlined"
+                    disabled={ resetEventsMutation.isLoading || resetEventsMutation.isError}
+                    onClick={() => resetEventsMutation.mutate([]) }
+                >
+                    Reset
+                </TimeLineButton>
             </Container>
         </>
     );
