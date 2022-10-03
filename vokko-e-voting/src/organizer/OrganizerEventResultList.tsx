@@ -4,7 +4,6 @@ import {Event} from "../api/model/event";
 import EventMonitorContextProvider from "../provider/EventMonitorContextProvider";
 import OrganizerResultList from "./OrganizerResultList";
 import {getVoteResultState} from "../vote/voteUtils";
-import CategoryTitle from "../layout/CategoryTitle";
 
 export type OrganizerEventResultListProps = { event: Event }
 
