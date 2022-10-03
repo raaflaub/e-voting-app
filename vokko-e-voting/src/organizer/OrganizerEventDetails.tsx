@@ -4,7 +4,6 @@ import {useParams} from "react-router-dom";
 import OrganizerEventTabs, {OrganizerTab} from "./OrganizerEventTabs";
 import {isToday, isPastEvent} from "../event/eventUtils";
 import OrganizerEventSetup from "../setup/OrganizerEventSetup";
-import Loading from "../landing/Loading";
 import {useEvent} from "../api/persistence";
 import OrganizerEventPresentation from "./OrganizerEventPresentation";
 import OrganizerEventResultList from "./OrganizerEventResultList";

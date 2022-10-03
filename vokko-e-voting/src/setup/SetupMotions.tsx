@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import SetupSection from "./SetupSection";
-import {Button, Stack, Typography} from "@mui/material";
+import {Stack} from "@mui/material";
 import {Event} from "../api/model/event";
 import {useResetEventsMutation} from "../api/persistence";
 import CategoryTitle from "../layout/CategoryTitle";

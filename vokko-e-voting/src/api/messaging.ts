@@ -68,14 +68,13 @@ export function useEventMonitor(hub: HubConnection | null, { id, userId }: IEven
     const [ eventMonitor, setEventMonitor ] = useState<EventMonitor>(INITIAL_EVENT_MONITOR);
     const refreshEvents = useRefreshEvents();
 
-    function setEventMonitorWithRefresh(value: EventMonitor) {
-        const valueWithDates = responseDateTransformer(value);
-//        console.log('setEventMonitor ', eventMonitorToString(valueWithDates));
-        refreshEvents();
-        setEventMonitor(valueWithDates);
-    }
-
     useEffect(() => {
+        function setEventMonitorWithRefresh(value: EventMonitor) {
+            const valueWithDates = responseDateTransformer(value);
+            refreshEvents();
+            setEventMonitor(valueWithDates);
+        }
+
         if (hub) {
             hub.on("OnEventChanged", setEventMonitorWithRefresh);
             hub.invoke("SubscribeToEvent", { ID: id, UserID: userId });
@@ -91,7 +90,7 @@ export function useEventMonitor(hub: HubConnection | null, { id, userId }: IEven
         }
 
         return cleanup;
-    }, [hub, id, userId]);
+    }, [hub, id, userId, refreshEvents]);
 
     return eventMonitor;
 }

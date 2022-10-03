@@ -2,7 +2,6 @@ import React from 'react';
 import {Container, Stack} from "@mui/material";
 import {Event} from "../api/model/event";
 import EventMonitorContextProvider from "../provider/EventMonitorContextProvider";
-import OrganizerEventSession from "./OrganizerEventSession";
 import OrganizerResultList from "./OrganizerResultList";
 
 export type OrganizerEventResultListProps = { event: Event }

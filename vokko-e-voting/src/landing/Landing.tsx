@@ -5,8 +5,6 @@ import VokkoHeader from "../header/VokkoHeader";
 import {UserContext} from "../provider/UserContextProvider";
 import {HubContext} from "../provider/HubContextProvider";
 import CategoryTitle from "../layout/CategoryTitle";
-import VoteOptionsControl from "../vote/VoteOptionsControl";
-import VoteResultsPieChart from "../vote/VoteResultsPieChart";
 import {IUser} from "../api/model/iuser";
 import {buildRelativeInvitationLink} from "../user/userRegistration";
 import {ResultBar} from "../results/ResultBar";

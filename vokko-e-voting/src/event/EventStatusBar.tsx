@@ -1,7 +1,6 @@
 import {useContext} from 'react';
 import {EventMonitorContext} from "../provider/EventMonitorContextProvider";
 import {Badge, Box, CircularProgress, Typography} from "@mui/material";
-import {eventMonitorToString} from "../api/messaging";
 import PeopleIcon from '@mui/icons-material/People';
 
 

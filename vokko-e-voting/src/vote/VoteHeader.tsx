@@ -6,7 +6,6 @@ import {getVoteResultState} from "./voteUtils";
 import MotionStatusBar from "../motion/MotionStatusBar";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 
 export type VoteHeaderProps = {
     motion: IVoting

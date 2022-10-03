@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
-import {AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
-import { ArrowBackIos, AccountCircle }  from "@mui/icons-material";
+import {AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography} from "@mui/material";
+import { ArrowBackIos }  from "@mui/icons-material";
 import vokkoLogoSmall from "./vokkoLogoSmall.png";
 import {useNavigate} from "react-router-dom";
 import {UserContext} from "../provider/UserContextProvider";

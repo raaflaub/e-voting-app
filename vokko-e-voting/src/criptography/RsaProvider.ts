@@ -86,18 +86,6 @@ export class RsaProvider {
 
     }
 
-    public async VerifySignature(signature:string,message: string):Promise<boolean> {
-
-        const encoder = new TextEncoder();
-        const text = encoder.encode(message);
-        const signatureBuffer = encoder.encode(signature);
-        let isValid:boolean = false;
-
-        return isValid;
-
-
-    }
-
     public async ImportKeyPair(keyPair:IKeyPair):Promise<void>{
 
         const privateKey:CryptoKey = await this.importPrivateKey(keyPair.PrivateKey);

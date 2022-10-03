@@ -1,6 +1,5 @@
 import React from 'react';
 import {IVoting} from "../api/model/ivoting";
-import VoteResultsPieChart from "./VoteResultsPieChart";
 import {ResultBar} from "../results/ResultBar";
 
 
