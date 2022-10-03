@@ -25,7 +25,11 @@ export default function Landing() {
 
     const defaultAction = useCallback(() => {
         if (hub && user.value?.user?.userId) {
-            navigate('/voter');
+            if (user.value.user.email === "organizer@vokko.cloud") {
+                navigate('/organizer');
+            } else {
+                navigate('/voter');
+            }
         }
     }, [hub, user, navigate]);
 
