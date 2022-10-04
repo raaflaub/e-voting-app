@@ -2,10 +2,8 @@ import React from 'react';
 import VokkoHeader from "../header/VokkoHeader";
 import {useParams} from "react-router-dom";
 import {Container, Typography} from "@mui/material";
-import MotionList from "../motion/MotionList";
 import {useEvent} from "../api/persistence";
 import {getVoteResultState} from "../vote/voteUtils";
-import EventMonitorContextProvider from "../provider/EventMonitorContextProvider";
 import OrganizerResultList from "../organizer/OrganizerResultList";
 
 export default function VoterEventResults() {
