@@ -6,6 +6,7 @@ import VoteResultDialog from "./VoteResultDialog";
 import VotePreviewDialog from "./VotePreviewDialog";
 import {getMotionById} from "../event/eventUtils";
 import {VotingDialogState} from "./votingStartedEndedNotifications";
+import {useTranslation} from "react-i18next";
 
 export type VoteDialogsProps = {
     event: Event,
@@ -15,6 +16,7 @@ export type VoteDialogsProps = {
 
 export default function VoteDialogs({ event, dialogState, setDialogState }: VoteDialogsProps) {
 
+    const {t} = useTranslation();
     const closeDialog = () => {
         setDialogState({...dialogState, visibleDialog: 'NONE', motionId: null})
     }
@@ -51,7 +53,7 @@ export default function VoteDialogs({ event, dialogState, setDialogState }: Vote
                 open={dialogState.visibleDialog === 'NOTIFY_VOTING_STARTED'}
                 onClose={startNotificationDialogClosed}
                 caption={motion.votingTitle || ''}
-                actionTitle="Abstimmen"
+                actionTitle={t("vote1")}
                 primary={true}
             >
                 Abstimmung wurde gestartet
@@ -69,7 +71,7 @@ export default function VoteDialogs({ event, dialogState, setDialogState }: Vote
                 caption={motion.votingTitle || ''}
                 actionTitle="Resultat"
             >
-                Abstimmung wurde beendet
+                {t("votation_ended")}
             </NotificationDialog>
 
             <VoteResultDialog

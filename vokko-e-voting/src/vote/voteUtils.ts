@@ -4,13 +4,13 @@ import {IVoting} from "../api/model/ivoting";
 
 export type VotingState = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'ACCEPTED' | 'REJECTED' | 'DRAW';
 
-const VOTING_STATE_TEXTS_DE = {
-    'PENDING':     'Ausstehend',
-    'IN_PROGRESS': 'Läuft...',
-    'COMPLETED':   'Abgeschlossen',
-    'ACCEPTED':    'Angenommen',
-    'REJECTED':    'Abgelehnt',
-    'DRAW':        'Patt',
+export const VOTING_STATE_TEXTS_DE = {
+    'PENDING':     "status_pending",
+    'IN_PROGRESS':  "status_in_progress",
+    'COMPLETED':   "status_completed",
+    'ACCEPTED':    "status_accepted",
+    'REJECTED':    "status_rejected",
+    'DRAW':        "status_draw",
 };
 
 function isYes(votingOption: VotingOption) {
@@ -90,17 +90,11 @@ function getWinningOptions(options: VotingOption[], numWinners: number = 1) {
     }
 }
 
-function getWinningOptionsText(options: VotingOption[]) {
+export function getWinningOptionsText(options: VotingOption[]) {
     return getWinningOptions(options)
         ?.map((votingOption: VotingOption) => votingOption.title)
         .join(", ")
         ?? "";
 }
 
-export function getVoteResultText(motion: IVoting) {
-    const voteResultState = getVoteResultState(motion);
-    
-    return voteResultState === 'COMPLETED' ? 
-        'Gewählt: ' + getWinningOptionsText(motion.options ?? [])
-        : VOTING_STATE_TEXTS_DE[voteResultState];
-}
+

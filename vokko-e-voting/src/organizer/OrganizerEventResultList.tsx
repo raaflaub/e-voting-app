@@ -4,11 +4,13 @@ import {Event} from "../api/model/event";
 import EventMonitorContextProvider from "../provider/EventMonitorContextProvider";
 import OrganizerResultList from "./OrganizerResultList";
 import {getVoteResultState} from "../vote/voteUtils";
+import {useTranslation} from "react-i18next";
 
 export type OrganizerEventResultListProps = { event: Event }
 
 export default function OrganizerEventResultList( {event} :  OrganizerEventResultListProps) {
 
+    const {t} = useTranslation();
     const motionsWithResults = event?.motions?.filter(
         m => ['COMPLETED', 'ACCEPTED', 'REJECTED', 'DRAW'].includes(getVoteResultState(m))
     );
@@ -26,7 +28,7 @@ export default function OrganizerEventResultList( {event} :  OrganizerEventResul
                     {
                         !(motionsWithResults?.length) &&
                         <Typography variant="body2" color="text.secondary" sx={{ my: 2, textAlign: "center"}} >
-                            Bisher keine Resultate
+                            {t("results-not_available_yet")}
                         </Typography>
                     }
                     {

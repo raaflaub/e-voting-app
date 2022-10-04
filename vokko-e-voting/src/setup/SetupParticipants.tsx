@@ -15,6 +15,7 @@ import {useUserInvitationMutation} from "../api/persistence";
 import {InviteUserRequestData} from "../api/model/invite-user-request-data";
 import ProgressWithSuccess from "../user/ProgressWithSuccess";
 import {Event} from "../api/model/event";
+import {useTranslation} from "react-i18next";
 
 export type SetupParticipantsProps = { event: Event }
 
@@ -25,6 +26,8 @@ export default function SetupParticipants({ event }: SetupParticipantsProps) {
 
     type InviteUserQueueEntry = InviteUserRequestData | 'EMPTY' | 'EOF';
     type InviteUserQueue = InviteUserQueueEntry[];
+
+    const {t} = useTranslation();
 
     const [ inviteUserQueue, setInviteUserQueue ] = useState<InviteUserQueue>(['EMPTY']);
 
@@ -72,14 +75,14 @@ export default function SetupParticipants({ event }: SetupParticipantsProps) {
 
     return (
         <SetupSection>
-            <CategoryTitle>Teilnehmer per E-Mail einladen</CategoryTitle>
+            <CategoryTitle>{t("invite_by_mail")}</CategoryTitle>
             <UploadCSV
                 variant="contained"
                 uploadState={uploadedParticipants}
                 setUploadState={setUploadedParticipants}
                 disabled={sendInvitationsInProgress}
             >
-                CSV-Datei hochladen
+                {t("upload_csv")}
             </UploadCSV>
             {
                 uploadedParticipants.data &&
@@ -88,9 +91,9 @@ export default function SetupParticipants({ event }: SetupParticipantsProps) {
                         <Table size="small" aria-label="a dense table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Vorname</TableCell>
-                                    <TableCell>Nachname</TableCell>
-                                    <TableCell>E-Mail</TableCell>
+                                    <TableCell>{t("firstname")}</TableCell>
+                                    <TableCell>{t("lastname")}</TableCell>
+                                    <TableCell>{t("email")}</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -120,18 +123,18 @@ export default function SetupParticipants({ event }: SetupParticipantsProps) {
                         loading={sendInvitationsInProgress}
                         success={sendInvitationsSuccess}/>
                     <Typography variant="subtitle1" color="text.secondary">
-                        {sendInvitationsInProgress && ` Einladungen senden... (noch ${inviteUserQueue.length-1})`}
-                        {sendInvitationsSuccess && `${uploadedParticipants.data?.length} Einladungen gesendet.`}
+                        {sendInvitationsInProgress &&  `${t("sending_invites")} ... (${t("left")} ${inviteUserQueue.length-1})`}
+                        {sendInvitationsSuccess && `${uploadedParticipants.data?.length} ${t("invites_sent")}.`}
                     </Typography>
                 </Stack>
             }
             {
                 uploadedParticipants.isError &&
-                <Alert severity="error">Upload fehlgeschlagen: {uploadedParticipants.error}</Alert>
+                <Alert severity="error">{t("error_uploading")}: {uploadedParticipants.error}</Alert>
             }
             {
                 userInvitationMutation.isError &&
-                <Alert severity="error">Einladungen senden fehlgeschlagen</Alert>
+                <Alert severity="error">{t("error_sending_invitations")}</Alert>
             }
         </SetupSection>
 

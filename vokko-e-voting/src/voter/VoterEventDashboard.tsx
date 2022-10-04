@@ -6,10 +6,11 @@ import {useNavigate} from "react-router-dom";
 import { Event } from "../api/model/event";
 import {isFutureEvent, isPastEvent, isToday} from "../event/eventUtils";
 import {useAllEvents} from "../api/persistence";
+import {useTranslation} from "react-i18next";
 
 export default function VoterEventDashboard() {
 
-    //const [{ data } ] = useAxios<GetAllEventsResponseDocument>('events');
+    const {t} = useTranslation();
     const { events } = useAllEvents();
 
     const futureEvents  = events.filter(e => isFutureEvent(e));
@@ -32,23 +33,23 @@ export default function VoterEventDashboard() {
 
     return (
         <>
-            <VokkoHeader title="Übersicht" backButton={false} userProfile={true} />
+            <VokkoHeader title={t("overview")} backButton={false} userProfile={true} />
             <Container maxWidth="md">
                 {
                     futureEvents && (futureEvents.length > 0) &&
                     <EventList
-                        title="Kommende Events"
+                        title={t("future_events")}
                         events={futureEvents}
-                        actionTitle="Vorschau"
+                        actionTitle={t("preview")}
                         onAction={viewVokkoEventPreview}
                     />
                 }
                 {
                     currentEvents && (currentEvents.length > 0) &&
                     <EventList
-                        title="Aktuelle Events"
+                        title={t("current_events")}
                         events={currentEvents}
-                        actionTitle="Teilnehmen"
+                        actionTitle={t("participate")}
                         onAction={joinVokkoEvent}
                         primary={true}
                     />
@@ -56,9 +57,9 @@ export default function VoterEventDashboard() {
                 {
                     pastEvents && (pastEvents.length > 0) &&
                     <EventList
-                        title="Vergangene Events"
+                        title={t("past_events")}
                         events={pastEvents}
-                        actionTitle="Resultate"
+                        actionTitle={t("results")}
                         onAction={viewVokkoEventResults}
                     />
                 }

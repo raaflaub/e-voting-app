@@ -6,8 +6,11 @@ import {useRegistrationByInvitationLink} from "./userRegistration";
 import CategoryTitle from "../layout/CategoryTitle";
 import {HubContext} from "../provider/HubContextProvider";
 import ProgressWithSuccess from "./ProgressWithSuccess";
+import {useTranslation} from "react-i18next";
 
 export default function UserRegistrationProgress() {
+
+    const {t} = useTranslation();
 
     const hub = useContext(HubContext);
 
@@ -38,15 +41,15 @@ export default function UserRegistrationProgress() {
         <>
             <VokkoHeader title=" " backButton={false} userProfile={true} />
             <Container maxWidth="xs">
-                <CategoryTitle>Willkommen</CategoryTitle>
+                <CategoryTitle>{t("welcome")}</CategoryTitle>
                 <Stack direction="column" spacing={2} sx={{ mt: 6, mb: 1}}>
                     <Stack direction="row" spacing={4} alignItems="center">
                         <ProgressWithSuccess loading={registrationInProgess && !keypairCreated} success={keypairCreated}/>
-                        <Typography variant="subtitle1" color="text.secondary">Schlüssel wird generiert</Typography>
+                        <Typography variant="subtitle1" color="text.secondary">{t("generating_keypair")}</Typography>
                     </Stack>
                     <Stack direction="row" spacing={4} alignItems="center">
                         <ProgressWithSuccess loading={registrationInProgess && keypairCreated} success={!registrationInProgess}/>
-                        <Typography variant="subtitle1" color="text.secondary">Ballotbox wird eingerichtet</Typography>
+                        <Typography variant="subtitle1" color="text.secondary">{t("setting_up_ballot_box")}</Typography>
                     </Stack>
                 </Stack>
             </Container>

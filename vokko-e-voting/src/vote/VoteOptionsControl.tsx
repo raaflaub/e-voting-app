@@ -7,6 +7,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import {VotingOption} from "../api/model/voting-option";
+import {useTranslation} from "react-i18next";
+
 
 
 export interface IVoteOptionsProps{
@@ -20,7 +22,7 @@ export interface IVoteOptionsProps{
 
 export default function VoteOptionsControl(voteOptionsProps:IVoteOptionsProps) {
 
-
+    const {t} = useTranslation();
     const [state, setState] = React.useState(voteOptionsProps.options?.map(option => { return ( {...option,checked: false}) }));
     const [error,setError] = React.useState(false);
 
@@ -99,7 +101,7 @@ export default function VoteOptionsControl(voteOptionsProps:IVoteOptionsProps) {
                 sx={{ m: 0 }}
                 variant="standard"
             >
-                <FormLabel disabled={voteOptionsProps.disabled} component="legend">Maximal {voteOptionsProps.voteOptionCount} Option(en) wählen.</FormLabel>
+                <FormLabel disabled={voteOptionsProps.disabled} component="legend">{t("choose_options_part1")} {voteOptionsProps.voteOptionCount} {t("choose_options_part2")}</FormLabel>
 
 
                 <FormGroup>
@@ -117,7 +119,7 @@ export default function VoteOptionsControl(voteOptionsProps:IVoteOptionsProps) {
                     )})}
 
                 </FormGroup>
-                <FormHelperText>{error ? 'Bitte zuerst eine Option deselektieren' : ''}</FormHelperText>
+                <FormHelperText>{error ? `${t("error_too_many_selected")}` : ''}</FormHelperText>
             </FormControl>
         </Box>
     );

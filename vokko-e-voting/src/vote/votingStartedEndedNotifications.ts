@@ -10,21 +10,6 @@ export type VotingDialogState = {
     previousVotingEndedNotifications: string[];
 }
 
-export function useVotingDialogState() {
-
-    // const setDialogStateWithLogging = (dialogState: DialogState) => {
-    //     console.log('setDialogState', new Date(), dialogState.visibleDialog, dialogState.motionId, dialogState.previousVotingEndedNotifications);
-    //     setDialogState(dialogState);
-    // }
-
-    return useState<VotingDialogState>({
-        visibleDialog: 'NONE',
-        motionId: null,
-        previousVotingStartedNotifications: [],
-        previousVotingEndedNotifications: [],
-    });
-}
-
 const NOTIFY_VOTING_ENDED_TIMEOUT_MS = 30000;
 
 export function useVotingStartEndNotifications(dialogState: VotingDialogState, setDialogState: (dialogState: VotingDialogState) => void) {

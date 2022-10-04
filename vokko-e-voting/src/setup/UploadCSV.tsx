@@ -1,5 +1,6 @@
 import React, {ReactNode} from 'react';
 import Button from "@mui/material/Button";
+import {useTranslation} from "react-i18next";
 
 export type StringTable = string[][];
 
@@ -28,6 +29,8 @@ export type UploadCSVProps = {
 
 export default function UploadCSV({ variant, uploadState, setUploadState, disabled, children }: UploadCSVProps) {
 
+    const {t} = useTranslation();
+
     const parseCSVData = function(data: string, separator: string) {
 
         let parsedata: StringTable = [];
@@ -52,7 +55,7 @@ export default function UploadCSV({ variant, uploadState, setUploadState, disabl
                 reader.addEventListener('load', function (e) {
                     let csvdata = e.target?.result;
                     if (typeof csvdata !== 'string') {
-                        throw Error('file format not supported');
+                        throw Error(`${t("error_file_not_supported")}`);
                     }
                     if (csvdata.includes(';'))
                         parseCSVData(csvdata, ';');

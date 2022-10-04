@@ -2,8 +2,34 @@ import * as React from 'react';
 import LinearProgress, { LinearProgressProps } from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import {useTranslation} from "react-i18next";
+
+
 
 function LinearProgressWithLabel(props: LinearProgressProps & { remaining: number, value: number }) {
+    const {t} = useTranslation();
+
+    function getVoteStatus(remainingTotalSeconds:number)
+    {
+
+        if(remainingTotalSeconds > 0)
+        {
+            return `${t("running")}`;
+
+
+        }
+        else
+        {
+            return `${t("ended")}`;
+        }
+
+    }
+    function getRemainingTime(remainingTotalSeconds:number):string{
+
+        const remainingSeconds = remainingTotalSeconds % 60;
+        const remainingMinutes = (remainingTotalSeconds - remainingSeconds) / 60;
+        return `${padNumber(remainingMinutes)}:${padNumber(remainingSeconds)} ${t("remaining")}`;
+    }
     return (
 
 
@@ -28,12 +54,7 @@ function LinearProgressWithLabel(props: LinearProgressProps & { remaining: numbe
     );
 }
 
-function getRemainingTime(remainingTotalSeconds:number):string{
 
-    const remainingSeconds = remainingTotalSeconds % 60;
-    const remainingMinutes = (remainingTotalSeconds - remainingSeconds) / 60;
-    return `${padNumber(remainingMinutes)}:${padNumber(remainingSeconds)} REMAINING`;
-}
 function padNumber(number:number):string
 {
     return number.toString().padStart(2,'0');
@@ -52,21 +73,7 @@ function getRemainingSeconds(endDate:Date):number {
 
     return remainingTotalSeconds;
 }
-function getVoteStatus(remainingTotalSeconds:number)
-{
 
-    if(remainingTotalSeconds > 0)
-    {
-        return "IN PROGRESS";
-
-
-    }
-    else
-    {
-        return "ENDED";
-    }
-
-}
 
 function getProgress(totalTime:number,remainingSeconds:number): number{
 
@@ -80,6 +87,7 @@ function getProgress(totalTime:number,remainingSeconds:number): number{
 }
 
 export default function VoteProgress(props: LinearProgressProps & { startDate: Date} & {endDate: Date; }) {
+
 
         const totalTime = (props.endDate.getTime() - props.startDate.getTime()) /1000;
         const [progress, setProgress] = React.useState(0);
