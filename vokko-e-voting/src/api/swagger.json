@@ -1115,7 +1115,11 @@
       "PostEventRequestData": {
         "type": "object",
         "properties": {
-          "eventDateAndTime": {
+          "planedStartDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "planedEndDate": {
             "type": "string",
             "format": "date-time"
           },

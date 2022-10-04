@@ -24,7 +24,7 @@ export function useLocallyStoredState<T>( key: string ): LocalStorageAPI<T> {
         } else {
             setStorageObj({value: null, loading: false});
         }
-    }, []);
+    }, [key]);
 
     useEffect(() => {
         if (storageObj && !storageObj.loading) {
@@ -39,7 +39,7 @@ export function useLocallyStoredState<T>( key: string ): LocalStorageAPI<T> {
                 }
             }
         }
-    }, [storageObj]);
+    }, [storageObj, key]);
 
     return {
         value: storageObj.value,

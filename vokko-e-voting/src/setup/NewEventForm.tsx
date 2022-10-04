@@ -13,12 +13,14 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import {useCreateEventMutation} from "../api/persistence";
 import {PostEventRequestData} from "../api/model/post-event-request-data";
+import {v4 as uuidv4} from 'uuid';
 
 export type NewEventFormProps = {
-    onClose: () => void;
+    visible: boolean,
+    setVisible: (visible: boolean) => void;
 }
 
-export default function NewEventForm({ onClose }: NewEventFormProps) {
+export default function NewEventForm({ visible, setVisible }: NewEventFormProps) {
 
     const createEventMutation = useCreateEventMutation();
 
@@ -34,37 +36,38 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
 
     useEffect(() => {
         if (eventDate && eventStartTime) {
-            let newValue = eventDate;
-            newValue.setHours(eventStartTime.getHours());
-            newValue.setMinutes(eventStartTime.getMinutes());
-            // TODO: setEventRequestData({...eventRequestData, planedStartDate: newValue});
-            setEventRequestData({...eventRequestData, eventDateAndTime: newValue});
+            let newValue = new Date(eventDate);
+            newValue.setHours(eventStartTime.getHours(), eventStartTime.getMinutes(), 0, 0);
+            setEventRequestData(eventRequestData => ({...eventRequestData, planedStartDate: newValue}));
         }
     }, [eventDate, eventStartTime]);
 
     useEffect(() => {
         if (eventDate && eventEndTime) {
-            let newValue = eventDate;
-            newValue.setHours(eventEndTime.getHours());
-            newValue.setMinutes(eventEndTime.getMinutes());
-            // TODO: setEventRequestData({...event, planedEndDate: newValue});
+            let newValue = new Date(eventDate);
+            newValue.setHours(eventEndTime.getHours(), eventEndTime.getMinutes(), 0, 0);
+            setEventRequestData(eventRequestData => ({...eventRequestData, planedEndDate: newValue}));
         }
     }, [eventDate, eventEndTime]);
 
     // Hochgeladene Vorlagen übernehmen.
 
     useEffect(() => {
+
         if (uploadedMotions.isSuccess && uploadedMotions.data && !eventRequestData.motions) {
             setEventRequestData({
                 ...eventRequestData,
                 motions: uploadedMotions.data.map(
                     (rowElements) => ({
-                        ownerId: null,
+                        id: uuidv4(),
                         votingTitle: rowElements[0],
                         question: rowElements[1],
                         description: rowElements[2],
                         options: rowElements.slice(3, rowElements.length-1).map(
-                            (rowElement) => ({ title: rowElement })
+                            (rowElement) => ({
+                                votingOptionId: uuidv4(),
+                                title: rowElement
+                            })
                         )
                     })
                 )
@@ -72,8 +75,7 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
         }
     }, [uploadedMotions, eventRequestData]);
 
-    //const eventIsComplete = eventRequestData.planedStartDate && eventRequestData.planedEndDate && eventRequestData.title && eventRequestData.motions;
-    const eventIsComplete = eventRequestData.eventDateAndTime && eventRequestData.title && eventRequestData.motions;
+    const eventIsComplete = eventRequestData.planedStartDate && eventRequestData.planedEndDate && eventRequestData.title && eventRequestData.motions;
 
     const createEvent = () => {
         createEventMutation.mutate({
@@ -81,78 +83,93 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
         });
     }
 
+    if (createEventMutation.isSuccess) {
+        setVisible(false);
+    }
+
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={localeDe}>
-        <Card sx={{backgroundColor: "#f5f5f5"}} raised>
-            <CardContent component="form"
-                         noValidate
-                         autoComplete="off">
-                <Stack direction="column" spacing={2} sx={{ my: 1, p:1 }} alignItems="center" justifyContent="center">
-                    <Stack direction="row" spacing={2} alignItems="baseline" justifyContent="center">
-                        <DatePicker
-                            label="Datum"
-                            value={eventDate} onChange={setEventDate}
-                            renderInput={(params) => <TextField {...params} sx={{ bgcolor:"#ffffff", width:350}} />}
-                        />
-                        <TimePicker
-                            label="Von"
-                            value={eventStartTime} onChange={setEventStartTime}
-                            renderInput={(params) => <TextField {...params} sx={{ bgcolor:"#ffffff", width:220}} />}
-                        />
-                        <TimePicker
-                            label="Bis"
-                            value={eventEndTime} onChange={setEventEndTime}
-                            renderInput={(params) => <TextField {...params} sx={{ bgcolor:"#ffffff", width:220}} />}
-                        />
-                    </Stack>
-                    <Typography>{JSON.stringify(eventRequestData)}</Typography>
-                    <FormControl sx={{ m: 1, width:820, height:100 }}>
-                        <InputLabel htmlFor="event-title">Titel</InputLabel>
-                        <OutlinedInput
-                            id="event-title"
-                            label="Titel"
-                            value={eventRequestData.title} onChange={e => setEventRequestData({...eventRequestData, title: e.target.value})}
-                            sx={{ bgcolor:"#ffffff"}}/>
-                    </FormControl>
-                    <Paper variant="outlined"
-                        sx={{
-                            pt:1, pb:4, px:2, mx:1,
-                            backgroundColor: '#fff',
-                            textAlign: 'center',
-                            width: 820
-                        }}>
-                        <CategoryTitle>Vorlagen</CategoryTitle>
-                        <UploadCSV variant="contained" uploadState={uploadedMotions} setUploadState={setUploadedMotions} disabled={false}>
-                            CSV-Datei hochladen
-                        </UploadCSV>
-                        {
-                            eventRequestData?.motions &&
-                            <Typography variant="body2" color="text.secondary" sx={{ my: 2, textAlign: "center"}} >
-                                {eventRequestData?.motions.length} Vorlage(n) importiert.
-                            </Typography>
-                        }
-                    </Paper>
-                    <Stack direction="row" spacing={2} alignItems="baseline" justifyContent="flex-end" sx={{ width: 820 }}>
-                        <Button variant="text" onClick={onClose}>Abbrechen</Button>
-                        <LoadingButton
-                            variant="contained"
-                            onClick={() => createEvent()}
-                            loading={createEventMutation.isLoading}
-                            loadingPosition="end"
-                            endIcon={<SaveIcon />}
-                            disabled={!eventIsComplete}
-                        >
-                            Speichern
-                        </LoadingButton>
-                    </Stack>
-                    {
-                        createEventMutation.isError &&
-                        <Alert severity="error">Anlegen des Events fehlgeschlagen: {createEventMutation.error?.toString()}</Alert>
-                    }
-                </Stack>
+            {
+                visible &&
+                <Card sx={{backgroundColor: "#f5f5f5"}} raised>
+                    <CardContent component="form"
+                                 noValidate
+                                 autoComplete="off">
+                        <Stack direction="column" spacing={2} sx={{my: 1, p: 1}} alignItems="center"
+                               justifyContent="center">
+                            <Stack direction="row" spacing={2} alignItems="baseline" justifyContent="center">
+                                <DatePicker
+                                    label="Datum"
+                                    value={eventDate} onChange={setEventDate}
+                                    renderInput={(params) => <TextField {...params}
+                                                                        sx={{bgcolor: "#ffffff", width: 350}}/>}
+                                />
+                                <TimePicker
+                                    label="Von"
+                                    value={eventStartTime} onChange={setEventStartTime}
+                                    renderInput={(params) => <TextField {...params}
+                                                                        sx={{bgcolor: "#ffffff", width: 220}}/>}
+                                />
+                                <TimePicker
+                                    label="Bis"
+                                    value={eventEndTime} onChange={setEventEndTime}
+                                    renderInput={(params) => <TextField {...params}
+                                                                        sx={{bgcolor: "#ffffff", width: 220}}/>}
+                                />
+                            </Stack>
+                            <FormControl sx={{m: 1, width: 820, height: 100}}>
+                                <InputLabel htmlFor="event-title">Titel</InputLabel>
+                                <OutlinedInput
+                                    id="event-title"
+                                    label="Titel"
+                                    value={eventRequestData.title}
+                                    onChange={e => setEventRequestData({...eventRequestData, title: e.target.value})}
+                                    sx={{bgcolor: "#ffffff"}}/>
+                            </FormControl>
+                            <Paper variant="outlined"
+                                   sx={{
+                                       pt: 1, pb: 4, px: 2, mx: 1,
+                                       backgroundColor: '#fff',
+                                       textAlign: 'center',
+                                       width: 820
+                                   }}>
+                                <CategoryTitle>Vorlagen</CategoryTitle>
+                                <UploadCSV variant="contained" uploadState={uploadedMotions}
+                                           setUploadState={setUploadedMotions} disabled={false}>
+                                    CSV-Datei hochladen
+                                </UploadCSV>
+                                {
+                                    eventRequestData?.motions &&
+                                    <Typography variant="body2" color="text.secondary"
+                                                sx={{my: 2, textAlign: "center"}}>
+                                        {eventRequestData?.motions.length} Vorlage(n) importiert.
+                                    </Typography>
+                                }
+                            </Paper>
+                            <Stack direction="row" spacing={2} alignItems="baseline" justifyContent="flex-end"
+                                   sx={{width: 820}}>
+                                <Button variant="text" onClick={() => setVisible(false)}>Abbrechen</Button>
+                                <LoadingButton
+                                    variant="contained"
+                                    onClick={() => createEvent()}
+                                    loading={createEventMutation.isLoading}
+                                    loadingPosition="end"
+                                    endIcon={<SaveIcon/>}
+                                    disabled={!eventIsComplete}
+                                >
+                                    Speichern
+                                </LoadingButton>
+                            </Stack>
+                            {
+                                createEventMutation.isError &&
+                                <Alert severity="error">Anlegen des Events
+                                    fehlgeschlagen: {createEventMutation.error?.toString()}</Alert>
+                            }
+                        </Stack>
 
-            </CardContent>
-        </Card>
+                    </CardContent>
+                </Card>
+            }
         </LocalizationProvider>
     );
 }

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import VokkoHeader from "../header/VokkoHeader";
 import {useParams, useSearchParams} from "react-router-dom";
 import OrganizerEventTabs, {OrganizerTab} from "./OrganizerEventTabs";
-import {isToday, isPastEvent} from "../event/eventUtils";
+import {isToday, isPastEvent, isFutureEvent} from "../event/eventUtils";
 import OrganizerEventSetup from "../setup/OrganizerEventSetup";
 import {useEvent} from "../api/persistence";
 import OrganizerEventPresentation from "./OrganizerEventPresentation";
@@ -26,7 +26,7 @@ export default function OrganizerEventDetails() {
             <OrganizerEventTabs
                 activeTab={activeTab}
                 onActiveTabChange={setActiveTab}
-                setupEnabled={Boolean(event)}
+                setupEnabled={Boolean(event && (isToday(event) || isFutureEvent(event)))}
                 liveEnabled={Boolean(event && (isToday(event)))}
                 resultsEnabled={Boolean(event && (isToday(event) || isPastEvent(event)))}
             />

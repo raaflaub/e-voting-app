@@ -8,6 +8,7 @@ import Popover from "@mui/material/Popover";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListSubheader from "@mui/material/ListSubheader";
+import {Typography} from "@mui/material";
 
 const languageMap:any = {
     en: { label: "English", dir: "ltr", active: true },
@@ -15,7 +16,10 @@ const languageMap:any = {
 };
 
 const LanguageSelector = () => {
-    const selected =  localStorage.getItem("i18nextLng") || "en";
+
+    const i18nextLng = localStorage.getItem("i18nextLng") || "de";
+    const selected = (i18nextLng.slice(0,2) === 'de' ? 'de' : 'en');
+
     const { t } = useTranslation();
 
 
@@ -24,13 +28,25 @@ const LanguageSelector = () => {
         document.body.dir = languageMap[selected].dir;
     }, [menuAnchor, selected]);
 
-
+    function abbreviate(label: any, numChars: number) {
+        if (typeof label === 'string') {
+            return label.slice(0,numChars)
+        } else {
+            return label;
+        }
+    }
 
     return (
         <>
-            <Button onClick={({ currentTarget }) => setMenuAnchor(currentTarget)} variant="contained">
-                {languageMap[selected].label}
-                <ArrowDropDown fontSize="small" />
+            <Button onClick={({ currentTarget }) => setMenuAnchor(currentTarget)}
+                    variant="text"
+                    color="inherit"
+                    sx={{ ml:2, mr:0 }}
+            >
+                <Typography variant="h6" align="right">
+                { abbreviate(languageMap[selected]?.label, 2)}
+                </Typography>
+                {   <ArrowDropDown fontSize="small" />   }
             </Button>
             <Popover
                 open={!!menuAnchor}
