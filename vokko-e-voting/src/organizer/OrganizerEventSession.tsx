@@ -144,7 +144,7 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                             </TimeLineLabel>
                             {
                                 (process.env.NODE_ENV === 'development') &&
-                                <TimeLineButton variant="outlined" onClick={() => resetEvent()}>Reset</TimeLineButton>
+                                <TimeLineButton variant="outlined" onClick={() => resetEvent()}>{t("reset")}</TimeLineButton>
                             }
                         </>
                         }

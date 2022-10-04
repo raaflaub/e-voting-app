@@ -9,5 +9,10 @@
   "start_vote_now": "Wahl jetzt starten (1 Minute)",
   "stop_event" : "Event beenden",
   "event_started" : "Start",
-  "event_started" : "Start"
+  "event_ended" : "Beendet",
+  "reset" : "Reset",
+  "setup" : "Setup",
+  "live" : "Präsentation",
+  "results": "Resultate"
+
 }
