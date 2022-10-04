@@ -5,6 +5,7 @@ import vokkoLogoSmall from "./vokkoLogoSmall.png";
 import {useNavigate} from "react-router-dom";
 import {UserContext} from "../provider/UserContextProvider";
 import UserAvatar from "../user/UserAvatar";
+import LanguageSelector from "../language/LanguageSelector";
 
 export type VokkoHeaderProps = { title?: string | null, backButton?: boolean, userProfile?: boolean }
 
@@ -27,6 +28,7 @@ export default function VokkoHeader( { title, backButton, userProfile } : VokkoH
         <AppBar position="sticky">
             <Toolbar>
 
+
                 { backButton &&
                     <IconButton color="inherit" sx={{ p:0 }} onClick={() => navigate(-1)}>
                         <ArrowBackIos />
@@ -35,6 +37,7 @@ export default function VokkoHeader( { title, backButton, userProfile } : VokkoH
 
                 <img src={vokkoLogoSmall} alt="VOKKO Logo" style={{ width:80, height:16 }}/>
 
+                <LanguageSelector />
                 { title &&
                     <Typography variant="h6" align="center" flexGrow={1}
                                 sx={ { whiteSpace: 'nowrap',
