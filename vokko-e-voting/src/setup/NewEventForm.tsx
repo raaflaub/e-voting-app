@@ -78,7 +78,7 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
         if (createEventMutation.isSuccess) {
             onClose();
         }
-    }, [createEventMutation]);
+    }, [createEventMutation, onClose]);
 
     const eventIsComplete = eventRequestData.planedStartDate && eventRequestData.planedEndDate && eventRequestData.title && eventRequestData.motions;
 
