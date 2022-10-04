@@ -60,7 +60,7 @@ export default function OrganizerEventDashboard() {
                 {
                     currentEvents && (currentEvents.length > 0) &&
                     <EventList
-                        title="Aktuelle Events"
+                        title={t("current_events")}
                         events={currentEvents}
                         actionTitle="Details"
                         onAction={viewVokkoEventSetup}
@@ -70,9 +70,9 @@ export default function OrganizerEventDashboard() {
                 {
                     pastEvents && (pastEvents.length > 0) &&
                     <EventList
-                        title="Vergangene Events"
+                        title={t("past_events")}
                         events={pastEvents}
-                        actionTitle="Resultate"
+                        actionTitle={t("results")}
                         onAction={viewVokkoEventResults}
                     />
                 }
