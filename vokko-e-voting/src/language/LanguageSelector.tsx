@@ -8,6 +8,7 @@ import Popover from "@mui/material/Popover";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListSubheader from "@mui/material/ListSubheader";
+import {Typography} from "@mui/material";
 
 const languageMap:any = {
     en: { label: "English", dir: "ltr", active: true },
@@ -28,9 +29,15 @@ const LanguageSelector = () => {
 
     return (
         <>
-            <Button onClick={({ currentTarget }) => setMenuAnchor(currentTarget)} variant="contained">
-                {languageMap[selected].label}
-                <ArrowDropDown fontSize="small" />
+            <Button onClick={({ currentTarget }) => setMenuAnchor(currentTarget)}
+                    variant="text"
+                    color="inherit"
+                    sx={{ ml:2, mr:0 }}
+            >
+                <Typography variant="h6" align="right">
+                {languageMap[selected].label.slice(0,2)}
+                </Typography>
+                {   <ArrowDropDown fontSize="small" />   }
             </Button>
             <Popover
                 open={!!menuAnchor}

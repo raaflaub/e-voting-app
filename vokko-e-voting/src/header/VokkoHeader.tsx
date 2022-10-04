@@ -37,7 +37,6 @@ export default function VokkoHeader( { title, backButton, userProfile } : VokkoH
 
                 <img src={vokkoLogoSmall} alt="VOKKO Logo" style={{ width:80, height:16 }}/>
 
-                <LanguageSelector />
                 { title &&
                     <Typography variant="h6" align="center" flexGrow={1}
                                 sx={ { whiteSpace: 'nowrap',
@@ -54,7 +53,7 @@ export default function VokkoHeader( { title, backButton, userProfile } : VokkoH
                     <>
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }} >
                             <UserAvatar user={user.value?.user ?? null}/>
-                            <Typography variant="h6" align="right" marginLeft={2}>
+                            <Typography variant="h6" align="right" ml={2} mt={0.35}>
                                 { user?.value?.user?.email }
                             </Typography>
                         </Box>
@@ -85,6 +84,7 @@ export default function VokkoHeader( { title, backButton, userProfile } : VokkoH
                         </Box>
                     </>
                 }
+                <LanguageSelector />
 
             </Toolbar>
         </AppBar>
