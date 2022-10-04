@@ -16,7 +16,10 @@ const languageMap:any = {
 };
 
 const LanguageSelector = () => {
-    const selected =  localStorage.getItem("i18nextLng") || "en";
+
+    const i18nextLng = localStorage.getItem("i18nextLng") || "de";
+    const selected = (i18nextLng.slice(0,2) === 'de' ? 'de' : 'en');
+
     const { t } = useTranslation();
 
 
@@ -25,7 +28,13 @@ const LanguageSelector = () => {
         document.body.dir = languageMap[selected].dir;
     }, [menuAnchor, selected]);
 
-
+    function abbreviate(label: any, numChars: number) {
+        if (typeof label === 'string') {
+            return label.slice(0,numChars)
+        } else {
+            return label;
+        }
+    }
 
     return (
         <>
@@ -35,7 +44,7 @@ const LanguageSelector = () => {
                     sx={{ ml:2, mr:0 }}
             >
                 <Typography variant="h6" align="right">
-                {languageMap[selected].label.slice(0,2)}
+                { abbreviate(languageMap[selected]?.label, 2)}
                 </Typography>
                 {   <ArrowDropDown fontSize="small" />   }
             </Button>
