@@ -44,10 +44,7 @@ export default function OrganizerEventDashboard() {
                             <AddCircleIcon sx={{ fontSize:"64px" }}/>
                         </IconButton>
                     }
-                    {
-                        showNewEventForm &&
-                        <NewEventForm onClose={() => setShowNewEventForm(false)} />
-                    }
+                    <NewEventForm visible={showNewEventForm} setVisible={setShowNewEventForm} />
                  </Stack>
                 {
                     futureEvents && (futureEvents.length > 0) &&
