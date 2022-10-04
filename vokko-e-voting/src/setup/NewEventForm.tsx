@@ -34,18 +34,16 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
 
     useEffect(() => {
         if (eventDate && eventStartTime) {
-            let newValue = eventDate;
-            newValue.setHours(eventStartTime.getHours());
-            newValue.setMinutes(eventStartTime.getMinutes());
+            let newValue = new Date(eventDate);
+            newValue.setHours(eventStartTime.getHours(), eventStartTime.getMinutes(), 0, 0);
             setEventRequestData(eventRequestData => ({...eventRequestData, planedStartDate: newValue}));
         }
     }, [eventDate, eventStartTime]);
 
     useEffect(() => {
         if (eventDate && eventEndTime) {
-            let newValue = eventDate;
-            newValue.setHours(eventEndTime.getHours());
-            newValue.setMinutes(eventEndTime.getMinutes());
+            let newValue = new Date(eventDate);
+            newValue.setHours(eventEndTime.getHours(), eventEndTime.getMinutes(), 0, 0);
             setEventRequestData(eventRequestData => ({...eventRequestData, planedEndDate: newValue}));
         }
     }, [eventDate, eventEndTime]);
@@ -70,6 +68,12 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
             })
         }
     }, [uploadedMotions, eventRequestData]);
+
+    useEffect(() => {
+        if (createEventMutation.isSuccess) {
+            onClose();
+        }
+    }, [createEventMutation]);
 
     const eventIsComplete = eventRequestData.planedStartDate && eventRequestData.planedEndDate && eventRequestData.title && eventRequestData.motions;
 
@@ -103,7 +107,6 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
                             renderInput={(params) => <TextField {...params} sx={{ bgcolor:"#ffffff", width:220}} />}
                         />
                     </Stack>
-                    <Typography>{JSON.stringify(eventRequestData)}</Typography>
                     <FormControl sx={{ m: 1, width:820, height:100 }}>
                         <InputLabel htmlFor="event-title">Titel</InputLabel>
                         <OutlinedInput
