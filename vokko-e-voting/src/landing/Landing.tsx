@@ -8,6 +8,8 @@ import CategoryTitle from "../layout/CategoryTitle";
 import {IUser} from "../api/model/iuser";
 import {buildRelativeInvitationLink} from "../user/userRegistration";
 import {ResultBar} from "../results/ResultBar";
+import {useTranslation} from "react-i18next";
+
 
 export default function Landing() {
 
@@ -31,6 +33,7 @@ export default function Landing() {
         }
     }, [hub, user, navigate]);
 
+    const {t} = useTranslation();
     useEffect(() => {
         if (process.env.NODE_ENV !== 'development') {
             defaultAction();
@@ -49,8 +52,9 @@ export default function Landing() {
             <VokkoHeader title=" " backButton={false} userProfile={false} />
             <Container maxWidth="sm">
 
+
                 <CategoryTitle>
-                    Willkommen
+                    {t("welcome")}
                 </CategoryTitle>
 
                 <Typography variant="h5" color="text.secondary" sx={{ mt: 6, mb: 1}} >Falls du eine Event-Einladung erhalten hast</Typography>

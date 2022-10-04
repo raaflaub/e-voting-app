@@ -1,6 +1,7 @@
 import {VotingOption} from "../api/model/voting-option";
 import {IVoting} from "../api/model/ivoting";
 
+
 export type VotingState = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'ACCEPTED' | 'REJECTED' | 'DRAW';
 
 const VOTING_STATE_TEXTS_DE = {
@@ -19,6 +20,7 @@ function isYes(votingOption: VotingOption) {
 function isNo(votingOption: VotingOption) {
     return votingOption.title && ['NO','NEIN'].includes(votingOption.title?.toUpperCase());
 }
+
 
 export function isYesNoVote(options: VotingOption[] | null) {
     return options && options.find(isYes) && options.find(isNo);
