@@ -13,6 +13,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import {useCreateEventMutation} from "../api/persistence";
 import {PostEventRequestData} from "../api/model/post-event-request-data";
+import {v4 as uuidv4} from 'uuid';
 
 export type NewEventFormProps = {
     onClose: () => void;
@@ -51,17 +52,21 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
     // Hochgeladene Vorlagen übernehmen.
 
     useEffect(() => {
+
         if (uploadedMotions.isSuccess && uploadedMotions.data && !eventRequestData.motions) {
             setEventRequestData({
                 ...eventRequestData,
                 motions: uploadedMotions.data.map(
                     (rowElements) => ({
-                        ownerId: null,
+                        id: uuidv4(),
                         votingTitle: rowElements[0],
                         question: rowElements[1],
                         description: rowElements[2],
                         options: rowElements.slice(3, rowElements.length-1).map(
-                            (rowElement) => ({ title: rowElement })
+                            (rowElement) => ({
+                                votingOptionId: uuidv4(),
+                                title: rowElement
+                            })
                         )
                     })
                 )
