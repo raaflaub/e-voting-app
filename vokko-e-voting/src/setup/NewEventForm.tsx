@@ -37,8 +37,7 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
             let newValue = eventDate;
             newValue.setHours(eventStartTime.getHours());
             newValue.setMinutes(eventStartTime.getMinutes());
-            // TODO: setEventRequestData({...eventRequestData, planedStartDate: newValue});
-            setEventRequestData({...eventRequestData, eventDateAndTime: newValue});
+            setEventRequestData(eventRequestData => ({...eventRequestData, planedStartDate: newValue}));
         }
     }, [eventDate, eventStartTime]);
 
@@ -47,7 +46,7 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
             let newValue = eventDate;
             newValue.setHours(eventEndTime.getHours());
             newValue.setMinutes(eventEndTime.getMinutes());
-            // TODO: setEventRequestData({...event, planedEndDate: newValue});
+            setEventRequestData(eventRequestData => ({...eventRequestData, planedEndDate: newValue}));
         }
     }, [eventDate, eventEndTime]);
 
@@ -72,8 +71,7 @@ export default function NewEventForm({ onClose }: NewEventFormProps) {
         }
     }, [uploadedMotions, eventRequestData]);
 
-    //const eventIsComplete = eventRequestData.planedStartDate && eventRequestData.planedEndDate && eventRequestData.title && eventRequestData.motions;
-    const eventIsComplete = eventRequestData.eventDateAndTime && eventRequestData.title && eventRequestData.motions;
+    const eventIsComplete = eventRequestData.planedStartDate && eventRequestData.planedEndDate && eventRequestData.title && eventRequestData.motions;
 
     const createEvent = () => {
         createEventMutation.mutate({
