@@ -23,7 +23,13 @@ export interface PostEventRequestData {
      * @type {Date}
      * @memberof PostEventRequestData
      */
-    eventDateAndTime?: Date;
+    planedStartDate?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof PostEventRequestData
+     */
+    planedEndDate?: Date;
     /**
      * 
      * @type {string}
