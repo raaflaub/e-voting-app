@@ -29,7 +29,7 @@ export default function VoterEventResults() {
                 }
                 {
                     Boolean(motionsWithResults?.length) &&
-                    <MotionList motions={motionsWithResults ?? []} />
+                    <OrganizerResultList motions={motionsWithResults ?? []} />
                 }
             </Container>
         </>
