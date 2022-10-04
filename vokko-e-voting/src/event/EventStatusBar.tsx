@@ -2,9 +2,11 @@ import {useContext} from 'react';
 import {EventMonitorContext} from "../provider/EventMonitorContextProvider";
 import {Badge, Box, CircularProgress, Typography} from "@mui/material";
 import PeopleIcon from '@mui/icons-material/People';
+import {useTranslation} from "react-i18next";
 
 
 export default function EventStatusBar() {
+    const {t} = useTranslation();
     const eventMonitor = useContext(EventMonitorContext);
     return (
 
@@ -20,10 +22,10 @@ export default function EventStatusBar() {
                 </Box>
                 <Box sx={{ display: 'flex', width: '100%', flexDirection:'row',justifyContent:"space-between", padding: "0px 0 15px 0px"  }}>
                     <Typography variant="body2" color="text.secondary">
-                        {eventMonitor?.usersOnlineCount} of {eventMonitor?.usersRegisteredCount} users online
+                        {eventMonitor?.usersOnlineCount} {t("of")} {eventMonitor?.usersRegisteredCount} {t("users_online")}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {eventMonitor?.motionsCompletedCount} of {eventMonitor?.motionsCount} motions voted
+                        {eventMonitor?.motionsCompletedCount}  {t("of")} {eventMonitor?.motionsCount} {t("motions_voted")}
                     </Typography>
 
                 </Box>

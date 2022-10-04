@@ -1,4 +1,11 @@
 {
-  "welcome": "Welcome",
-  "select_language" : "Select language"
+  "welcome":"Welcome",
+  "select_language": "Select",
+  "overview": "Overview",
+  "users_online": "Users online",
+  "motions_voted": "Motions voted",
+  "of": "of",
+  "start_event": "Start meeting",
+  "start_vote_now": "Start vote (1 minute)",
+  "stop_event" : "Stop event"
 }

@@ -1,4 +1,13 @@
 {
   "welcome" : "Willkommen",
-  "select_language" : "Sprache wählen"
+  "select_language" : "Sprache wählen",
+  "overview": "Übersicht",
+  "users_online": "Benutzer online",
+  "motions_voted": "Traktanden abgestimmt",
+  "of": "von",
+  "start_event": "Veranstaltung starten",
+  "start_vote_now": "Wahl jetzt starten (1 Minute)",
+  "stop_event" : "Event beenden",
+  "event_started" : "Start",
+  "event_started" : "Start"
 }

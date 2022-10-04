@@ -10,9 +10,11 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {blue} from "@mui/material/colors";
 import NewEventForm from "../setup/NewEventForm";
 import TimeLineButton from "../layout/TimeLineButton";
+import {useTranslation} from "react-i18next";
 
 export default function OrganizerEventDashboard() {
 
+    const {t} = useTranslation();
     const { events } = useAllEvents();
     const resetEventsMutation = useResetEventsMutation();
 
@@ -35,7 +37,7 @@ export default function OrganizerEventDashboard() {
 
     return (
         <>
-            <VokkoHeader title="Übersicht" backButton={false} userProfile={true} />
+            <VokkoHeader title={t("overview")} backButton={false} userProfile={true} />
             <Container maxWidth="md">
                 <Stack direction="row" alignItems="center" justifyContent="center" sx={{ my:4 }} >
                     {
