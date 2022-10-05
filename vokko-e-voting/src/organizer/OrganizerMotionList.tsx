@@ -7,6 +7,7 @@ export type OrganizerMotionListProps = {
     motions: IVoting[];
     onPreview?: (motion: IVoting) => void;
     onStartVote?: (motion: IVoting) => void;
+    voteDisabled?: boolean;
     voteDurationMinutes?: number;
     setVoteDurationMinutes?: (value: number) => void;
     onTieBreak?: (motion: IVoting) => void;
@@ -16,7 +17,7 @@ export type OrganizerMotionListProps = {
 }
 
 export default function OrganizerMotionList(
-    { motions, onPreview, voteDurationMinutes, setVoteDurationMinutes, onStartVote, onTieBreak, onViewResults, header, footer }: OrganizerMotionListProps
+    { motions, onPreview, onStartVote, voteDisabled, voteDurationMinutes, setVoteDurationMinutes, onTieBreak, onViewResults, header, footer }: OrganizerMotionListProps
 ) {
     return (
         <>
@@ -32,6 +33,7 @@ export default function OrganizerMotionList(
                                 motion={motion}
                                 onPreview={onPreview}
                                 onStartVote={onStartVote}
+                                voteDisabled={voteDisabled}
                                 voteDurationMinutes={voteDurationMinutes}
                                 setVoteDurationMinutes={setVoteDurationMinutes}
                                 onTieBreak={onTieBreak}

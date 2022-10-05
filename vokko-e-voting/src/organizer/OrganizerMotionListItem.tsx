@@ -15,6 +15,7 @@ export type OrganizerMotionListItemProps = {
     motion: IVoting;
     onPreview?: (motion: IVoting) => void;
     onStartVote?: (motion: IVoting) => void;
+    voteDisabled?: boolean;
     voteDurationMinutes?: number;
     setVoteDurationMinutes?: (value: number) => void;
     onTieBreak?: (motion: IVoting) => void;
@@ -22,7 +23,7 @@ export type OrganizerMotionListItemProps = {
 }
 
 export default function OrganizerMotionListItem(
-    { motion, onPreview, onStartVote, voteDurationMinutes, setVoteDurationMinutes, onTieBreak, onViewResults }: OrganizerMotionListItemProps
+    { motion, onPreview, onStartVote, voteDisabled, voteDurationMinutes, setVoteDurationMinutes, onTieBreak, onViewResults }: OrganizerMotionListItemProps
 ) {
 
     const {t} = useTranslation();
@@ -52,22 +53,30 @@ export default function OrganizerMotionListItem(
                 <CardActions sx={{display: 'flex', justifyContent: 'end'}}>
                     {
                         onPreview && (voteResultState === 'PENDING') &&
-                        <Button onClick={(e) => onPreview(motion)}>{t("preview")}</Button>
+                        <Button onClick={(e) => onPreview(motion)} disabled={voteDisabled}>
+                            {t("preview")}
+                        </Button>
                     }
                     {
                         onStartVote && (voteResultState === 'PENDING') && voteDurationMinutes && setVoteDurationMinutes &&
                         <StartVoteControl motion={motion}
                                           voteDurationMinutes={voteDurationMinutes}
                                           setVoteDurationMinutes={setVoteDurationMinutes}
-                                          onStartVote={onStartVote}  />
+                                          onStartVote={onStartVote}
+                                          disabled={voteDisabled}
+                        />
                     }
                     {
                         onViewResults && ['COMPLETED', 'ACCEPTED', 'REJECTED', 'DRAW'].includes(voteResultState) &&
-                        <Button onClick={(e) => onViewResults(motion)}>{t("results")}</Button>
+                        <Button onClick={(e) => onViewResults(motion)} disabled={voteDisabled}>
+                            {t("results")}
+                        </Button>
                     }
                     {
                         onTieBreak && (getVoteResultState(motion) === 'DRAW') &&
-                        <Button variant="contained" onClick={(e) => onTieBreak(motion)}>{t("deciding_vote")}</Button>
+                        <Button variant="contained" onClick={(e) => onTieBreak(motion)} disabled={voteDisabled}>
+                            {t("deciding_vote")}
+                        </Button>
                     }
                 </CardActions>
             }

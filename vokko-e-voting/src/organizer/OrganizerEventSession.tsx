@@ -18,6 +18,7 @@ import VoteOnMotionDialog from "../vote/VoteOnMotionDialog";
 import {useTranslation} from "react-i18next";
 import VotePreviewDialog from "../vote/VotePreviewDialog";
 import VoteResultDialog from "../vote/VoteResultDialog";
+import {getVoteResultState} from "../vote/voteUtils";
 
 export type OrganizerEventSessionProps = { event: Event }
 
@@ -35,6 +36,9 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
     const eventMonitor = useContext(EventMonitorContext);
     const updateEventMutation = useUpdateEventMutation();
     const updateEventMotionMutation = useUpdateMotionMutation();
+
+    const anyVotesInProgress = event.motions?.some(motion => getVoteResultState(motion) === 'IN_PROGRESS');
+    console.log('anyVotesInProgress', anyVotesInProgress);
 
     const startEvent = (when: Date) => {
         const params: IUpdateEventMutationParameters = {
@@ -141,6 +145,7 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                         onPreview={openPreviewDialog}
                         onTieBreak={tieBreak}
                         onStartVote={startVote}
+                        voteDisabled={anyVotesInProgress}
                         voteDurationMinutes={voteDurationMinutes}
                         setVoteDurationMinutes={setVoteDurationMinutes}
                         onViewResults={openResultDialog}

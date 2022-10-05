@@ -9,11 +9,12 @@ import Popover from "@mui/material/Popover";
 export type StartVoteControlProps = {
     motion: IVoting;
     onStartVote: (motion: IVoting) => void;
+    disabled?: boolean;
     voteDurationMinutes: number;
     setVoteDurationMinutes: (value: number) => void;
 }
 
-export default function StartVoteControl({ motion, voteDurationMinutes, setVoteDurationMinutes, onStartVote }: StartVoteControlProps) {
+export default function StartVoteControl({ motion, onStartVote, disabled, voteDurationMinutes, setVoteDurationMinutes }: StartVoteControlProps) {
     const {t} = useTranslation();
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
@@ -29,7 +30,7 @@ export default function StartVoteControl({ motion, voteDurationMinutes, setVoteD
 
     return (
         <>
-            <Button onClick={handleClick}>
+            <Button onClick={handleClick} disabled={disabled}>
                 {motion.options && isYesNoVote(motion.options)? `${t("vote")}`:`${t("election")}`}
                 {<ArrowDropDown fontSize="small" />}
             </Button>
