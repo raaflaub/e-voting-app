@@ -53,7 +53,7 @@ export default function StartVoteControl({ motion, voteDurationMinutes, setVoteD
                         size="small"
                         endAdornment={<InputAdornment position="end">{t("minute_s")}</InputAdornment>}
                         inputProps={{max: 10, min: 1}}
-                        sx={{ width:145 }}
+                        sx={{ width:150 }}
                     />
                     <Button variant="contained" onClick={() => onStartVote(motion)} >
                         {t("start")}
