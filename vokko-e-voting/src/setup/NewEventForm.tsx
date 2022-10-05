@@ -65,7 +65,7 @@ export default function NewEventForm({ visible, setVisible }: NewEventFormProps)
                         votingTitle: rowElements[0],
                         question: rowElements[1],
                         description: rowElements[2],
-                        options: rowElements.slice(3, rowElements.length-1).map(
+                        options: rowElements.slice(3, rowElements.length).map(
                             (rowElement) => ({
                                 votingOptionId: uuidv4(),
                                 title: rowElement
