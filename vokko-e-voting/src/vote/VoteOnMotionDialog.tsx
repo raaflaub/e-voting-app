@@ -44,6 +44,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion, isTieBreakVo
     const [castedVoteCount, setCastedVoteCount ] = useState<number | null>(null);
 
     const castVote = (index: number) => {
+        console.log('casting vote', index);
         const castVoteRequestData = {
             userId: user.value?.user?.userId,
             votingId: motion?.id,
@@ -142,7 +143,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion, isTieBreakVo
                                 loading={signVote.isLoading || castVoteMutation.isLoading}
                                 loadingPosition="end"
                                 endIcon={<SendIcon />}
-                                disabled={selectedOptions.length !== getNumWinners(motion) || castVotesHistory.hasCastVote(thisVote)}
+                                disabled={(selectedOptions.length < 1) || (selectedOptions.length > getNumWinners(motion)) || castVotesHistory.hasCastVote(thisVote)}
                             >
                                 Senden
                             </LoadingButton>
