@@ -18,9 +18,7 @@ export function useSignVote(user: RegisteredUser): SignVoteAPI {
 
     const {t} = useTranslation();
     async function sign(voteRequest: CastVoteRequestData) {
-        console.log('### SignVoteAPI.sign', new Date().toISOString());
         try {
-            console.log('### set isLoading');
             setSignVoteApi((signVoteApi) => ({
                 ...signVoteApi, isLoading: true, isSuccess: false, isError: false, error: null, signedVoteRequest: null
             }));
@@ -36,7 +34,6 @@ export function useSignVote(user: RegisteredUser): SignVoteAPI {
             const localUser = user.value!;
 
             if (!localUser.user?.publicKey || !localUser.privateKey) {
-                console.error('### signVote: invalid keypair')
                 throw new Error("### invalid keypair");
             }
 
@@ -47,20 +44,14 @@ export function useSignVote(user: RegisteredUser): SignVoteAPI {
 
             const rsaProvider = new RsaProvider(window.crypto,new TextEncoder());
             await rsaProvider.ImportKeyPair(keyPair);
-            console.log('### import keypair');
 
             const payload = voteRequest.userId! + voteRequest.votingId! + voteRequest.optionId!
-            console.log('### payload', payload);
             const signature = await rsaProvider.Sign(payload);
-            console.log('### SIGNATURE', signature);
-            console.log('SIGN', JSON.stringify({...voteRequest, signature, payload, keyPair }));
             setSignVoteApi((signVoteApi) => ({
                 ...signVoteApi, isLoading: false, isSuccess: true, isError: false, signedVoteRequest: {...voteRequest, signature}
             }));
-            console.log('### set isSuccess');
 
         } catch (e) {
-            console.error('useSignVote.sign ERROR', e);
             setSignVoteApi((signVoteApi) => ({
                 ...signVoteApi, isLoading: false, isSuccess: false, isError: true, error: e
             }));

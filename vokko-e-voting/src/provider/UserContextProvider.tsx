@@ -39,8 +39,6 @@ export default function UserContextProvider({ children }: UserContextProviderPro
             : null,
     };
 
-    console.log('UserContextProvider', registeredUser.sameAsInBackend);
-
     return (
         <UserContext.Provider value={registeredUser}>
             {children}

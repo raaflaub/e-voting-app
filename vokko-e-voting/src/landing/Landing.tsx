@@ -41,11 +41,9 @@ export default function Landing() {
     }, [hub, user, defaultAction]);
 
     const user1: IUser = { lastName: "Organizer", firstName: "The", email: "organizer@vokko.cloud"};
-    console.log('invitation link 1', buildRelativeInvitationLink("default", user1, "organizer"));
 
     const randomId = Math.random().toString(36).substring(3,7);
     const user2: IUser = { lastName: randomId, firstName: "Voter", email: `voter.${randomId}@vokko.cloud`};
-    console.log('invitation link 2', buildRelativeInvitationLink("default", user2 ));
 
     return (
         <>
