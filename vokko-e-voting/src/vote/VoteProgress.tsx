@@ -36,12 +36,12 @@ function LinearProgressWithLabel(props: LinearProgressProps & { remaining: numbe
         <Box sx={{ display: 'flex',width: '100%', flexDirection:'column'  }}>
             <Box sx={{ display: 'flex', width: '100%', flexDirection:'row',justifyContent:"space-between", padding: "15px 0 15px 0px"  }}>
                 <Box sx={{ justifyContent: 'flex-start'}}>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" textTransform="uppercase">
                         {getVoteStatus(props.remaining)}
                     </Typography>
                 </Box>
                 <Box sx={{ justifyContent: 'flex-end' }}>
-                    <Typography variant="body2" color="text.secondary">{
+                    <Typography variant="body2" color="text.secondary" textTransform="uppercase">{
                         getRemainingTime(props.remaining)
                     }</Typography>
                 </Box>
