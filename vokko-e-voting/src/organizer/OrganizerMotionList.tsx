@@ -7,11 +7,14 @@ export type OrganizerMotionListProps = {
     motions: IVoting[];
     actionTitle?: string | null;
     onAction?: (motion: IVoting) => void;
+    onStartVote?: (durationMinutes: number) => void;
+    voteDurationMinutes?: number;
+    setVoteDurationMinutes?: (value: number) => void;
     header?: ReactNode;
     footer?: ReactNode;
 }
 
-export default function OrganizerMotionList({ motions, actionTitle, onAction, header, footer }: OrganizerMotionListProps) {
+export default function OrganizerMotionList({ motions, actionTitle, onAction, voteDurationMinutes, setVoteDurationMinutes, onStartVote, header, footer }: OrganizerMotionListProps) {
     return (
         <>
             <Stack spacing={2} mb={5}>
@@ -26,6 +29,9 @@ export default function OrganizerMotionList({ motions, actionTitle, onAction, he
                                 motion={motion}
                                 actionTitle={actionTitle}
                                 onAction={onAction}
+                                voteDurationMinutes={voteDurationMinutes}
+                                setVoteDurationMinutes={setVoteDurationMinutes}
+                                onStartVote={onStartVote}
                             />
                     )
                 }

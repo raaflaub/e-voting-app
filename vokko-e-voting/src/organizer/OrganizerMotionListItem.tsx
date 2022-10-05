@@ -1,19 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import {IVoting} from "../api/model/ivoting";
-import {Button} from "@mui/material";
+import {Button, Collapse, Fade} from "@mui/material";
 import MotionStatusBar from "../motion/MotionStatusBar";
+import {isYesNoVote} from "../vote/voteUtils";
+import {useTranslation} from "react-i18next";
+import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
+import StartVoteControl from "../vote/StartVoteControl";
 
 export type OrganizerMotionListItemProps = {
     motion: IVoting;
     actionTitle?: string | null;
     onAction?: (motion: IVoting) => void;
+    onStartVote?: (durationMinutes: number) => void;
+    voteDurationMinutes?: number;
+    setVoteDurationMinutes?: (value: number) => void;
 }
 
-export default function OrganizerMotionListItem({ motion, actionTitle, onAction }: OrganizerMotionListItemProps) {
+export default function OrganizerMotionListItem({ motion, actionTitle, onAction, voteDurationMinutes, setVoteDurationMinutes, onStartVote }: OrganizerMotionListItemProps) {
+
+    const {t} = useTranslation();
+    const [ expanded, setExpanded ] = useState(false);
+
     return (
         <Card sx={{backgroundColor: "#f5f5f5"}}>
             <CardContent>
@@ -28,6 +39,13 @@ export default function OrganizerMotionListItem({ motion, actionTitle, onAction 
             {   onAction &&
                 <CardActions sx={{display: 'flex', justifyContent: 'end'}}>
                     <Button onClick={(e) => onAction(motion)}>{actionTitle}</Button>
+                    {
+                        onStartVote && voteDurationMinutes && setVoteDurationMinutes &&
+                        <StartVoteControl motion={motion}
+                                          voteDurationMinutes={voteDurationMinutes}
+                                          setVoteDurationMinutes={setVoteDurationMinutes}
+                                          onStartVote={onStartVote}  />
+                    }
                 </CardActions>
             }
         </Card>
