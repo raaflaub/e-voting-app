@@ -7,7 +7,6 @@ import {UserContext} from "../provider/UserContextProvider";
 import {useCreateUserMutation} from "../api/persistence";
 import {RsaProvider} from "../criptography/RsaProvider";
 import {IKeyPair} from "../criptography/IKeyPair";
-import {getTimeString} from "../event/eventUtils";
 
 export function buildInvitationLink(baseUrl: string, eventId: string, user: IUser, view?: string) {
     const url = new URL('join/' + encodeURIComponent(eventId), baseUrl);
@@ -25,58 +24,6 @@ export function buildRelativeInvitationLink(eventId: string, user: IUser, view?:
     const origin = window.origin;
     const url = buildInvitationLink(origin, eventId, user, view);
     return url.slice(origin.length+1, url.length);
-}
-
-export function buildInvitationMailContent(baseUrl: string, event: Event, user: IUser) {
-    const url = buildInvitationLink(baseUrl, event.id ?? 'default', user);
-    return (`
-<head>
-    <meta charset="UTF-8">
-    <title>${event.title}</title>
-    <style>
-      body {
-          font-family: 'Roboto', 'Helvetica', Arial, sans-serif;
-          font-size: 14px;
-          color: #666;
-          line-height: 24.5px;
-      }
-      p {
-          margin-top: 32px;
-          margin-bottom: 32px;
-      }
-      a {
-          display: block;
-          box-sizing: border-box;
-          box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
-          border-radius: 4px;
-          min-width: 140px;
-          width: 140px;
-          margin-left: auto;
-          margin-right: auto;
-          margin-top: 32px;
-          margin-bottom: 32px; 
-          padding-left: 16px;
-          padding-right: 16px;
-          padding-bottom: 6px;
-          padding-top: 6px;
-          background-color: #197cd2;
-          color: #ffffff;
-          align-items: center;
-          justify-content: center;
-          vertical-align: center;
-          text-align: center;
-          text-decoration: none;
-          text-transform: uppercase;
-      }
-    </style>
-</head>
-<body>
-  <p>Liebe:r ${user.firstName} ${user.lastName}</p>
-  <p>Wir laden dich ein zum Event <strong>${event.title}</strong> am <strong>${event.eventDateAndTime?.toDateString()}</strong> um <strong>${getTimeString(event.eventDateAndTime!)}</strong>.</p>
-  <p>Für die Teilnahme per VOKKO-App bitte auf folgenden Link klicken.</p>
-  <p><a href="${url}">Teilnehmen</a></p>
-</body>
-`);
 }
 
 function isUserComplete(user: IUser) {
@@ -125,16 +72,6 @@ export function useRegistrationByInvitationLink() {
         && (registeredUser.value?.user?.lastName === invitationLinkUser.lastName)
         && (registeredUser.value?.user?.email === invitationLinkUser.email);
 
-    // const [
-    //     { data: createUserResponseDocument, loading: createUserLoading, error: createUserError },
-    //     executeBackendRegistration
-    // ] = useAxios<CreateUserResponseDocument>(
-    //     {
-    //         url: 'users',
-    //         method: 'POST'
-    //     },
-    //     { manual: true }
-    // )
     const createUserMutation = useCreateUserMutation();
     const createUserResponseDocument = createUserMutation.data?.data;
 

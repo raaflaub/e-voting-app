@@ -14,11 +14,13 @@ import TimeLineLabel from "../layout/TimeLineLabel";
 import {getTimeString} from "../event/eventUtils";
 import TimeLineButton from "../layout/TimeLineButton";
 import {EventMonitorContext} from "../provider/EventMonitorContextProvider";
+import {useTranslation} from "react-i18next";
 
 export type OrganizerEventSessionProps = { event: Event }
 
 export default function OrganizerEventSession({ event }: OrganizerEventSessionProps) {
 
+    const {t} = useTranslation();
     const [ currentTimeString, setCurrentTimeString ] = useState(getTimeString(new Date()));
 
     useEffect(() => {
@@ -101,7 +103,7 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                     motions={event.motions}
                     header={
                         <TimeLineButton variant="contained" onClick={() => startEvent(new Date())}>
-                            Event starten ({currentTimeString})
+                            {t("start_event")} ({currentTimeString})
                         </TimeLineButton>
                     }
                 />
@@ -110,7 +112,7 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                     (eventSessionState === 'RUNNING') && event.motions &&
                     <OrganizerMotionList
                         motions={event.motions}
-                        actionTitle="Wahl jetzt starten (1 Minute)"
+                        actionTitle={t("start_vote_now")}
                         onAction={startVote}
                         header={
                             <TimeLineLabel>
@@ -121,7 +123,7 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                             <TimeLineButton
                                 variant={eventMonitor.motionsCompletedCount === eventMonitor.motionsCount ? "contained" : "outlined"}
                                 onClick={() => endEvent(new Date())}>
-                                Event beenden ({currentTimeString})
+                                {t("stop_event")} ({currentTimeString})
                             </TimeLineButton>
                         }
                     />
@@ -132,17 +134,17 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                         motions={event.motions}
                         header={
                             <TimeLineLabel>
-                                {getTimeString(event.eventDateAndTime ?? null)} – Start
+                                {getTimeString(event.eventDateAndTime ?? null)} – {t("event_started")}
                             </TimeLineLabel>
                         }
                         footer={
                         <>
                             <TimeLineLabel>
-                                {getTimeString(event.endDateAndTime ?? null)} – Ende
+                                {getTimeString(event.endDateAndTime ?? null)} – {t("event_ended")}
                             </TimeLineLabel>
                             {
                                 (process.env.NODE_ENV === 'development') &&
-                                <TimeLineButton variant="outlined" onClick={() => resetEvent()}>Reset</TimeLineButton>
+                                <TimeLineButton variant="outlined" onClick={() => resetEvent()}>{t("reset")}</TimeLineButton>
                             }
                         </>
                         }

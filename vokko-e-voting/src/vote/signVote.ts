@@ -3,6 +3,7 @@ import {RegisteredUser} from "../provider/UserContextProvider";
 import {IKeyPair} from "../criptography/IKeyPair";
 import {RsaProvider} from "../criptography/RsaProvider";
 import {useState} from "react";
+import {useTranslation} from "react-i18next";
 
 export interface SignVoteAPI {
     signedVoteRequest: CastVoteRequestData | null,
@@ -15,6 +16,7 @@ export interface SignVoteAPI {
 
 export function useSignVote(user: RegisteredUser): SignVoteAPI {
 
+    const {t} = useTranslation();
     async function sign(voteRequest: CastVoteRequestData) {
         console.log('### SignVoteAPI.sign', new Date().toISOString());
         try {

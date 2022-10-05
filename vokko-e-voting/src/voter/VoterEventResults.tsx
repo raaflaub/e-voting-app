@@ -5,9 +5,11 @@ import {Container, Typography} from "@mui/material";
 import {useEvent} from "../api/persistence";
 import {getVoteResultState} from "../vote/voteUtils";
 import OrganizerResultList from "../organizer/OrganizerResultList";
+import {useTranslation} from "react-i18next";
 
 export default function VoterEventResults() {
 
+    const {t} = useTranslation();
     const params = useParams();
     const { event }  = useEvent(params.eventId!);
 
@@ -22,7 +24,7 @@ export default function VoterEventResults() {
                 {
                     !(motionsWithResults?.length) &&
                     <Typography variant="body2" color="text.secondary" sx={{ my: 2, textAlign: "center"}} >
-                        Bisher keine Resultate
+                        {t("results-not_available_yet")}
                     </Typography>
                 }
                 {

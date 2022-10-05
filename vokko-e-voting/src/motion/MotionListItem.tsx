@@ -10,6 +10,7 @@ import VoteProgress from "../vote/VoteProgress";
 import {getVotingStartTag} from "../event/eventUtils";
 import {CastVotesHistoryContext} from "../provider/CastVotesHistoryContextProvider";
 import MotionStatusBar from "./MotionStatusBar";
+import {useTranslation} from "react-i18next";
 
 export type MotionListItemProps = {
     motion: IVoting;
@@ -22,7 +23,7 @@ export type MotionListItemProps = {
 export default function MotionListItem({ motion, onPreview, onVote, onViewResults, disabled }: MotionListItemProps) {
     const voteResultState = getVoteResultState(motion);
     const showProgress = (voteResultState === 'IN_PROGRESS') && (!disabled);
-
+    const {t} = useTranslation();
     const castVotesHistory = useContext(CastVotesHistoryContext);
     const hasCastVote = castVotesHistory.hasCastVote(getVotingStartTag(motion));
     const showResultsDisabled = disabled || (voteResultState === 'IN_PROGRESS');
@@ -49,12 +50,12 @@ export default function MotionListItem({ motion, onPreview, onVote, onViewResult
                 <CardActions sx={{display: 'flex', justifyContent: 'end'}}>
                     {
                         onPreview && (voteResultState === 'PENDING') &&
-                        <Button onClick={(e) => onPreview(motion)} disabled={disabled}>Vorschau</Button>
+                        <Button onClick={(e) => onPreview(motion)} disabled={disabled}>{t("preview")}</Button>
                     }
                     {
                         onVote && (voteResultState === 'IN_PROGRESS') && !hasCastVote &&
                         <Button variant="contained" onClick={(e) => onVote(motion)} disabled={disabled}>
-                            { motion.options && isYesNoVote(motion.options) ? "Abstimmen" : "Wählen" }
+                            { motion.options && isYesNoVote(motion.options) ? `{t("vote1")}` : `{t("elect")}` }
                         </Button>
                     }
                     {
@@ -62,7 +63,7 @@ export default function MotionListItem({ motion, onPreview, onVote, onViewResult
                         (voteResultState === 'COMPLETED' || voteResultState === 'ACCEPTED'
                             || voteResultState === 'REJECTED' || voteResultState === 'DRAW'
                             || ((voteResultState === 'IN_PROGRESS') && hasCastVote)) &&
-                        <Button onClick={(e) => onViewResults(motion)} disabled={showResultsDisabled}>Resultat</Button>
+                        <Button onClick={(e) => onViewResults(motion)} disabled={showResultsDisabled}>{t("result")}</Button>
                     }
                 </CardActions>
             }

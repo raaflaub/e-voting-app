@@ -18,6 +18,8 @@ import {useSignVote} from "./signVote";
 import {CastVotesHistoryContext} from "../provider/CastVotesHistoryContextProvider";
 import Button from "@mui/material/Button";
 import VoteCard from "./VoteCard";
+import {useTranslation} from "react-i18next";
+
 
 export type VoteOnMotionDialogProps = {
     open: boolean;
@@ -28,6 +30,7 @@ export type VoteOnMotionDialogProps = {
 
 export default function VoteOnMotionDialog({ open, onClose, motion, isTieBreakVote } : VoteOnMotionDialogProps) {
 
+    const {t} = useTranslation();
     const thisVote = motion? getVotingStartTag(motion): null;
     const [castedVote, setCastedVote] = useState<string|null>(null);
     const castVotesHistory = useContext(CastVotesHistoryContext);
@@ -80,7 +83,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion, isTieBreakVo
             fullWidth={true}
         >
             <DialogTitle>
-                {(isTieBreakVote ? 'Stichentscheid: ' : '') + motion?.votingTitle}
+                {(isTieBreakVote ? `${t("stab_decision")}` : '') + motion?.votingTitle}
                 <IconButton
                     onClick={() => { onClose(); }}
                     sx={{
@@ -107,13 +110,13 @@ export default function VoteOnMotionDialog({ open, onClose, motion, isTieBreakVo
                                     {
                                         !isTieBreakVote &&
                                         <Typography variant="body2" color="text.secondary">
-                                            Vielen Dank! Die Resultate werden angezeigt, sobald die {motion.options && isYesNoVote(motion.options)?"Abstimmung":"Wahl"} beendet ist.
+                                            {t("thanks")} {t("message_result_display1")} {motion.options && isYesNoVote(motion.options)? `${t("vote")}`:`${t("election")}`} {t("message_result_display2")}.
                                         </Typography>
                                     }
                                     {
                                         isTieBreakVote &&
                                         <Typography variant="body2" color="text.secondary">
-                                            Vielen Dank!
+                                            {t("thanks")}
                                         </Typography>
                                     }
                                 </>
@@ -138,18 +141,18 @@ export default function VoteOnMotionDialog({ open, onClose, motion, isTieBreakVo
                         }
                         {
                             (castedVote === thisVote) &&
-                            <Button onClick={() => { onClose(); }}>Schliessen</Button>
+                            <Button onClick={() => { onClose(); }}>{t("close")}</Button>
                         }
                     </DialogActions>
                 </>
             }
             {
                 signVote.isError &&
-                <Alert severity="error">Signieren der Stimme fehlgeschlagen: {signVote.error?.toString()}</Alert>
+                <Alert severity="error">{t("error_signing_vote")}: {signVote.error?.toString()}</Alert>
             }
             {
                 castVoteMutation.isError &&
-                <Alert severity="error">Senden der Stimme fehlgeschlagen: {castVoteMutation.error?.toString()}</Alert>
+                <Alert severity="error">{t("error_sending_vote")}: {castVoteMutation.error?.toString()}</Alert>
             }
         </Dialog>
     );

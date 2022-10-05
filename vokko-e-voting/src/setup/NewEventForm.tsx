@@ -14,6 +14,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import {useCreateEventMutation} from "../api/persistence";
 import {PostEventRequestData} from "../api/model/post-event-request-data";
 import {v4 as uuidv4} from 'uuid';
+import {useTranslation} from "react-i18next";;
 
 export type NewEventFormProps = {
     visible: boolean,
@@ -22,6 +23,7 @@ export type NewEventFormProps = {
 
 export default function NewEventForm({ visible, setVisible }: NewEventFormProps) {
 
+    const {t} = useTranslation();
     const createEventMutation = useCreateEventMutation();
 
     const [ eventRequestData, setEventRequestData ] = useState<PostEventRequestData>({});
@@ -99,29 +101,29 @@ export default function NewEventForm({ visible, setVisible }: NewEventFormProps)
                                justifyContent="center">
                             <Stack direction="row" spacing={2} alignItems="baseline" justifyContent="center">
                                 <DatePicker
-                                    label="Datum"
+                                    label={t("date")}
                                     value={eventDate} onChange={setEventDate}
                                     renderInput={(params) => <TextField {...params}
                                                                         sx={{bgcolor: "#ffffff", width: 350}}/>}
                                 />
                                 <TimePicker
-                                    label="Von"
+                                    label={t("from")}
                                     value={eventStartTime} onChange={setEventStartTime}
                                     renderInput={(params) => <TextField {...params}
                                                                         sx={{bgcolor: "#ffffff", width: 220}}/>}
                                 />
                                 <TimePicker
-                                    label="Bis"
+                                    label={t("until")}
                                     value={eventEndTime} onChange={setEventEndTime}
                                     renderInput={(params) => <TextField {...params}
                                                                         sx={{bgcolor: "#ffffff", width: 220}}/>}
                                 />
                             </Stack>
                             <FormControl sx={{m: 1, width: 820, height: 100}}>
-                                <InputLabel htmlFor="event-title">Titel</InputLabel>
+                                <InputLabel htmlFor="event-title">{t("title")}</InputLabel>
                                 <OutlinedInput
                                     id="event-title"
-                                    label="Titel"
+                                    label={t("title")}
                                     value={eventRequestData.title}
                                     onChange={e => setEventRequestData({...eventRequestData, title: e.target.value})}
                                     sx={{bgcolor: "#ffffff"}}/>
@@ -133,10 +135,10 @@ export default function NewEventForm({ visible, setVisible }: NewEventFormProps)
                                        textAlign: 'center',
                                        width: 820
                                    }}>
-                                <CategoryTitle>Vorlagen</CategoryTitle>
+                                <CategoryTitle>{t("motions")}</CategoryTitle>
                                 <UploadCSV variant="contained" uploadState={uploadedMotions}
                                            setUploadState={setUploadedMotions} disabled={false}>
-                                    CSV-Datei hochladen
+                                    {t("upload_csv")}
                                 </UploadCSV>
                                 {
                                     eventRequestData?.motions &&
@@ -148,7 +150,7 @@ export default function NewEventForm({ visible, setVisible }: NewEventFormProps)
                             </Paper>
                             <Stack direction="row" spacing={2} alignItems="baseline" justifyContent="flex-end"
                                    sx={{width: 820}}>
-                                <Button variant="text" onClick={() => setVisible(false)}>Abbrechen</Button>
+                                <Button variant="text" onClick={() => setVisible(false)}>{t("cancel")}</Button>
                                 <LoadingButton
                                     variant="contained"
                                     onClick={() => createEvent()}
@@ -157,13 +159,12 @@ export default function NewEventForm({ visible, setVisible }: NewEventFormProps)
                                     endIcon={<SaveIcon/>}
                                     disabled={!eventIsComplete}
                                 >
-                                    Speichern
+                                    {t("save")}
                                 </LoadingButton>
                             </Stack>
                             {
                                 createEventMutation.isError &&
-                                <Alert severity="error">Anlegen des Events
-                                    fehlgeschlagen: {createEventMutation.error?.toString()}</Alert>
+                                <Alert severity="error"> {t("error_create_event")}: {createEventMutation.error?.toString()}</Alert>
                             }
                         </Stack>
 
