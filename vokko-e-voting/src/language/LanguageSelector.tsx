@@ -41,12 +41,16 @@ const LanguageSelector = () => {
             <Button onClick={({ currentTarget }) => setMenuAnchor(currentTarget)}
                     variant="text"
                     color="inherit"
-                    sx={{ ml:2, mr:0 }}
+                    sx={{ ml:0, mr:0, paddingLeft:0, paddingRight:0 }}
+                    size="small"
             >
-                <Typography variant="h6" align="right">
+                <Typography sx={{ display: { xs:'none', md:'inline' } }}variant="subtitle1" align="right">
                 { abbreviate(languageMap[selected]?.label, 2)}
                 </Typography>
-                {   <ArrowDropDown fontSize="small" />   }
+                <Typography sx={{ display: { xs:'inline', md:'none' } }} variant="body2" align="right">
+                    { abbreviate(languageMap[selected]?.label, 2)}
+                </Typography>
+                {   <ArrowDropDown fontSize="small" sx={{ mx:'-2px' }} />   }
             </Button>
             <Popover
                 open={!!menuAnchor}
