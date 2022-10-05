@@ -48,7 +48,7 @@ export default function StartVoteControl({ motion, voteDurationMinutes, setVoteD
                 <Stack direction="column" spacing={2} sx={{ p:2 }}>
                     <OutlinedInput
                         value={voteDurationMinutes}
-                        onChange={(e) => setVoteDurationMinutes(e.target.value ? parseInt(e.target.value) : 1)}
+                        onChange={(e) => setVoteDurationMinutes(e.target.value ? parseInt(e.target.value, 10) : 1)}
                         type="number"
                         size="small"
                         endAdornment={<InputAdornment position="end">{t("minute_s")}</InputAdornment>}

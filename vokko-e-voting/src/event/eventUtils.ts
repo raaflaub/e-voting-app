@@ -47,3 +47,4 @@ export function getMotionById(e: Event, motionId: string | null): IVoting | null
     return e.motions?.find(v => v.id === motionId) ?? null
 }
 
+

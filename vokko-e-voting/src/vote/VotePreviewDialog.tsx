@@ -7,6 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {IVoting} from "../api/model/ivoting";
 import VoteOptionsControl from "./VoteOptionsControl";
 import VoteCard from "./VoteCard";
+import {getNumWinners} from "./voteUtils";
 
 export type VotePreviewDialogProps = {
     open: boolean;
@@ -28,7 +29,7 @@ export default function VotePreviewDialog({ open, onClose, motion } : VotePrevie
                 motion &&
                 <DialogContent>
                     <VoteCard motion={motion}>
-                        <VoteOptionsControl options={motion.options ?? []} voteOptionCount={1} disabled />
+                        <VoteOptionsControl options={motion.options ?? []} voteOptionCount={getNumWinners(motion)} disabled />
                     </VoteCard>
                 </DialogContent>
             }

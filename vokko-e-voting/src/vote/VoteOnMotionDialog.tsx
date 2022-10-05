@@ -10,7 +10,7 @@ import {IVoting} from "../api/model/ivoting";
 import VoteOptionsControl from "./VoteOptionsControl";
 import {useContext, useEffect, useState} from "react";
 import {getVotingStartTag} from "../event/eventUtils";
-import {isYesNoVote} from "./voteUtils";
+import {getNumWinners, isYesNoVote} from "./voteUtils";
 import {useCastVoteMutation} from "../api/persistence";
 import {UserContext} from "../provider/UserContextProvider";
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -41,29 +41,37 @@ export default function VoteOnMotionDialog({ open, onClose, motion, isTieBreakVo
     const user = useContext(UserContext);
     const signVote = useSignVote(user);
 
-    const castVote = () => {
+    const [castedVoteCount, setCastedVoteCount ] = useState<number | null>(null);
+
+    const castVote = (index: number) => {
         const castVoteRequestData = {
             userId: user.value?.user?.userId,
             votingId: motion?.id,
-            optionId: selectedOptions[0],
+            optionId: selectedOptions[index],
             signature: null
         }
         signVote.sign(castVoteRequestData);
+        setCastedVoteCount(index+1);
     }
 
 
     useEffect(() => {
         if (castedVote !== null && castedVote !== thisVote) {
             setCastedVote(null);  // tag zuruecksetzen
+            setCastedVoteCount(null);
         }
     }, [thisVote, castedVote]);
 
     useEffect(() => {
         if (!castedVote) {
-            if (castVoteMutation.isSuccess && castVoteMutation.data) {
-                console.log('VOTE SUCCESSFULLY CASTED');
-                setCastedVote(thisVote);
-                castVotesHistory.addCastVote(thisVote);  // verhindern, dass man zweimal ueber dasselbe abstimmen kann
+            if (castVoteMutation.isSuccess && castVoteMutation.data && !signVote.isLoading && !signVote.isError) {
+                if (selectedOptions && castedVoteCount && (castedVoteCount >= selectedOptions.length)) {
+                    console.log('VOTE SUCCESSFULLY CASTED');
+                    setCastedVote(thisVote);
+                    castVotesHistory.addCastVote(thisVote);  // verhindern, dass man zweimal ueber dasselbe abstimmen kann
+                } else {
+                    castVote((castedVoteCount ?? 0) +1);
+                }
 
             } else if (signVote.isSuccess && signVote.signedVoteRequest && !castVoteMutation.isLoading && !castVoteMutation.isError) {
                 console.log('SENDING SIGNED VOTE', JSON.stringify({
@@ -74,7 +82,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion, isTieBreakVo
                 });
             }
         }
-    }, [castedVote, thisVote, signVote, castVoteMutation, castVotesHistory]);
+    }, [castedVote, thisVote, signVote, castVoteMutation, castVotesHistory, castedVoteCount, selectedOptions]);
 
     return (
         <Dialog
@@ -122,7 +130,7 @@ export default function VoteOnMotionDialog({ open, onClose, motion, isTieBreakVo
                                 </>
                             }
                     >
-                            <VoteOptionsControl options={motion.options ?? []} voteOptionCount={1} onSelectionChanged={setSelectedOptions} disabled={signVote.isLoading || castVoteMutation.isLoading}/>
+                            <VoteOptionsControl options={motion.options ?? []} voteOptionCount={getNumWinners(motion)} onSelectionChanged={setSelectedOptions} disabled={signVote.isLoading || castVoteMutation.isLoading}/>
                         </VoteCard>
                     </DialogContent>
                     <DialogActions sx={{ m: 0, p: 2 }}>
@@ -130,11 +138,11 @@ export default function VoteOnMotionDialog({ open, onClose, motion, isTieBreakVo
                             (castedVote !== thisVote) &&
                             <LoadingButton
                                 variant="contained"
-                                onClick={() => castVote()}
+                                onClick={() => castVote(0)}
                                 loading={signVote.isLoading || castVoteMutation.isLoading}
                                 loadingPosition="end"
                                 endIcon={<SendIcon />}
-                                disabled={selectedOptions.length !== 1 || castVotesHistory.hasCastVote(thisVote)}
+                                disabled={selectedOptions.length !== getNumWinners(motion) || castVotesHistory.hasCastVote(thisVote)}
                             >
                                 Senden
                             </LoadingButton>

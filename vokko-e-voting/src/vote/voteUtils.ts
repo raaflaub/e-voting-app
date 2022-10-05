@@ -44,7 +44,9 @@ export function isEndDateWithinTimeout(motion: IVoting | null, timeOutMs: number
 }
 
 
-export function getVoteResultState(motion: IVoting | null, numWinners: number = 1) {
+export function getVoteResultState(motion: IVoting | null) {
+
+    const numWinners = getNumWinners(motion);
 
     if (!motion?.options) {
         return 'PENDING';
@@ -97,4 +99,21 @@ export function getWinningOptionsText(options: VotingOption[]) {
         ?? "";
 }
 
+export function getDescriptionText(motion: IVoting) {
+    let text = motion?.description ?? '';
+    if (text.startsWith('<')) {
+        return text.substring(text.indexOf('>')+1);
+    } else {
+        return text;
+    }
+}
+
+export function getNumWinners(motion: IVoting | null) {
+    let text = motion?.description ?? '';
+    if (text.startsWith('<')) {
+        return parseInt(text.substring(1, text.indexOf('>')), 10);
+    } else {
+        return 1;
+    }
+}
 

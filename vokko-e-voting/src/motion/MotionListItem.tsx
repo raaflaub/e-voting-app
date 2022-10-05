@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import {IVoting} from "../api/model/ivoting";
 import {Button} from "@mui/material";
-import {getVoteResultState, isYesNoVote} from "../vote/voteUtils";
+import {getDescriptionText, getVoteResultState, isYesNoVote} from "../vote/voteUtils";
 import VoteProgress from "../vote/VoteProgress";
 import {getVotingStartTag} from "../event/eventUtils";
 import {CastVotesHistoryContext} from "../provider/CastVotesHistoryContextProvider";
@@ -43,7 +43,7 @@ export default function MotionListItem({ motion, onPreview, onVote, onViewResult
                     <MotionStatusBar motion={motion} />
                 }
                 <Typography color="text.secondary">
-                    { motion.description }
+                    { getDescriptionText(motion) }
                 </Typography>
             </CardContent>
             {   (onPreview || onVote || onViewResults) &&

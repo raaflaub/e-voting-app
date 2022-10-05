@@ -6,9 +6,10 @@ import CardActions from "@mui/material/CardActions";
 import {IVoting} from "../api/model/ivoting";
 import {Button} from "@mui/material";
 import MotionStatusBar from "../motion/MotionStatusBar";
-import {getVoteResultState} from "../vote/voteUtils";
+import {getDescriptionText, getVoteResultState} from "../vote/voteUtils";
 import {useTranslation} from "react-i18next";
 import StartVoteControl from "../vote/StartVoteControl";
+import VoteProgress from "../vote/VoteProgress";
 
 export type OrganizerMotionListItemProps = {
     motion: IVoting;
@@ -27,6 +28,7 @@ export default function OrganizerMotionListItem(
     const {t} = useTranslation();
 
     const voteResultState = getVoteResultState(motion);
+    const showProgress = (voteResultState === 'IN_PROGRESS');
 
     return (
         <Card sx={{backgroundColor: "#f5f5f5"}}>
@@ -34,9 +36,16 @@ export default function OrganizerMotionListItem(
                 <Typography variant="h6" component="div">
                     { motion.votingTitle }
                 </Typography>
-                <MotionStatusBar motion={motion} />
+                {
+                    showProgress &&
+                    <VoteProgress startDate={motion.startDate!} endDate={motion.endDate!} />
+                }
+                {
+                    !showProgress &&
+                    <MotionStatusBar motion={motion} />
+                }
                 <Typography color="text.secondary">
-                    { motion.description }
+                    { getDescriptionText(motion) }
                 </Typography>
             </CardContent>
             {   (onPreview || onStartVote || onTieBreak || onViewResults) &&
