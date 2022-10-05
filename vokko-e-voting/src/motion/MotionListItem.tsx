@@ -55,7 +55,7 @@ export default function MotionListItem({ motion, onPreview, onVote, onViewResult
                     {
                         onVote && (voteResultState === 'IN_PROGRESS') && !hasCastVote &&
                         <Button variant="contained" onClick={(e) => onVote(motion)} disabled={disabled}>
-                            { motion.options && isYesNoVote(motion.options) ? `{t("vote1")}` : `{t("elect")}` }
+                            { motion.options && isYesNoVote(motion.options) ? `${t("vote1")}` : `${t("elect")}` }
                         </Button>
                     }
                     {
