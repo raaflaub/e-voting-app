@@ -5,16 +5,19 @@ import {IVoting} from "../api/model/ivoting";
 
 export type OrganizerMotionListProps = {
     motions: IVoting[];
-    actionTitle?: string | null;
-    onAction?: (motion: IVoting) => void;
-    onStartVote?: (durationMinutes: number) => void;
+    onPreview?: (motion: IVoting) => void;
+    onStartVote?: (motion: IVoting) => void;
     voteDurationMinutes?: number;
     setVoteDurationMinutes?: (value: number) => void;
+    onTieBreak?: (motion: IVoting) => void;
+    onViewResults?: (motion: IVoting) => void;
     header?: ReactNode;
     footer?: ReactNode;
 }
 
-export default function OrganizerMotionList({ motions, actionTitle, onAction, voteDurationMinutes, setVoteDurationMinutes, onStartVote, header, footer }: OrganizerMotionListProps) {
+export default function OrganizerMotionList(
+    { motions, onPreview, voteDurationMinutes, setVoteDurationMinutes, onStartVote, onTieBreak, onViewResults, header, footer }: OrganizerMotionListProps
+) {
     return (
         <>
             <Stack spacing={2} mb={5}>
@@ -27,11 +30,12 @@ export default function OrganizerMotionList({ motions, actionTitle, onAction, vo
                             <OrganizerMotionListItem
                                 key={motion.id}
                                 motion={motion}
-                                actionTitle={actionTitle}
-                                onAction={onAction}
+                                onPreview={onPreview}
+                                onStartVote={onStartVote}
                                 voteDurationMinutes={voteDurationMinutes}
                                 setVoteDurationMinutes={setVoteDurationMinutes}
-                                onStartVote={onStartVote}
+                                onTieBreak={onTieBreak}
+                                onViewResults={onViewResults}
                             />
                     )
                 }

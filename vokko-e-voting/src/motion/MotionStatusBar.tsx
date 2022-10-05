@@ -19,7 +19,7 @@ export default function MotionStatusBar({ motion }: MotionStatusBarProps) {
         const voteResultState = getVoteResultState(motion);
 
         return voteResultState === 'COMPLETED' ?
-            `${t("elected")}:`  + getWinningOptionsText(motion.options ?? [])
+            `${t("elected")}: `  + getWinningOptionsText(motion.options ?? [])
             : `${t(VOTING_STATE_TEXTS_DE[voteResultState])}`;
     }
     const voteResultState = getVoteResultState(motion);

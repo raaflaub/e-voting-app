@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, InputAdornment, OutlinedInput, Stack, TextField} from "@mui/material";
+import {Button, InputAdornment, OutlinedInput, Stack} from "@mui/material";
 import {useTranslation} from "react-i18next";
 import {isYesNoVote} from "./voteUtils";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
@@ -8,7 +8,7 @@ import Popover from "@mui/material/Popover";
 
 export type StartVoteControlProps = {
     motion: IVoting;
-    onStartVote: (durationMinutes: number) => void;
+    onStartVote: (motion: IVoting) => void;
     voteDurationMinutes: number;
     setVoteDurationMinutes: (value: number) => void;
 }
@@ -51,11 +51,11 @@ export default function StartVoteControl({ motion, voteDurationMinutes, setVoteD
                         onChange={(e) => setVoteDurationMinutes(e.target.value ? parseInt(e.target.value) : 1)}
                         type="number"
                         size="small"
-                        endAdornment={<InputAdornment position="end">Minuten</InputAdornment>}
+                        endAdornment={<InputAdornment position="end">{t("minute_s")}</InputAdornment>}
                         inputProps={{max: 10, min: 1}}
-                        sx={{ width:135 }}
+                        sx={{ width:145 }}
                     />
-                    <Button variant="contained" onClick={() => onStartVote(voteDurationMinutes)} >
+                    <Button variant="contained" onClick={() => onStartVote(motion)} >
                         {t("start")}
                     </Button>
                 </Stack>

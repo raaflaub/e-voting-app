@@ -11,10 +11,13 @@ import {
     useUpdateMotionMutation
 } from "../api/persistence";
 import TimeLineLabel from "../layout/TimeLineLabel";
-import {getTimeString} from "../event/eventUtils";
+import {getMotionById, getTimeString} from "../event/eventUtils";
 import TimeLineButton from "../layout/TimeLineButton";
 import {EventMonitorContext} from "../provider/EventMonitorContextProvider";
+import VoteOnMotionDialog from "../vote/VoteOnMotionDialog";
 import {useTranslation} from "react-i18next";
+import VotePreviewDialog from "../vote/VotePreviewDialog";
+import VoteResultDialog from "../vote/VoteResultDialog";
 
 export type OrganizerEventSessionProps = { event: Event }
 
@@ -72,6 +75,20 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
         updateEventMutation.mutate(params);
     }
 
+    const [ showPreviewOfMotion, setShowPreviewOfMotion ] = useState<string|null>(null);
+    const openPreviewDialog = (motion: IVoting) => {
+        if (motion.id) {
+            setShowPreviewOfMotion(motion.id);
+        }
+    }
+
+    const [ showResultDialog, setShowResultDialog ] = useState<string|null>(null);
+    const openResultDialog = (motion: IVoting) => {
+        if (motion.id) {
+            setShowResultDialog(motion.id);
+        }
+    }
+
     const startVote = (motion: IVoting) => {
         const startDateNow = new Date();
         const oneMinuteMillis = 60*1000;
@@ -81,11 +98,18 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
             patchEventMotionRequestDocument: {
                 data: {
                     startDate: startDateNow,
-                    endDate: new Date(startDateNow.getTime() + oneMinuteMillis)
+                    endDate: new Date(startDateNow.getTime() + (voteDurationMinutes * oneMinuteMillis))
                 }
             }
         }
         updateEventMotionMutation.mutate(params);
+    }
+
+    const [ tieBreakVoteForMotion, setTieBreakVoteForMotion ] = useState<string|null>(null);
+    const [ voteDurationMinutes, setVoteDurationMinutes ] = useState<number>(2);
+
+    const tieBreak = (motion: IVoting) => {
+        setTieBreakVoteForMotion(motion.id ?? null);
     }
 
     const eventSessionState =
@@ -94,6 +118,7 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
         : 'ENDED';
 
     return (
+        <>
         <Container maxWidth="md">
             <EventStatusBar/>
             <Box py={4}>
@@ -101,6 +126,7 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                 (eventSessionState === 'NOT_STARTED') && event.motions &&
                 <OrganizerMotionList
                     motions={event.motions}
+                    onPreview={openPreviewDialog}
                     header={
                         <TimeLineButton variant="contained" onClick={() => startEvent(new Date())}>
                             {t("start_event")} ({currentTimeString})
@@ -112,8 +138,12 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                     (eventSessionState === 'RUNNING') && event.motions &&
                     <OrganizerMotionList
                         motions={event.motions}
-                        actionTitle={t("start_vote_now")}
-                        onAction={startVote}
+                        onPreview={openPreviewDialog}
+                        onTieBreak={tieBreak}
+                        onStartVote={startVote}
+                        voteDurationMinutes={voteDurationMinutes}
+                        setVoteDurationMinutes={setVoteDurationMinutes}
+                        onViewResults={openResultDialog}
                         header={
                             <TimeLineLabel>
                                 {getTimeString(event.eventDateAndTime ?? null)} – Start
@@ -132,6 +162,8 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                     (eventSessionState === 'ENDED') && event.motions &&
                     <OrganizerMotionList
                         motions={event.motions}
+                        onPreview={openPreviewDialog}
+                        onViewResults={openResultDialog}
                         header={
                             <TimeLineLabel>
                                 {getTimeString(event.eventDateAndTime ?? null)} – {t("event_started")}
@@ -152,5 +184,22 @@ export default function OrganizerEventSession({ event }: OrganizerEventSessionPr
                 }
             </Box>
         </Container>
+            <VoteOnMotionDialog
+                open={tieBreakVoteForMotion !== null}
+                onClose={() => setTieBreakVoteForMotion(null)}
+                motion={tieBreakVoteForMotion ? getMotionById(event, tieBreakVoteForMotion) : null}
+                isTieBreakVote={true}
+            />
+            <VotePreviewDialog
+                open={showPreviewOfMotion !== null}
+                onClose={() => setShowPreviewOfMotion(null)}
+                motion={showPreviewOfMotion ? getMotionById(event, showPreviewOfMotion) : null}
+            />
+            <VoteResultDialog
+                open={showResultDialog !== null}
+                onClose={() => setShowResultDialog(null)}
+                motion={showResultDialog ? getMotionById(event, showResultDialog) : null}
+            />
+        </>
     );
 }
