@@ -123,26 +123,26 @@ export interface IResultBarProps {
 }
 export function ResultBar(ResultBarProps:IResultBarProps) {
 
-
+    const optionsFiltered = ResultBarProps.options.filter(option => (option.voteCount ?? 0) > 0);
 
     function getDataSource():DataSourceType
     {
         const colorPalette:string[]  = ["#003f5c", "#2f4b7c", "#665191", "#a05195", "#ffa600","#f95d6a","#ff7c43","#ffa600"];
         const data:DataSourceType = {
             orientation: 'horizontal',
-            labels: ResultBarProps.options.map(option => option.title ?? ''),
+            labels: optionsFiltered.map(option => option.title ?? ''),
             datasets:  [ {
                     label : '',
-                    data: ResultBarProps.options.map(option => option.voteCount ?? 0),
-                    borderColor: colorPalette.reverse().slice(0,ResultBarProps.options.length),
-                    backgroundColor: colorPalette.slice(0,ResultBarProps.options.length),
+                    data: optionsFiltered.map(option => option.voteCount ?? 0),
+                    borderColor: colorPalette.reverse().slice(0,optionsFiltered.length),
+                    backgroundColor: colorPalette.slice(0,optionsFiltered.length),
                     datalabels: {
 
                         formatter: (value: number,context:any) => {
 
                             let percentage = 0;
 
-                            const totalVotes = ResultBarProps.options.reduce((total, option) => total + (option.voteCount ?? 0), 0);
+                            const totalVotes = optionsFiltered.reduce((total, option) => total + (option.voteCount ?? 0), 0);
 
                             if(totalVotes > 0)
                             {
@@ -164,8 +164,9 @@ export function ResultBar(ResultBarProps:IResultBarProps) {
 
         return data;
     }
+
     return (
-        <Box sx={{ width: '100%'}}>
+        <Box sx={{ width: '100%', height: 50*optionsFiltered.length}}>
      <Bar options={options} data={getDataSource()}/>
         </Box>
         );
