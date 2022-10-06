@@ -52,7 +52,7 @@ export default function SetupParticipants({ event }: SetupParticipantsProps) {
                         signature: null,
                         eventId: event.id,
                         eventTitle: event.title,
-                        eventDateAndTime: event.eventDateAndTime!,
+                        eventDateAndTime: (event.planedStartDate ?? event.eventDateAndTime ?? event.planedEndDate ?? event.endDateAndTime)!,
                         expiryDateTime: oneYearFromNow
                     }));
 
@@ -60,7 +60,9 @@ export default function SetupParticipants({ event }: SetupParticipantsProps) {
 
             } else if (inviteUserQueueHead !== 'EOF') {
 
-                console.log('sending invitation', inviteUserQueueHead.email);
+                console.log('sending invitation', inviteUserQueueHead.email, JSON.stringify({
+                    data: inviteUserQueueHead
+                }));
                 userInvitationMutation.mutate({
                     data: inviteUserQueueHead
                 });
