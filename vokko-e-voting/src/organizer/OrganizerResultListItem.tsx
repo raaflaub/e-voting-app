@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import {IVoting} from "../api/model/ivoting";
 import MotionStatusBar from "../motion/MotionStatusBar";
 import {ResultBar} from "../results/ResultBar";
+import {getDescriptionText} from "../vote/voteUtils";
 
 export type OrganizerResultListItemProps = {
     motion: IVoting;
@@ -20,7 +21,7 @@ export default function OrganizerResultListItem({ motion }: OrganizerResultListI
                 </Typography>
                 <MotionStatusBar motion={motion} />
                 <Typography color="text.secondary">
-                    { motion.description }
+                    { getDescriptionText(motion.description) }
                 </Typography>
                 <ResultBar options={motion.options!} />
             </CardContent>
