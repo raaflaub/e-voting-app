@@ -22,13 +22,13 @@ export function useSignVote(user: RegisteredUser): SignVoteAPI {
                 ...signVoteApi, isLoading: true, isSuccess: false, isError: false, error: null, signedVoteRequest: null
             }));
 
-            if (!user.sameAsInBackend) {
-                throw new Error('### signVote: user is not same as in backend: ' + JSON.stringify(user))
-            }
+            //if (!user.sameAsInBackend) {
+            //    throw new Error('### signVote: user is not same as in backend: ' + JSON.stringify(user))
+            //}
 
-            if (!user.value) {
-                throw new Error('### signVote: user is not registered in local storage: ' + JSON.stringify(user))
-            }
+            //if (!user.value) {
+            //    throw new Error('### signVote: user is not registered in local storage: ' + JSON.stringify(user))
+            //}
 
             const localUser = user.value!;
 
