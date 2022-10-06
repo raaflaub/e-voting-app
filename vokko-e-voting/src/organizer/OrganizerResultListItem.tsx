@@ -21,7 +21,7 @@ export default function OrganizerResultListItem({ motion }: OrganizerResultListI
                 </Typography>
                 <MotionStatusBar motion={motion} />
                 <Typography color="text.secondary">
-                    { getDescriptionText(motion.description) }
+                    { getDescriptionText(motion) }
                 </Typography>
                 <ResultBar options={motion.options!} />
             </CardContent>
