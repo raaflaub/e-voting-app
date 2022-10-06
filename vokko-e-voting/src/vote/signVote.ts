@@ -16,7 +16,6 @@ export interface SignVoteAPI {
 
 export function useSignVote(user: RegisteredUser): SignVoteAPI {
 
-    const {t} = useTranslation();
     async function sign(voteRequest: CastVoteRequestData) {
         try {
             setSignVoteApi((signVoteApi) => ({
